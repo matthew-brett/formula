@@ -1,0 +1,197 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>formula.random_effects &mdash; Formula Documentation</title>
+    
+    <link rel="stylesheet" href="../_static/formula.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1.0.dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Formula Documentation" href="../index.html" />
+    <link rel="up" title="formula reference" href="index.html" />
+    <link rel="prev" title="formula.rutils" href="formula.rutils.html" /> 
+  </head>
+  <body>
+
+<div style="background-color: white; text-align: left; padding: 10px 10px 15px 15px">
+<a href="../index.html"><img src="../_static/logo.png" border="0" alt="py4sci"/></a>
+</div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="formula.rutils.html" title="formula.rutils"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">home</a>|&nbsp;</li>
+        <li><a href="../search.html">search</a>|&nbsp;</li>
+       <li><a href="../contents.html">documentation </a> &raquo;</li>
+
+          <li><a href="index.html" accesskey="U">formula reference</a> &raquo;</li> 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="formula.rutils.html"
+                        title="previous chapter"><tt class="docutils literal"><span class="pre">formula.rutils</span></tt></a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/reference/formula.random_effects.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="formula-random-effects">
+<h1><a class="reference internal" href="#module-formula.random_effects" title="formula.random_effects"><tt class="xref py py-mod docutils literal"><span class="pre">formula.random_effects</span></tt></a><a class="headerlink" href="#formula-random-effects" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-formula.random_effects"></span><dl class="class">
+<dt id="formula.random_effects.RandomEffects">
+<em class="property">class </em><tt class="descclassname">formula.random_effects.</tt><tt class="descname">RandomEffects</tt><big>(</big><em>seq</em>, <em>sigma=None</em>, <em>char='e'</em><big>)</big><a class="headerlink" href="#formula.random_effects.RandomEffects" title="Permalink to this definition">¶</a></dt>
+<dd><p>Covariance matrices for common random effects analyses.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">formula</span> <span class="kn">import</span> <span class="n">Factor</span><span class="p">,</span> <span class="n">make_recarray</span>
+</pre></div>
+</div>
+<p>Make a subject factor with two levels</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">subj_factor</span> <span class="o">=</span> <span class="n">Factor</span><span class="p">(</span><span class="s">&#39;s&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Make corresponding data vector</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">subj</span> <span class="o">=</span> <span class="n">make_recarray</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="s">&#39;s&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Make random effects object with default covariance</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">RandomEffects</span><span class="p">(</span><span class="n">subj_factor</span><span class="o">.</span><span class="n">terms</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="n">subj</span><span class="p">)</span>
+<span class="go">array([[1.0*_s2_0, 1.0*_s2_0, 1.0*_s2_0, 0, 0],</span>
+<span class="go">       [1.0*_s2_0, 1.0*_s2_0, 1.0*_s2_0, 0, 0],</span>
+<span class="go">       [1.0*_s2_0, 1.0*_s2_0, 1.0*_s2_0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 1.0*_s2_1, 1.0*_s2_1],</span>
+<span class="go">       [0, 0, 0, 1.0*_s2_1, 1.0*_s2_1]], dtype=object)</span>
+</pre></div>
+</div>
+<p>Specify the covariance</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">RandomEffects</span><span class="p">(</span><span class="n">subj_factor</span><span class="o">.</span><span class="n">terms</span><span class="p">,</span>
+<span class="gp">... </span>                  <span class="n">sigma</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">6</span><span class="p">]]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="n">subj</span><span class="p">)</span>
+<span class="go">array([[ 4.,  4.,  4.,  1.,  1.],</span>
+<span class="go">       [ 4.,  4.,  4.,  1.,  1.],</span>
+<span class="go">       [ 4.,  4.,  4.,  1.,  1.],</span>
+<span class="go">       [ 1.,  1.,  1.,  6.,  6.],</span>
+<span class="go">       [ 1.,  1.,  1.,  6.,  6.]])</span>
+</pre></div>
+</div>
+<p class="rubric">Methods</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#formula.random_effects.RandomEffects.cov" title="formula.random_effects.RandomEffects.cov"><tt class="xref py py-obj docutils literal"><span class="pre">cov</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><tt class="xref py py-obj docutils literal"><span class="pre">delete_terms</span></tt></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><tt class="xref py py-obj docutils literal"><span class="pre">design</span></tt></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><tt class="xref py py-obj docutils literal"><span class="pre">subs</span></tt></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="formula.random_effects.RandomEffects.cov">
+<tt class="descname">cov</tt><big>(</big><em>term</em>, <em>param=None</em><big>)</big><a class="headerlink" href="#formula.random_effects.RandomEffects.cov" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the covariance matrix for
+some given data.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="formula.rutils.html" title="formula.rutils"
+             >previous</a> |</li>
+        <li><a href="../index.html">home</a>|&nbsp;</li>
+        <li><a href="../search.html">search</a>|&nbsp;</li>
+       <li><a href="../contents.html">documentation </a> &raquo;</li>
+
+          <li><a href="index.html" >formula reference</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, J. Taylor.
+      Last updated on Jul 30, 2011.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1pre.
+    </div>
+  </body>
+</html>

@@ -26,6 +26,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="Formula Documentation" href="index.html" />
+    <link rel="next" title="formula reference" href="reference/index.html" />
     <link rel="prev" title="Categorical Formulae" href="ancova.html" /> 
   </head>
   <body>
@@ -46,6 +47,9 @@
         <li class="right" >
           <a href="np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="reference/index.html" title="formula reference"
+             accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="ancova.html" title="Categorical Formulae"
              accesskey="P">previous</a> |</li>
@@ -72,6 +76,9 @@
   <h4>Previous topic</h4>
   <p class="topless"><a href="ancova.html"
                         title="previous chapter">Categorical Formulae</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="reference/index.html"
+                        title="next chapter">formula reference</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/formula_math.txt"
@@ -324,10 +331,10 @@ the constant, while this is not true in the second model.</p>
 
 <span class="o">&gt;</span> r1 <span class="o">=</span> resid<span class="p">(</span>lm<span class="p">(</span>y~f<span class="o">-</span><span class="m">1</span><span class="p">))</span>
 <span class="o">&gt;</span> print<span class="p">(</span>sum<span class="p">(</span>r1<span class="p">))</span>
-<span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="m">-7.780235</span>e<span class="o">-</span><span class="m">16</span>
+<span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="m">9.436896</span>e<span class="o">-</span><span class="m">16</span>
 <span class="o">&gt;</span> r2 <span class="o">=</span> resid<span class="p">(</span>lm<span class="p">(</span>y~x<span class="o">-</span><span class="m">1</span><span class="p">))</span>
 <span class="o">&gt;</span> print<span class="p">(</span>sum<span class="p">(</span>r2<span class="p">))</span>
-<span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="m">-1.011957</span>
+<span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="m">8.93272</span>
 </pre></div>
 </div>
 <p>There is a perfectly good explanation for this if one uses
@@ -348,10 +355,10 @@ and <img class="math" src="_images/math/6169891c887008192d48bc7f1c342e68ad34b2d0
 though it seems more natural to use true multiplication instead.</p>
 <div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> lm<span class="p">(</span>y~x<span class="o">*</span>x<span class="p">)$</span>coef
 <span class="p">(</span>Intercept<span class="p">)</span>           x 
-<span class="m">-0.02752741</span> <span class="m">-0.19809932</span> 
+  <span class="m">0.2233211</span>   <span class="m">0.1129954</span> 
 <span class="o">&gt;</span> lm<span class="p">(</span>y~x<span class="p">)$</span>coef
 <span class="p">(</span>Intercept<span class="p">)</span>           x 
-<span class="m">-0.02752741</span> <span class="m">-0.19809932</span> 
+  <span class="m">0.2233211</span>   <span class="m">0.1129954</span> 
 </pre></div>
 </div>
 <p>This leaves room for some weird manipulations</p>
@@ -362,7 +369,7 @@ lm<span class="p">(</span>formula <span class="o">=</span> y ~ x <span class="o"
 
 Coefficients:
   <span class="p">(</span>Intercept<span class="p">)</span>              x    log<span class="p">(</span>exp<span class="p">(</span>x<span class="p">))</span>  x:log<span class="p">(</span>exp<span class="p">(</span>x<span class="p">))</span>  
-      <span class="m">0.07618</span>       <span class="m">-0.09026</span>             <span class="kc">NA</span>       <span class="m">-0.13076</span>  
+      <span class="m">0.19588</span>        <span class="m">0.12203</span>             <span class="kc">NA</span>        <span class="m">0.03451</span>  
 
 <span class="o">&gt;</span> lm<span class="p">(</span>y~x <span class="o">+</span> I<span class="p">(</span>x<span class="o">^</span><span class="m">2</span><span class="p">))</span>
 
@@ -371,7 +378,7 @@ lm<span class="p">(</span>formula <span class="o">=</span> y ~ x <span class="o"
 
 Coefficients:
 <span class="p">(</span>Intercept<span class="p">)</span>            x       I<span class="p">(</span>x<span class="o">^</span><span class="m">2</span><span class="p">)</span>  
-    <span class="m">0.07618</span>     <span class="m">-0.09026</span>     <span class="m">-0.13076</span>  
+    <span class="m">0.19588</span>      <span class="m">0.12203</span>      <span class="m">0.03451</span>  
 </pre></div>
 </div>
 <p>Using a symbolic system, like <a class="reference external" href="http://sympy.org">sympy</a> can be helpful in cases like this.</p>
@@ -464,18 +471,18 @@ intercept coming before all others</p>
 <div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> z <span class="o">=</span> rnorm<span class="p">(</span><span class="m">40</span><span class="p">)</span>
 <span class="o">&gt;</span> lm<span class="p">(</span>y~x<span class="o">+</span>z<span class="p">)$</span>coef
 <span class="p">(</span>Intercept<span class="p">)</span>           x           z 
-<span class="m">-0.03165942</span> <span class="m">-0.20821736</span> <span class="m">-0.04384988</span> 
+ <span class="m">0.22101030</span>  <span class="m">0.11400946</span>  <span class="m">0.01503605</span> 
 <span class="o">&gt;</span> b <span class="o">=</span> x
 <span class="o">&gt;</span> a <span class="o">=</span> z
 <span class="o">&gt;</span> lm<span class="p">(</span>y~a<span class="o">+</span>b<span class="p">)$</span>coef
 <span class="p">(</span>Intercept<span class="p">)</span>           a           b 
-<span class="m">-0.03165942</span> <span class="m">-0.04384988</span> <span class="m">-0.20821736</span> 
+ <span class="m">0.22101030</span>  <span class="m">0.01503605</span>  <span class="m">0.11400946</span> 
 <span class="o">&gt;</span> lm<span class="p">(</span>y~<span class="p">(</span>x<span class="o">+</span>z<span class="p">)</span><span class="o">*</span>f<span class="p">)$</span>coef
 <span class="p">(</span>Intercept<span class="p">)</span>           x           z          f2        x:f2        z:f2 
- <span class="m">0.34066586</span> <span class="m">-0.54510935</span>  <span class="m">0.02594425</span> <span class="m">-0.75878429</span>  <span class="m">0.37283688</span> <span class="m">-0.25101428</span> 
+ <span class="m">0.11760285</span>  <span class="m">0.23407374</span>  <span class="m">0.00504918</span>  <span class="m">0.19435950</span> <span class="m">-0.14571009</span>  <span class="m">0.01905777</span> 
 <span class="o">&gt;</span> lm<span class="p">(</span>y~<span class="p">(</span>a<span class="o">+</span>b<span class="p">)</span><span class="o">*</span>f<span class="p">)$</span>coef
 <span class="p">(</span>Intercept<span class="p">)</span>           a           b          f2        a:f2        b:f2 
- <span class="m">0.34066586</span>  <span class="m">0.02594425</span> <span class="m">-0.54510935</span> <span class="m">-0.75878429</span> <span class="m">-0.25101428</span>  <span class="m">0.37283688</span> 
+ <span class="m">0.11760285</span>  <span class="m">0.00504918</span>  <span class="m">0.23407374</span>  <span class="m">0.19435950</span>  <span class="m">0.01905777</span> <span class="m">-0.14571009</span> 
 </pre></div>
 </div>
 <p>To construct the coding of the factors, <em>R</em> uses rules as described in
@@ -669,11 +676,11 @@ and used in a linear model.</p>
 <span class="o">&gt;</span> lm1 <span class="o">=</span> lm<span class="p">(</span>Y~a<span class="o">+</span>b<span class="o">+</span>cc<span class="o">+</span>a:b:cc<span class="o">-</span><span class="m">1</span><span class="p">)</span>
 <span class="o">&gt;</span> print<span class="p">(</span>lm1<span class="p">$</span>coef<span class="p">)</span>
           a1           a2           a3           b2       ccwarm  a1:b1:cchot 
-<span class="m">-0.165564563</span> <span class="m">-0.942317121</span> <span class="m">-0.423865319</span>  <span class="m">0.278352089</span>  <span class="m">0.100561274</span>  <span class="m">0.009229245</span> 
+<span class="m">-0.490869953</span>  <span class="m">0.008308962</span> <span class="m">-0.326201063</span>  <span class="m">0.392834661</span> <span class="m">-0.062677312</span>  <span class="m">0.396203180</span> 
  a2:b1:cchot  a3:b1:cchot  a1:b2:cchot  a2:b2:cchot  a3:b2:cchot a1:b1:ccwarm 
- <span class="m">1.164071237</span>  <span class="m">0.944561917</span>  <span class="m">0.165298863</span>  <span class="m">0.642074287</span>           <span class="kc">NA</span> <span class="m">-0.002138406</span> 
+ <span class="m">0.305840086</span> <span class="m">-0.198782095</span> <span class="m">-0.071301725</span> <span class="m">-0.029239422</span>           <span class="kc">NA</span>  <span class="m">0.785730523</span> 
 a2:b1:ccwarm a3:b1:ccwarm a1:b2:ccwarm a2:b2:ccwarm a3:b2:ccwarm 
- <span class="m">0.552700381</span>           <span class="kc">NA</span>           <span class="kc">NA</span>           <span class="kc">NA</span>           <span class="kc">NA</span> 
+ <span class="m">0.148768769</span>           <span class="kc">NA</span>           <span class="kc">NA</span>           <span class="kc">NA</span>           <span class="kc">NA</span> 
 </pre></div>
 </div>
 <p>At this point, the algebraic tools being used are slightly different.  The
@@ -712,15 +719,15 @@ see, they also depend on the order of the names of the factors.</p>
 
 <span class="o">&gt;</span> lm2 <span class="o">=</span> lm<span class="p">(</span>Y~a<span class="o">+</span>b<span class="o">+</span>dd<span class="o">+</span>a:b:dd<span class="o">-</span><span class="m">1</span><span class="p">)</span>
 <span class="o">&gt;</span> print<span class="p">(</span>lm2<span class="p">$</span>coef<span class="p">)</span>
-        a1         a2         a3         b2        ddS  a1:b1:ddC  a2:b1:ddC 
- <span class="m">1.0448575</span>  <span class="m">0.7448804</span>  <span class="m">0.6212579</span> <span class="m">-0.6662098</span> <span class="m">-0.1005613</span> <span class="m">-1.1119992</span> <span class="m">-1.0339358</span> 
- a3:b1:ddC  a1:b2:ddC  a2:b2:ddC  a3:b2:ddC  a1:b1:ddS  a2:b1:ddS  a3:b1:ddS 
-<span class="m">-0.9445619</span> <span class="m">-0.1652989</span> <span class="m">-0.6420743</span>         <span class="kc">NA</span> <span class="m">-1.1006315</span> <span class="m">-0.4225650</span>         <span class="kc">NA</span> 
- a1:b2:ddS  a2:b2:ddS  a3:b2:ddS 
-        <span class="kc">NA</span>         <span class="kc">NA</span>         <span class="kc">NA</span> 
+         a1          a2          a3          b2         ddS   a1:b1:ddC 
+<span class="m">-0.82363109</span> <span class="m">-0.28238987</span> <span class="m">-0.58766047</span>  <span class="m">0.59161676</span>  <span class="m">0.06267731</span>  <span class="m">1.05581434</span> 
+  a2:b1:ddC   a3:b1:ddC   a1:b2:ddC   a2:b2:ddC   a3:b2:ddC   a1:b1:ddS 
+ <span class="m">0.37679029</span>  <span class="m">0.19878209</span>  <span class="m">0.07130173</span>  <span class="m">0.02923942</span>          <span class="kc">NA</span>  <span class="m">0.66628700</span> 
+  a2:b1:ddS   a3:b1:ddS   a1:b2:ddS   a2:b2:ddS   a3:b2:ddS 
+ <span class="m">0.53386160</span>          <span class="kc">NA</span>          <span class="kc">NA</span>          <span class="kc">NA</span>          <span class="kc">NA</span> 
 
 <span class="o">&gt;</span> print<span class="p">(</span>sum<span class="p">((</span>fitted<span class="p">(</span>lm1<span class="p">)</span><span class="o">-</span>fitted<span class="p">(</span>lm2<span class="p">))</span><span class="o">^</span><span class="m">2</span><span class="p">))</span>
-<span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="m">7.018416</span>e<span class="o">-</span><span class="m">29</span>
+<span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="m">7.414947</span>e<span class="o">-</span><span class="m">29</span>
 </pre></div>
 </div>
 <p>The point of these code snippets is to emphasize that
@@ -826,6 +833,9 @@ For our expression above, we have the following sequences:</p>
         <li class="right" >
           <a href="np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="reference/index.html" title="formula reference"
+             >next</a> |</li>
         <li class="right" >
           <a href="ancova.html" title="Categorical Formulae"
              >previous</a> |</li>

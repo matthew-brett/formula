@@ -1,0 +1,202 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>formula.ancova &mdash; Formula Documentation</title>
+    
+    <link rel="stylesheet" href="../_static/formula.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1.0.dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Formula Documentation" href="../index.html" />
+    <link rel="up" title="formula reference" href="index.html" />
+    <link rel="next" title="formula.convenience" href="formula.convenience.html" /> 
+  </head>
+  <body>
+
+<div style="background-color: white; text-align: left; padding: 10px 10px 15px 15px">
+<a href="../index.html"><img src="../_static/logo.png" border="0" alt="py4sci"/></a>
+</div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="formula.convenience.html" title="formula.convenience"
+             accesskey="N">next</a> |</li>
+        <li><a href="../index.html">home</a>|&nbsp;</li>
+        <li><a href="../search.html">search</a>|&nbsp;</li>
+       <li><a href="../contents.html">documentation </a> &raquo;</li>
+
+          <li><a href="index.html" accesskey="U">formula reference</a> &raquo;</li> 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Next topic</h4>
+  <p class="topless"><a href="formula.convenience.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">formula.convenience</span></tt></a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/reference/formula.ancova.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-formula.ancova">
+<span id="formula-ancova"></span><h1><a class="reference internal" href="#module-formula.ancova" title="formula.ancova"><tt class="xref py py-mod docutils literal"><span class="pre">formula.ancova</span></tt></a><a class="headerlink" href="#module-formula.ancova" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="formula.ancova.concat">
+<tt class="descclassname">formula.ancova.</tt><tt class="descname">concat</tt><big>(</big><em>*ancovas</em><big>)</big><a class="headerlink" href="#formula.ancova.concat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new ANCOVA formula by concatenating a sequence
+of ANCOVA formulae.</p>
+<p>Note: this is not commutatitive because the
+order in which the (expr, [factors]) appear in the
+initiating sequence changes the resulting formula.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">Term</span><span class="p">(</span><span class="s">&#39;x&#39;</span><span class="p">);</span> <span class="n">f</span> <span class="o">=</span> <span class="n">Factor</span><span class="p">(</span><span class="s">&#39;f&#39;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">));</span> <span class="n">h</span> <span class="o">=</span> <span class="n">Factor</span><span class="p">(</span><span class="s">&#39;h&#39;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a1</span> <span class="o">=</span> <span class="n">ANCOVA</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">f</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a2</span> <span class="o">=</span> <span class="n">ANCOVA</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">h</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">concat</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span><span class="n">a2</span><span class="p">)</span><span class="o">.</span><span class="n">formula</span>
+<span class="go">Formula([1, f_0*x, f_1*x, f_2*x, h_1*x, h_2*x, h_3*x])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">concat</span><span class="p">(</span><span class="n">a2</span><span class="p">,</span><span class="n">a1</span><span class="p">)</span><span class="o">.</span><span class="n">formula</span>
+<span class="go">Formula([1, f_1*x, f_2*x, h_0*x, h_1*x, h_2*x, h_3*x])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="formula.ancova.get_contributions">
+<tt class="descclassname">formula.ancova.</tt><tt class="descname">get_contributions</tt><big>(</big><em>codings</em>, <em>sorted_factors</em>, <em>contrast='main_effect'</em><big>)</big><a class="headerlink" href="#formula.ancova.get_contributions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determine which columns a subset of factors</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="formula.ancova.get_factor_codings">
+<tt class="descclassname">formula.ancova.</tt><tt class="descname">get_factor_codings</tt><big>(</big><em>graded_subsets_of_factors</em><big>)</big><a class="headerlink" href="#formula.ancova.get_factor_codings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a sequence of subsets of factors, determine
+which will be coded with all their degrees of freedom (&#8220;indicator&#8221;)
+and which will be coded as contrasts (&#8220;contrast&#8221;).</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="formula.ancova.is_ancova">
+<tt class="descclassname">formula.ancova.</tt><tt class="descname">is_ancova</tt><big>(</big><em>obj</em><big>)</big><a class="headerlink" href="#formula.ancova.is_ancova" title="Permalink to this definition">¶</a></dt>
+<dd><p>Is obj an ANCOVA?</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="formula.ancova.maximal">
+<tt class="descclassname">formula.ancova.</tt><tt class="descname">maximal</tt><big>(</big><em>ancova</em><big>)</big><a class="headerlink" href="#formula.ancova.maximal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an ANCOVA formula with only the maximal elements
+for each expression.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="formula.ancova.typeI">
+<tt class="descclassname">formula.ancova.</tt><tt class="descname">typeI</tt><big>(</big><em>response</em>, <em>ancova</em>, <em>recarray</em><big>)</big><a class="headerlink" href="#formula.ancova.typeI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Produce an ANCOVA table
+from a given ANCOVA formula
+with type I sums of squares
+where the order is based on the order of terms
+in the contrast_names of ancova.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="formula.ancova.typeII">
+<tt class="descclassname">formula.ancova.</tt><tt class="descname">typeII</tt><big>(</big><em>response</em>, <em>ancova</em>, <em>recarray</em><big>)</big><a class="headerlink" href="#formula.ancova.typeII" title="Permalink to this definition">¶</a></dt>
+<dd><p>Produce an ANCOVA table
+from a given ANCOVA formula
+with type II sums of squares.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="formula.ancova.typeIII">
+<tt class="descclassname">formula.ancova.</tt><tt class="descname">typeIII</tt><big>(</big><em>response</em>, <em>ancova</em>, <em>recarray</em><big>)</big><a class="headerlink" href="#formula.ancova.typeIII" title="Permalink to this definition">¶</a></dt>
+<dd><p>Produce an ANCOVA table
+with type III sum of squares
+from a given ANCOVA formula.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="formula.convenience.html" title="formula.convenience"
+             >next</a> |</li>
+        <li><a href="../index.html">home</a>|&nbsp;</li>
+        <li><a href="../search.html">search</a>|&nbsp;</li>
+       <li><a href="../contents.html">documentation </a> &raquo;</li>
+
+          <li><a href="index.html" >formula reference</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, J. Taylor.
+      Last updated on Jul 30, 2011.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1pre.
+    </div>
+  </body>
+</html>
