@@ -1,0 +1,844 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Formula &mdash; Formula Documentation</title>
+    
+    <link rel="stylesheet" href="_static/formula.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1.0.dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Formula Documentation" href="index.html" />
+    <link rel="prev" title="Categorical Formulae" href="ancova.html" /> 
+  </head>
+  <body>
+
+<div style="background-color: white; text-align: left; padding: 10px 10px 15px 15px">
+<a href="index.html"><img src="_static/logo.png" border="0" alt="py4sci"/></a>
+</div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="ancova.html" title="Categorical Formulae"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">home</a>|&nbsp;</li>
+        <li><a href="search.html">search</a>|&nbsp;</li>
+       <li><a href="contents.html">documentation </a> &raquo;</li>
+ 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Formula</a><ul>
+<li><a class="reference internal" href="#factors">Factors</a></li>
+<li><a class="reference internal" href="#equivalence-relation">Equivalence relation</a></li>
+<li><a class="reference internal" href="#numeric-variables">Numeric variables</a></li>
+<li><a class="reference internal" href="#design-matrix-construction">Design matrix construction</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="ancova.html"
+                        title="previous chapter">Categorical Formulae</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/formula_math.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="formula">
+<h1>Formula<a class="headerlink" href="#formula" title="Permalink to this headline">¶</a></h1>
+<p>I am going to try and formalize a version of <em>R</em>&#8216;s formula
+distinguishing between <em>numeric</em> and <em>factor</em>-like
+variables with the distinction that, for a
+numeric variable <img class="math" src="_images/math/751aacc3f9732b95d48f85f98414ad2d6ae42f41.png" alt="x^2 \neq x"/> unlike
+in <em>R</em>. It also will not have a <cite>&#8216;&#8217;-&#8216;&#8217;</cite> operation.</p>
+<div class="section" id="factors">
+<h2>Factors<a class="headerlink" href="#factors" title="Permalink to this headline">¶</a></h2>
+<p>A <em>factor</em> is a categorical variable, and the usual
+interpretation of</p>
+<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> a<span class="o">=</span>factor<span class="p">(</span>levels<span class="o">=</span>c<span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">,</span><span class="m">4</span><span class="p">))</span>
+<span class="o">&gt;</span> b<span class="o">=</span>factor<span class="p">(</span>levels<span class="o">=</span>c<span class="p">(</span><span class="m">3</span><span class="p">,</span><span class="m">4</span><span class="p">))</span>
+<span class="o">&gt;</span> ~a<span class="o">*</span>b
+~a <span class="o">*</span> b
+</pre></div>
+</div>
+<p>is as the Cartesian product of the columns
+of indicator matrices for <em>a</em> and <em>b</em>.
+But in <em>R</em> the formula has meaning even not knowing
+the levels of <em>a</em> and <em>b</em>.
+The expression &#8216;&#8217;&#8216;a*b&#8217;&#8216;&#8217;
+above has a multiplication in it. <em>R</em> uses
+two different multiplications, I will only use one, and
+it corresponds to <em>R</em>&#8216;s symbol <em>:</em>.</p>
+<p>Formally, let <img class="math" src="_images/math/fc274f68b979ce4264d5c2fb11ede363bb656f4e.png" alt="{\cal F}=\{f_1, \dots, f_k\}"/>
+be a set of factors.
+Multiplication automatically suggests some <em>algebraic</em> rules
+for formulae. We usually think of
+factors as obeying the rules</p>
+<div class="math">
+<p><img src="_images/math/8cf1516357459b616b6c877a272bf4d5b69aaa09.png" alt="\begin{aligned}
+f_i\cdot f_i &amp;= f_i  \\
+f_i\cdot (f_j\cdot f_k) &amp;= (f_i\cdot f_j)\cdot f_k \\
+f_i\cdot f_j &amp;= f_j\cdot f_i \\
+\pmb{1} \cdot f_i &amp;= f_i
+\end{aligned}"/></p>
+</div><p>The rules correspond to: idempotency, associativity and commutativity.
+If we added an inverse to multiplication, then the set of factors
+would constitute a group.
+However,
+there is no inverse to multiplication. Algebraically,
+this means that the set of factors,
+combined with this operation and the properties above generates an
+algebraic object known as a  <a class="reference external" href="http://en.wikipedia.org/wiki/Monoid">monoid</a>.
+Note, the <img class="math" src="_images/math/ea89158182c289237d73986db6198fc49d0d7f78.png" alt="\pmb{1}"/> above is not the constant 1, but the identity
+in the monoid <img class="math" src="_images/math/6fe91a1dde958c6f56ce3759732ec9d33f349ca0.png" alt="{\cal M}"/> generated by <img class="math" src="_images/math/8628adabfab417286e77b98380455cea0dd23413.png" alt="{\cal F}"/> and the
+product &#8220;<img class="math" src="_images/math/8f1fb66751f2ee2626c75303485dba473c39a2f2.png" alt="\cdot"/>&#8221;.
+Algebraically, this idempotent, commutative monoid <img class="math" src="_images/math/6fe91a1dde958c6f56ce3759732ec9d33f349ca0.png" alt="{\cal M}"/> is
+isomorphic  to the <a class="reference external" href="http://en.wikipedia.org/wiki/Semilattice">join-semilattice</a>
+of subsets of <img class="math" src="_images/math/8628adabfab417286e77b98380455cea0dd23413.png" alt="{\cal F}"/> with join representing union.
+In this view, <img class="math" src="_images/math/ea89158182c289237d73986db6198fc49d0d7f78.png" alt="\pmb{1}"/> corresponds to the emptyset <img class="math" src="_images/math/84241c448cbf497968ba86136beecf766431a3ff.png" alt="\emptyset"/>.</p>
+<p>In <em>R</em>&#8216;s formulae there is also an addition operation, <em>+</em>.
+A monoid does not have addition, it only has one operation, multiplication.
+In order to introduce addition, we need to introduce
+something like an <a class="reference external" href="http://en.wikipedia.org/wiki/Algebra_over_a_field">algebra</a>.
+If we had a group, the natural structure to consider is called
+a group algebra or <a class="reference external" href="http://en.wikipedia.org/wiki/Group_ring">group ring</a>.
+The corresponding notion
+for a monoid is that of a <a class="reference external" href="http://en.wikipedia.org/wiki/Monoid_ring">monoid ring</a> or a <em>monoid algebra</em>, if the ring used in constructing the monoid ring is
+commutative.
+The monoid algebra is constructed from a monoid, which we already have, and
+a commutative ring.</p>
+<p>For the classical ANOVA models (no numeric variables),
+we can take this ring to be <img class="math" src="_images/math/d4023589a374e5b4a1bc6063d887aec205e0d3e0.png" alt="\mathbb{Z}"/>.
+Below, when
+we introduce things like <em>numeric</em> vectors in <em>R</em>
+to our formula, we will
+change the ring to be the ring of real-valued functions
+on some space.</p>
+<p>The monoid algebra <img class="math" src="_images/math/019e9892786e493964e145e7c5cf7b700314e53b.png" alt="A"/> of our monoid <img class="math" src="_images/math/6fe91a1dde958c6f56ce3759732ec9d33f349ca0.png" alt="{\cal M}"/> over <img class="math" src="_images/math/d4023589a374e5b4a1bc6063d887aec205e0d3e0.png" alt="\mathbb{Z}"/>
+can be expressed in terms of sets of 2-tuples <img class="math" src="_images/math/393208b6e408290a5071eb7a0286a983881bfb0c.png" alt="(i, m): i \in \mathbb{Z}, m \in {\cal M}"/> with multiplication, addition and subtraction defined
+as:</p>
+<div class="math">
+<p><img src="_images/math/86539095eb2fbd9eb6923a56e3015309044830d4.png" alt="\begin{aligned}
+\{(i,m)\} \cdot \{(j,m')\} &amp;= \{(i\cdot j, m \cdot m')\} \\
+\{(i,m)\} + \{(j,m')\} &amp;= \{(i, m), (j, m')\} \\
+\{(i,m)\} + \{(j,m)\} &amp;= \{(i+j,m)\} \\
+\end{aligned}"/></p>
+</div><p>If we introduce variables <img class="math" src="_images/math/ba11e6471186d2213f0b068ad5db6fd1e4622efd.png" alt="1_m"/> then these rules can
+be written as</p>
+<div class="math">
+<p><img src="_images/math/a457146f2eb836a0980e652ddfb6eaca36301b84.png" alt="\begin{aligned}
+ \left(i \cdot 1_m \right) \cdot \left(j \cdot 1_{m'} \right) &amp;=
+ \left(i \cdot j \right) 1_{m \cdot m'}\\
+&amp;= \{(i\cdot j, m \cdot m')\} \\
+\{(i, m), (j, m')\} &amp;= i \cdot 1_m + j \cdot 1_{m'} \\
+\{(i,m)\} + \{(j,m)\} &amp;= i \cdot 1_m + j \cdot 1_m \\
+&amp;= (i+j) 1_m
+\end{aligned}"/></p>
+</div><p>As our monoid is idempotent and commutative, we arrive at the
+conclusion that</p>
+<div class="math">
+<p><img src="_images/math/8b7342d116294f42859138d654ea7b7284a16fb5.png" alt="\prod_{j \in J}\left(i_j,  m_j^{a_j} \right) = \left(\prod_{j \in J} i_j, \prod_{j \in J} m_j \right) \qquad  a=(a_j)_{j \in J} \in \mathbb{N}^J"/></p>
+</div><p>This places <em>R</em>&#8216;s convention</p>
+<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> a<span class="o">*</span>a
+logical<span class="p">(</span><span class="m">0</span><span class="p">)</span>
+<span class="p">[</span><span class="m">1</span>mWarning message:
+<span class="p">[</span><span class="m">0</span>m<span class="p">[</span><span class="m">1</span>mIn Ops.factor<span class="p">(</span>a<span class="p">,</span> a<span class="p">)</span> : <span class="o">*</span> not meaningful for factors
+<span class="p">[</span><span class="m">0</span>m
+</pre></div>
+</div>
+<p>into a meaningful algebraic setting.</p>
+<p>Actually, <em>R</em> does this for numeric variables as well, unless
+one uses the <em>I</em> notation.</p>
+<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> terms<span class="p">(</span>formula<span class="p">(</span>~x<span class="o">^</span><span class="m">2</span><span class="p">))</span>
+~x<span class="o">^</span><span class="m">2</span>
+attr<span class="p">(,</span><span class="s">&quot;variables&quot;</span><span class="p">)</span>
+list<span class="p">(</span>x<span class="p">)</span>
+attr<span class="p">(,</span><span class="s">&quot;factors&quot;</span><span class="p">)</span>
+  x
+x <span class="m">1</span>
+attr<span class="p">(,</span><span class="s">&quot;term.labels&quot;</span><span class="p">)</span>
+<span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="s">&quot;x&quot;</span>
+attr<span class="p">(,</span><span class="s">&quot;order&quot;</span><span class="p">)</span>
+<span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="m">1</span>
+attr<span class="p">(,</span><span class="s">&quot;intercept&quot;</span><span class="p">)</span>
+<span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="m">1</span>
+attr<span class="p">(,</span><span class="s">&quot;response&quot;</span><span class="p">)</span>
+<span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="m">0</span>
+attr<span class="p">(,</span><span class="s">&quot;.Environment&quot;</span><span class="p">)</span>
+<span class="o">&lt;</span>environment: R_GlobalEnv<span class="o">&gt;</span>
+<span class="o">&gt;</span> terms<span class="p">(</span>formula<span class="p">(</span>~I<span class="p">(</span>x<span class="o">^</span><span class="m">2</span><span class="p">)))</span>
+~I<span class="p">(</span>x<span class="o">^</span><span class="m">2</span><span class="p">)</span>
+attr<span class="p">(,</span><span class="s">&quot;variables&quot;</span><span class="p">)</span>
+list<span class="p">(</span>I<span class="p">(</span>x<span class="o">^</span><span class="m">2</span><span class="p">))</span>
+attr<span class="p">(,</span><span class="s">&quot;factors&quot;</span><span class="p">)</span>
+       I<span class="p">(</span>x<span class="o">^</span><span class="m">2</span><span class="p">)</span>
+I<span class="p">(</span>x<span class="o">^</span><span class="m">2</span><span class="p">)</span>      <span class="m">1</span>
+attr<span class="p">(,</span><span class="s">&quot;term.labels&quot;</span><span class="p">)</span>
+<span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="s">&quot;I(x^2)&quot;</span>
+attr<span class="p">(,</span><span class="s">&quot;order&quot;</span><span class="p">)</span>
+<span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="m">1</span>
+attr<span class="p">(,</span><span class="s">&quot;intercept&quot;</span><span class="p">)</span>
+<span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="m">1</span>
+attr<span class="p">(,</span><span class="s">&quot;response&quot;</span><span class="p">)</span>
+<span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="m">0</span>
+attr<span class="p">(,</span><span class="s">&quot;.Environment&quot;</span><span class="p">)</span>
+<span class="o">&lt;</span>environment: R_GlobalEnv<span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="equivalence-relation">
+<h2>Equivalence relation<a class="headerlink" href="#equivalence-relation" title="Permalink to this headline">¶</a></h2>
+<p>Unfortunately, we cannot make sense
+of <em>R</em>&#8216;s convention that <img class="math" src="_images/math/29dde742cd8250e7ebbc2a5b027195a302ff8ff9.png" alt="m+m=m"/> in the monoid algebra.
+There are a few things wrong with the expression <img class="math" src="_images/math/75f215f868ee88b262c71c2d745afc40a61455d4.png" alt="m+m"/>
+if we take <img class="math" src="_images/math/f5047d1e0cbb50ec208923a22cd517c55100fa7b.png" alt="m"/> to be elements of the monoid <img class="math" src="_images/math/6fe91a1dde958c6f56ce3759732ec9d33f349ca0.png" alt="{\cal M}"/>.
+The most important thing is to note that <img class="math" src="_images/math/f5047d1e0cbb50ec208923a22cd517c55100fa7b.png" alt="m"/> is not an element
+of the algebra <img class="math" src="_images/math/019e9892786e493964e145e7c5cf7b700314e53b.png" alt="A"/>, which is the structure where we have
+defined addition.
+However, we can define an equivalence relation
+<img class="math" src="_images/math/e55156a4008b0944ad00d5bc71bc5aa6315aabb7.png" alt="\sim"/> on <img class="math" src="_images/math/019e9892786e493964e145e7c5cf7b700314e53b.png" alt="A"/> as follows</p>
+<p>Let the map to equivalence classes be denoted by <img class="math" src="_images/math/899fb8015abe09f67ea8416cc4db9888ae5878d7.png" alt="\pi:A \rightarrow \{0,1\}^{{\cal M}}"/>. Then,
+<em>R</em>&#8216;s convention <img class="math" src="_images/math/29dde742cd8250e7ebbc2a5b027195a302ff8ff9.png" alt="m+m=m"/> is equivalent to</p>
+<div class="math">
+<p><img src="_images/math/75589ea06cadb3a7f8fade524a5fb523061d13ca.png" alt="\left\{(i, m) \right\} \sim \left\{(j, m) \right\} \qquad \forall i,j \neq 0 \in \mathbb{Z}"/></p>
+</div><p>or</p>
+<div class="math">
+<p><img src="_images/math/1b8b0493f1153a0972e2c3cbdd99a4806cf52820.png" alt="\pi\left(\left\{(i,m)\right\}\right) = \pi\left(\left\{(j,m)\right\} \right), \qquad \forall i, j \neq 0"/></p>
+</div><p>The set of equivalence classes has a well-defined notion
+of addition. Given two equivalence classes <img class="math" src="_images/math/9bde99285f62b275b0eec2bbea73fab3a06cfbb3.png" alt="s_1, s_2 \in \{0,1\}^{\cal M}"/>
+we define</p>
+<div class="math">
+<p><img src="_images/math/b64aec1d6704ae1b0cb136df39529437ec8b50ff.png" alt="s_1 + s_2 = \pi \left(\pi^{-1}(s_1) + \pi^{-1}(s_2) \right)"/></p>
+</div><p>where <img class="math" src="_images/math/f10e81aa506dfbb9a49a775e3780ec3a7b840c65.png" alt="\pi^{-1}(s)"/> is a <em>generic</em> element of the equivalence
+class <img class="math" src="_images/math/f37bba504894945c07a32f5496d74299a37aa51c.png" alt="s"/>. Since our algebra is an algebra over <img class="math" src="_images/math/d4023589a374e5b4a1bc6063d887aec205e0d3e0.png" alt="\mathbb{Z}"/>,
+we can take the generic elements to be random integers, say in the range
+[-1e6,1e6]. This means that this notion of the
+sum of equivalence classes will break
+down occasionally, in the sense
+that, with probability roughly 4e-12, <img class="math" src="_images/math/e9b8528dfefc569882310ad9f6ffdf613f8ad61c.png" alt="\pi(\{(1,m)\}) + \pi(\{(1,m)\}) = 0"/>.
+In the implementation of this in <a class="reference external" href="http://nipy.org/nipy">nipy</a>, the ring we take can be thought of
+as the ring of <a class="reference external" href="http://sympy.org">sympy</a> dummy symbols, so, up to memory errors,
+<img class="math" src="_images/math/fb4a85a4a7b589494390359e19e041ccd18a356b.png" alt="\{m\} + \{m\}=\{m\}"/> always.</p>
+<p>The set of equivalence classes <img class="math" src="_images/math/6e4053927377dc462d031d228f562359c788f61c.png" alt="\{0,1\}^{\cal M}"/> also has a well
+defined notion of product</p>
+<div class="math">
+<p><img src="_images/math/de7f1a714e419c7ef871e461223202e0051adc68.png" alt="s_1 \cdot s_2 = \pi \left(\pi^{-1}(s_1) \cdot \pi^{-1}(s_2) \right)"/></p>
+</div><p>This, too, may occasionally break down depending on how
+we define our <em>generic</em> element <img class="math" src="_images/math/f10e81aa506dfbb9a49a775e3780ec3a7b840c65.png" alt="\pi^{-1}(s)"/>. If we take
+the ring to be <img class="math" src="_images/math/906fddead65545297c74bbc2ca83cd01f3f9ecc9.png" alt="\mathbb{R}"/> and generate a generic element
+by drawing from a random variable with a continuous density, like the
+standard normal <img class="math" src="_images/math/ca050e8421e71320a7918eca246386ac5e0f5014.png" alt="N(0,1)"/>, then with probability 1, the rules
+of addition and multiplication will not break down if we perform
+countably many such operations.</p>
+<p>It is not hard to see that the multiplication and addition
+are associative, commutative and distributive on <img class="math" src="_images/math/6e4053927377dc462d031d228f562359c788f61c.png" alt="\{0,1\}^{\cal M}"/>.</p>
+<p>While addition and multiplication are well-defined on the set of
+equivalence classes, there is no corresponding notion of subtraction
+of equivalence classes because, generically,</p>
+<div class="math">
+<p><img src="_images/math/717082b3ef783b334fd97cb09998e5fdda8614df.png" alt="\pi(\pi^{-1}(s_1) - \pi^{-1}(s_2)) = \pi(\pi^{-1}(s_1) + \pi^{-1}(s_2))"/></p>
+</div><p>Therefore, we cannot call the set of equivalence classes a ring
+or any other familiar object. As our set of equivalence classes
+is just <img class="math" src="_images/math/6e4053927377dc462d031d228f562359c788f61c.png" alt="\{0,1\}^{\cal M}"/> we can delete
+the terms from <img class="math" src="_images/math/2e7a882b1a1644c9622c43714c1e63a552a95845.png" alt="s_d"/> that appear in <img class="math" src="_images/math/f37bba504894945c07a32f5496d74299a37aa51c.png" alt="s"/>
+by the elementwise multiplication</p>
+<div class="math">
+<p><img src="_images/math/efcdd718a0b1d5adae19fe9590107a87e26dde49.png" alt="s(m) * (1 - s_d(m)), \qquad m \in {\cal M}"/></p>
+</div><p>Or, regarding <img class="math" src="_images/math/a218c9b99d1e413648d27fc7da8f3e1dbc160f9a.png" alt="s,s_d"/> as subsets of <img class="math" src="_images/math/6fe91a1dde958c6f56ce3759732ec9d33f349ca0.png" alt="{\cal M}"/>, deletion
+of terms is just the operation <img class="math" src="_images/math/b170f0c06b88cd00c641c531a89ea664c4e3c953.png" alt="s \cap s_d^c"/>.</p>
+<p>We have now given a formal way of describing which sets of
+factors are to be included in a regression model.
+The set of factors to be included in a regression model
+is specified by an element of <img class="math" src="_images/math/6e4053927377dc462d031d228f562359c788f61c.png" alt="\{0,1\}^{\cal M}"/> where
+the monoid <img class="math" src="_images/math/6fe91a1dde958c6f56ce3759732ec9d33f349ca0.png" alt="{\cal M}"/> is the semilattice of subsets of <cite>:math:{cal F}</cite>.
+On the set of factor specifications <img class="math" src="_images/math/6e4053927377dc462d031d228f562359c788f61c.png" alt="\{0,1\}^{\cal M}"/>, we have
+defined two operations  that obey the commutative, distributive
+and associative properties.</p>
+</div>
+<div class="section" id="numeric-variables">
+<h2>Numeric variables<a class="headerlink" href="#numeric-variables" title="Permalink to this headline">¶</a></h2>
+<p>Above, we described rules for specifying which
+factors are to be included in the model. One can take the same
+approach for numeric variables, which is essentially what <em>R</em> does.
+However, <em>R</em> ultimately treats numeric and factors differently
+when it comes to building the design matrix. For instance,</p>
+<p>In the first model below, subtracting 1 yields fitted values orthogonal to
+the constant, while this is not true in the second model.</p>
+<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> x <span class="o">=</span> rnorm<span class="p">(</span><span class="m">40</span><span class="p">)</span>
+<span class="o">&gt;</span> y <span class="o">=</span> rnorm<span class="p">(</span><span class="m">40</span><span class="p">)</span>
+<span class="o">&gt;</span> f <span class="o">=</span> factor<span class="p">(</span>rep<span class="p">(</span>c<span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">),</span><span class="m">20</span><span class="p">))</span>
+
+<span class="o">&gt;</span> r1 <span class="o">=</span> resid<span class="p">(</span>lm<span class="p">(</span>y~f<span class="o">-</span><span class="m">1</span><span class="p">))</span>
+<span class="o">&gt;</span> print<span class="p">(</span>sum<span class="p">(</span>r1<span class="p">))</span>
+<span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="m">-7.780235</span>e<span class="o">-</span><span class="m">16</span>
+<span class="o">&gt;</span> r2 <span class="o">=</span> resid<span class="p">(</span>lm<span class="p">(</span>y~x<span class="o">-</span><span class="m">1</span><span class="p">))</span>
+<span class="o">&gt;</span> print<span class="p">(</span>sum<span class="p">(</span>r2<span class="p">))</span>
+<span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="m">-1.011957</span>
+</pre></div>
+</div>
+<p>There is a perfectly good explanation for this if one uses
+<em>R</em>&#8216;s rules for constructing a design matrix
+from an element of <img class="math" src="_images/math/6e4053927377dc462d031d228f562359c788f61c.png" alt="\{0,1\}^{\cal M}"/>, as we will see below.</p>
+<p>However, it does mean that factors and numerics are treated
+separately. One way to address this is to consider the monoid</p>
+<div class="math">
+<p><img src="_images/math/12031af6f0e7e2bcd6ba89bec900521fbe5f0d40.png" alt="{\cal M}_N \times {\cal M}_F"/></p>
+</div><p>where <img class="math" src="_images/math/588adc7e1f7747ffb7561c0fda3ff423a415be3d.png" alt="{\cal M}_F"/> is a monoid
+for <em>factors</em> that is essentially the same monoid we
+saw in the previous section
+and <img class="math" src="_images/math/6169891c887008192d48bc7f1c342e68ad34b2d0.png" alt="{\cal M}_N"/> is a monoid for <em>numerical</em> variables. The multiplication in this monoid is defined componentwise</p>
+<div class="math">
+<p><img src="_images/math/bd9f0c9e4a940703768dfcb1c95e1aa9df14befe.png" alt="(m_{N,1}, m_{F,1}) \times (m_{N,2}, m_{F,2}) = (m_{N,1} \cdot m_{N,2}, m_{F,1} \cdot m_{F,2})"/></p>
+</div><p>The only remaining issue is how do we define multiplication in the monoid
+<img class="math" src="_images/math/6169891c887008192d48bc7f1c342e68ad34b2d0.png" alt="{\cal M}_N"/>. <em>R</em> uses the same idempotency rules as for factors,
+though it seems more natural to use true multiplication instead.</p>
+<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> lm<span class="p">(</span>y~x<span class="o">*</span>x<span class="p">)$</span>coef
+<span class="p">(</span>Intercept<span class="p">)</span>           x 
+<span class="m">-0.02752741</span> <span class="m">-0.19809932</span> 
+<span class="o">&gt;</span> lm<span class="p">(</span>y~x<span class="p">)$</span>coef
+<span class="p">(</span>Intercept<span class="p">)</span>           x 
+<span class="m">-0.02752741</span> <span class="m">-0.19809932</span> 
+</pre></div>
+</div>
+<p>This leaves room for some weird manipulations</p>
+<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> lm<span class="p">(</span>y~x<span class="o">*</span>log<span class="p">(</span>exp<span class="p">(</span>x<span class="p">)))</span>
+
+Call:
+lm<span class="p">(</span>formula <span class="o">=</span> y ~ x <span class="o">*</span> log<span class="p">(</span>exp<span class="p">(</span>x<span class="p">)))</span>
+
+Coefficients:
+  <span class="p">(</span>Intercept<span class="p">)</span>              x    log<span class="p">(</span>exp<span class="p">(</span>x<span class="p">))</span>  x:log<span class="p">(</span>exp<span class="p">(</span>x<span class="p">))</span>  
+      <span class="m">0.07618</span>       <span class="m">-0.09026</span>             <span class="kc">NA</span>       <span class="m">-0.13076</span>  
+
+<span class="o">&gt;</span> lm<span class="p">(</span>y~x <span class="o">+</span> I<span class="p">(</span>x<span class="o">^</span><span class="m">2</span><span class="p">))</span>
+
+Call:
+lm<span class="p">(</span>formula <span class="o">=</span> y ~ x <span class="o">+</span> I<span class="p">(</span>x<span class="o">^</span><span class="m">2</span><span class="p">))</span>
+
+Coefficients:
+<span class="p">(</span>Intercept<span class="p">)</span>            x       I<span class="p">(</span>x<span class="o">^</span><span class="m">2</span><span class="p">)</span>  
+    <span class="m">0.07618</span>     <span class="m">-0.09026</span>     <span class="m">-0.13076</span>  
+</pre></div>
+</div>
+<p>Using a symbolic system, like <a class="reference external" href="http://sympy.org">sympy</a> can be helpful in cases like this.</p>
+<p>Before continuing,
+let us make a slight modification of the previous monoid
+that recognizes the fact that these objects
+are meant to represent random variables, that is functions on some
+sample space <img class="math" src="_images/math/9e2b196e9b7e57d1ec99f6534c581ea9759d2170.png" alt="\Omega"/>. The process of constructing the
+design matrix is then just the evaluation of these functions
+at some point <img class="math" src="_images/math/e37305ed4247d221ef893b5cbb08d763a8de9783.png" alt="\omega \in \Omega"/>. If we want to think
+of a more concrete probability model, we can think
+of a <em>data.frame</em> with <img class="math" src="_images/math/174fadd07fd54c9afe288e96558c92e0c1da733a.png" alt="n"/> rows as a point in <img class="math" src="_images/math/c5cb117e216b13f110d89153980b4a30200d2f63.png" alt="\Omega^n"/>
+and our probability distribution might correspond to IID samples
+from some probability measure <img class="math" src="_images/math/cacd83b5bc31f40ea6ed1df531109893911ebf6d.png" alt="(\Omega, {\cal B}, \mathbb{P})"/>.
+Of course, constructing the design matrix is completely
+separate from specifying the joint distribution on <img class="math" src="_images/math/c5cb117e216b13f110d89153980b4a30200d2f63.png" alt="\Omega^n"/>, but
+thinking of factors and numeric variables as functions
+makes things more concrete.</p>
+<p>In this new view, a <em>factor</em> from the previous section is now defined as a
+function <img class="math" src="_images/math/0e8ae5558cbac640e3ea334952565efa2161bd8a.png" alt="f_i :\Omega \rightarrow L_i"/> where <img class="math" src="_images/math/9df66d9f3deecddce3e90ce33836dd65e605ed7f.png" alt="L_i"/> is the set of
+levels of the factor.  We define a <em>numeric</em> variable as a real-valued function
+on <img class="math" src="_images/math/9e2b196e9b7e57d1ec99f6534c581ea9759d2170.png" alt="\Omega"/>.</p>
+<p>With this definition, <img class="math" src="_images/math/8628adabfab417286e77b98380455cea0dd23413.png" alt="{\cal F}"/> is a (finite) collection of functions
+on <img class="math" src="_images/math/9e2b196e9b7e57d1ec99f6534c581ea9759d2170.png" alt="\Omega"/>, each taking values in a different space, and
+<img class="math" src="_images/math/588adc7e1f7747ffb7561c0fda3ff423a415be3d.png" alt="{\cal M}_F"/> is the same monoid as before. Therefore,
+a member of the set of equivalence classes <img class="math" src="_images/math/5abff48fc9ce0f1a8bf7c5ab50960b7ed2116528.png" alt="\{0,1\}^{{\cal M}_F}"/>
+can be viewed as a set of functions</p>
+<div class="math">
+<p><img src="_images/math/4d56bb1cbeffd7d0440f165ab36e7864d4eea7b4.png" alt="\left\{f_i:\Omega \rightarrow L_i \right\} \subset {\cal F}"/></p>
+</div><p>We might then take <img class="math" src="_images/math/ae2cf9594c3ee9a37664f7e0a8840af8b9f67fd2.png" alt="{\cal M}_N={\mathbb{R}}^{\Omega}"/> to be the monoid
+of real-valued functions on <img class="math" src="_images/math/9e2b196e9b7e57d1ec99f6534c581ea9759d2170.png" alt="\Omega"/> with multiplication
+defined in the obvious way</p>
+<div class="math">
+<p><img src="_images/math/bd705aebb0952d7d2a1126c42521b6c59949f9d1.png" alt="(f_1 \cdot f_2)(\omega) = f_1(\omega) \cdot f_2(\omega)"/></p>
+</div><p>There is, however, a possible measure theoretic
+complication to consider as we should properly consider
+equivalence classes on <img class="math" src="_images/math/a4d93d3fe9fa436f871b019691d7df39ac45a5b3.png" alt="\mathbb{R}^{\Omega}"/> defined
+by equality up to sets of probability 0 according to some
+probability space <img class="math" src="_images/math/cacd83b5bc31f40ea6ed1df531109893911ebf6d.png" alt="(\Omega, {\cal B}, \mathbb{P})"/>.
+Let us therefore fix this probability space
+and take <img class="math" src="_images/math/a02726a7935743329be0163b837f8efe7b7e5246.png" alt="{\cal M}_N = L^0(\Omega, {\cal B}, \mathbb{P})"/>,
+the collection of random variables on <img class="math" src="_images/math/cacd83b5bc31f40ea6ed1df531109893911ebf6d.png" alt="(\Omega, {\cal B}, \mathbb{P})"/>.</p>
+<p>Carrying out the same construction of equivalence classes
+as for factors, our model is represented as a member of
+<img class="math" src="_images/math/4d6c56296e4e4f284fae67ed52f25537ef72e494.png" alt="\{0,1\}^{L^0(\Omega, {\cal B}, \mathbb{P}) \times {\cal M}_F}"/>.
+Viewing this as a subset, our model is</p>
+<div class="math">
+<p><img src="_images/math/eafb6d54090c99e948d771c0aa4cdf44b83b5aab.png" alt="M = \left\{(f_i, m_i) \right\} \subset L^0(\Omega, {\cal B}, \mathbb{P}) \times {\cal M}_F"/></p>
+</div><p>Hence, our model is a collection of tuples of real-valued random variables
+combined with a subset of the factors <img class="math" src="_images/math/8628adabfab417286e77b98380455cea0dd23413.png" alt="{\cal F}"/>, each
+of which are also functions defined on <img class="math" src="_images/math/9e2b196e9b7e57d1ec99f6534c581ea9759d2170.png" alt="\Omega"/>.</p>
+</div>
+<div class="section" id="design-matrix-construction">
+<h2>Design matrix construction<a class="headerlink" href="#design-matrix-construction" title="Permalink to this headline">¶</a></h2>
+<p>Given a description of our model, i.e. a set of tuples</p>
+<div class="math">
+<p><img src="_images/math/f474085e368ebbcc5fa74c425603424b3364ae0c.png" alt="M = \left\{(f,m): f \in L^0(\Omega, {\cal B}, \mathbb{P}), m \in {\cal M}_F \right\}"/></p>
+</div><p>we now must build a design matrix.</p>
+<p>Formally, this corresponds to constructing a function
+<img class="math" src="_images/math/075b8829c523e7adb496d940b2991a496132e3f7.png" alt="g:\Omega \rightarrow \mathbb{R}^k"/> from  <img class="math" src="_images/math/5d1e4485dc90c450e8c76826516c1b2ccb8fce16.png" alt="M"/>,
+and then evaluating this function at a
+point <img class="math" src="_images/math/22d5eee1571c7ea33ceedab7e146e0a9093351cd.png" alt="(\omega_1, \dots, \omega_n) \in \Omega^n"/> which yields a matrix</p>
+<div class="math">
+<p><img src="_images/math/e30cca8407c1781c80f6b304f832585abb48a20a.png" alt="D = \begin{pmatrix}
+g(\omega_1) \\
+\vdots \\
+g(\omega_n) \\
+\end{pmatrix}_{n \times k}"/></p>
+</div><p>Part of the construction is also to determine
+a well-defined set of names for each column of <img class="math" src="_images/math/9ffb448918db29f2a72f8f87f421b3b3cad18f95.png" alt="D"/>.</p>
+<p>Given a <a class="reference external" href="http://en.wikipedia.org/wiki/Total_order">linear, or total ordering</a> on the random variables
+we see in <img class="math" src="_images/math/5d1e4485dc90c450e8c76826516c1b2ccb8fce16.png" alt="M"/>, i.e.</p>
+<div class="math">
+<p><img src="_images/math/124e7b9a823c6593ff59bda8a2039c5983097304.png" alt="\left\{f: \exists (f,s) \in M \right\}"/></p>
+</div><p>the process of building this design matrix can
+be carried out in stages based on the functions <img class="math" src="_images/math/bb2c93730dbb48558bb3c4738c956c4e8f816437.png" alt="f"/>.
+Let the ordering be determined as <img class="math" src="_images/math/c7a8d6a2cb34cd0cf5045a2344cd4224f61bee41.png" alt="f_1 &lt; f_2 &lt; \dots &lt; f_{\# M}"/>.
+For each <img class="math" src="_images/math/18121a0d0d2871207406cad7443062c8a959b046.png" alt="m \in {\cal M}_F"/>, we construct a function
+<img class="math" src="_images/math/bdc35c0203fcca8d27e0bed0ec5c530b148641e7.png" alt="g_m:\Omega \rightarrow \mathbb{R}^{k(m)}"/>
+and the final function is determined by
+concatenation in the order previously determined</p>
+<div class="math">
+<p><img src="_images/math/4c948dc6318acb9e44844fce9abb24e21725ec19.png" alt="g(\omega) = \begin{pmatrix}
+f_1 \cdot g_{m_1}(\omega) &amp; f_2 \cdot g_{m_2}(\omega) &amp;  \dots &amp; f_{\# M} \cdot g(m_{\# M})(\omega)
+\end{pmatrix}"/></p>
+</div><p>where the multiplication above is elementwise.</p>
+<p>In <em>R</em> this linear ordering seems to be based on the
+name of the variable in the expression, with <em>1</em>, the
+intercept coming before all others</p>
+<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> z <span class="o">=</span> rnorm<span class="p">(</span><span class="m">40</span><span class="p">)</span>
+<span class="o">&gt;</span> lm<span class="p">(</span>y~x<span class="o">+</span>z<span class="p">)$</span>coef
+<span class="p">(</span>Intercept<span class="p">)</span>           x           z 
+<span class="m">-0.03165942</span> <span class="m">-0.20821736</span> <span class="m">-0.04384988</span> 
+<span class="o">&gt;</span> b <span class="o">=</span> x
+<span class="o">&gt;</span> a <span class="o">=</span> z
+<span class="o">&gt;</span> lm<span class="p">(</span>y~a<span class="o">+</span>b<span class="p">)$</span>coef
+<span class="p">(</span>Intercept<span class="p">)</span>           a           b 
+<span class="m">-0.03165942</span> <span class="m">-0.04384988</span> <span class="m">-0.20821736</span> 
+<span class="o">&gt;</span> lm<span class="p">(</span>y~<span class="p">(</span>x<span class="o">+</span>z<span class="p">)</span><span class="o">*</span>f<span class="p">)$</span>coef
+<span class="p">(</span>Intercept<span class="p">)</span>           x           z          f2        x:f2        z:f2 
+ <span class="m">0.34066586</span> <span class="m">-0.54510935</span>  <span class="m">0.02594425</span> <span class="m">-0.75878429</span>  <span class="m">0.37283688</span> <span class="m">-0.25101428</span> 
+<span class="o">&gt;</span> lm<span class="p">(</span>y~<span class="p">(</span>a<span class="o">+</span>b<span class="p">)</span><span class="o">*</span>f<span class="p">)$</span>coef
+<span class="p">(</span>Intercept<span class="p">)</span>           a           b          f2        a:f2        b:f2 
+ <span class="m">0.34066586</span>  <span class="m">0.02594425</span> <span class="m">-0.54510935</span> <span class="m">-0.75878429</span> <span class="m">-0.25101428</span>  <span class="m">0.37283688</span> 
+</pre></div>
+</div>
+<p>To construct the coding of the factors, <em>R</em> uses rules as described in
+<a class="reference external" href="http://www.amazon.com/Statistical-Models-Chapman-Computer-Science/dp/0412052911">Hastie &amp; Chambers (1988)</a> meant to
+satisfy users expectations in common statistical settings. For instance,
+in the case of two factors with one nested in the other, this rule
+produces the &#8220;expected result&#8221;.</p>
+<p>In our notation, constructing this matrix is equivalent to constructing
+a function <img class="math" src="_images/math/bdc35c0203fcca8d27e0bed0ec5c530b148641e7.png" alt="g_m:\Omega \rightarrow \mathbb{R}^{k(m)}"/>. Here,
+<img class="math" src="_images/math/af275636699c5ec7505cb07b2d840a14e4b98968.png" alt="k(m)"/> is the number of real-valued functions, i.e. random variables, specified by <img class="math" src="_images/math/f5047d1e0cbb50ec208923a22cd517c55100fa7b.png" alt="m"/> which
+may be viewed as a collection of subsets of <img class="math" src="_images/math/8628adabfab417286e77b98380455cea0dd23413.png" alt="{\cal F}"/>.</p>
+<p>The collection of subsets of <img class="math" src="_images/math/8628adabfab417286e77b98380455cea0dd23413.png" alt="{\cal F}"/> is naturally <em>graded</em>, i.e.
+<img class="math" src="_images/math/f5047d1e0cbb50ec208923a22cd517c55100fa7b.png" alt="m"/> can be partially ordered in terms of the size of each subset on
+<img class="math" src="_images/math/f5047d1e0cbb50ec208923a22cd517c55100fa7b.png" alt="m"/>.  Let <img class="math" src="_images/math/9a43f43e7843112dd5fb79baccc58d2732a33609.png" alt="s_1 \leq s_2 \leq \dots \leq s_{\# m}"/> represent this
+ordering where each <img class="math" src="_images/math/f7165d4106833182588e36cefed8fc709c2939d1.png" alt="s_i = \{f_{j}\} \subset {\cal F}, i \geq 1"/> and,
+possibly, <img class="math" src="_images/math/84a3d2b76b2660cd4f7753490ef52518407602a8.png" alt="s_1 = \emptyset"/>.  Now, each <img class="math" src="_images/math/d3b63c17213f84d730e0de1f8c08597f7a648e37.png" alt="s_i"/> will contribute a
+certain number of random variables to <img class="math" src="_images/math/2c065e38b7d8429ae228484b91b2145504d91b7c.png" alt="g_m"/> that are concatenated
+together. The number of random variables depends on how each factor <img class="math" src="_images/math/bedf6f6557fcde1887f74187538870b7ff1133ff.png" alt="f_{j}
+\in s_i"/> is <em>coded</em>. The <em>coding</em> of a factor <img class="math" src="_images/math/fde5b6a2fc1ab440c112a594ad384f0ec48865e9.png" alt="f_j"/> is defined as a choice
+of a random vector <img class="math" src="_images/math/6ac0e95ac858d2980fda8e4990029bbffeaff163.png" alt="h_j:\Omega \rightarrow \mathbb{R}^{d(f_j)}"/>. The types
+of coding fall into two groups either <em>indicator</em> or <em>contrast</em>.  If a factor is
+coded with <em>indicator</em> variables, then <img class="math" src="_images/math/745bb05aaded4a04e16730b0094ebe9efb2bfa5c.png" alt="d(f_j) = \# L_{j}"/>, the number of
+levels of <img class="math" src="_images/math/fde5b6a2fc1ab440c112a594ad384f0ec48865e9.png" alt="f_j"/>. If a factor is coded with <em>contrast</em> variables, then
+<img class="math" src="_images/math/b877193a1710973fd62b88130e3a33a8c5d13ebc.png" alt="d(f_j)=\# L_j-1"/>.</p>
+<p>For each factor <img class="math" src="_images/math/fde5b6a2fc1ab440c112a594ad384f0ec48865e9.png" alt="f_j"/>, and a linear ordering of <img class="math" src="_images/math/62be2257e32c24be4e0a7dadb1310175acaf9ce5.png" alt="L_j = \{v_{1,j} &lt;
+v_{2,j} &lt; \dots &lt; v_{\# L_j,j} \}"/> we can define <img class="math" src="_images/math/0013a4d11bc332939e174c94f69515ae4e8c370c.png" alt="\# L_j"/> binary random
+variables</p>
+<div class="math">
+<p><img src="_images/math/31a95f4889d9a4de7af361592047a28da0235a9b.png" alt="b_{jl}(\omega) =
+\begin{cases}
+1 &amp;= f_j(\omega) = v_{l,j}
+\end{cases}"/></p>
+</div><p>An <em>indicator</em> coding is any set of <img class="math" src="_images/math/0013a4d11bc332939e174c94f69515ae4e8c370c.png" alt="\# L_j"/> functions whose linear span
+coincides with the linear span of <img class="math" src="_images/math/b1a74b08c22d4be04395d1954b2302d6d9e477dd.png" alt="b_{jl}, 1 \leq l \leq \# L_j"/>. Usually,
+these functions are just taken to be the <img class="math" src="_images/math/35a8bbe107940c6f6a6ae252a0a83d61ff98c8aa.png" alt="b_{jl}"/>&#8216;s themselves.</p>
+<p>A <em>contrast</em> coding is a set of <img class="math" src="_images/math/69ea8449946a108bb20ada028f74c6430802a00a.png" alt="\# L_j-1"/>  independent linear
+combinations of the <img class="math" src="_images/math/35a8bbe107940c6f6a6ae252a0a83d61ff98c8aa.png" alt="b_{jl}"/> chosen in various ways, each with different
+interpretations.</p>
+<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> t<span class="p">(</span>contr.helmert<span class="p">(</span><span class="m">4</span><span class="p">))</span>
+      <span class="m">1</span>  <span class="m">2</span>  <span class="m">3</span> <span class="m">4</span>
+<span class="p">[</span><span class="m">1</span><span class="p">,]</span> <span class="m">-1</span>  <span class="m">1</span>  <span class="m">0</span> <span class="m">0</span>
+<span class="p">[</span><span class="m">2</span><span class="p">,]</span> <span class="m">-1</span> <span class="m">-1</span>  <span class="m">2</span> <span class="m">0</span>
+<span class="p">[</span><span class="m">3</span><span class="p">,]</span> <span class="m">-1</span> <span class="m">-1</span> <span class="m">-1</span> <span class="m">3</span>
+<span class="o">&gt;</span> t<span class="p">(</span>contr.poly<span class="p">(</span><span class="m">4</span><span class="p">))</span>
+         <span class="p">[,</span><span class="m">1</span><span class="p">]</span>       <span class="p">[,</span><span class="m">2</span><span class="p">]</span>       <span class="p">[,</span><span class="m">3</span><span class="p">]</span>      <span class="p">[,</span><span class="m">4</span><span class="p">]</span>
+<span class="m">.</span>L <span class="m">-0.6708204</span> <span class="m">-0.2236068</span>  <span class="m">0.2236068</span> <span class="m">0.6708204</span>
+<span class="m">.</span>Q  <span class="m">0.5000000</span> <span class="m">-0.5000000</span> <span class="m">-0.5000000</span> <span class="m">0.5000000</span>
+<span class="m">.</span>C <span class="m">-0.2236068</span>  <span class="m">0.6708204</span> <span class="m">-0.6708204</span> <span class="m">0.2236068</span>
+<span class="o">&gt;</span> t<span class="p">(</span>contr.sum<span class="p">(</span><span class="m">4</span><span class="p">))</span>
+     <span class="m">1</span> <span class="m">2</span> <span class="m">3</span>  <span class="m">4</span>
+<span class="p">[</span><span class="m">1</span><span class="p">,]</span> <span class="m">1</span> <span class="m">0</span> <span class="m">0</span> <span class="m">-1</span>
+<span class="p">[</span><span class="m">2</span><span class="p">,]</span> <span class="m">0</span> <span class="m">1</span> <span class="m">0</span> <span class="m">-1</span>
+<span class="p">[</span><span class="m">3</span><span class="p">,]</span> <span class="m">0</span> <span class="m">0</span> <span class="m">1</span> <span class="m">-1</span>
+<span class="o">&gt;</span> t<span class="p">(</span>contr.treatment<span class="p">(</span><span class="m">4</span><span class="p">))</span>
+  <span class="m">1</span> <span class="m">2</span> <span class="m">3</span> <span class="m">4</span>
+<span class="m">2</span> <span class="m">0</span> <span class="m">1</span> <span class="m">0</span> <span class="m">0</span>
+<span class="m">3</span> <span class="m">0</span> <span class="m">0</span> <span class="m">1</span> <span class="m">0</span>
+<span class="m">4</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">1</span>
+<span class="o">&gt;</span> t<span class="p">(</span>contr.SAS<span class="p">(</span><span class="m">4</span><span class="p">))</span>
+  <span class="m">1</span> <span class="m">2</span> <span class="m">3</span> <span class="m">4</span>
+<span class="m">1</span> <span class="m">1</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span>
+<span class="m">2</span> <span class="m">0</span> <span class="m">1</span> <span class="m">0</span> <span class="m">0</span>
+<span class="m">3</span> <span class="m">0</span> <span class="m">0</span> <span class="m">1</span> <span class="m">0</span>
+</pre></div>
+</div>
+<p>For instance, <em>contr.sum</em> (which corresponds to <em>nipy</em>&#8216;s <tt class="docutils literal"><span class="pre">main_effect</span></tt>)
+uses the random variables</p>
+<div class="math">
+<p><img src="_images/math/50de8c0bf0be97a264e3c11c7743ac570acebb55.png" alt="b_{j,l} -b_{j,\#L_j}"/></p>
+</div><p>The rule <em>R</em> uses to construct the codings for
+a given <img class="math" src="_images/math/575397b9eb26305568bc708c310ab0179919e3ba.png" alt="m = s_1 \leq s_2 \leq \dots \leq s_{\# m}"/> produces a set of random
+variables whose linear span is equivalent to the linear span of</p>
+<div class="math">
+<p><img src="_images/math/66039717170512e2552261bf12e0e06a48a7bbae.png" alt="\left\{ \prod_{f_j \in s_i} \prod_{1 \leq l \leq \# L_j} b_{lj}, 1 \leq i \leq \# m \right\}"/></p>
+</div><p>The way it produces these columns depends on a linear
+ordering of <img class="math" src="_images/math/8628adabfab417286e77b98380455cea0dd23413.png" alt="{\cal F}"/>. Let <img class="math" src="_images/math/6304a201c8ba26c404e3c275a0c529e8f05b03cc.png" alt="f_1 &lt; f_2 &lt; \dots &lt; \# {\cal F}"/>
+be this linear ordering. This, in turn, determines a linear ordering
+on all subsets of <img class="math" src="_images/math/8628adabfab417286e77b98380455cea0dd23413.png" alt="{\cal F}"/>. Note that this linear ordering
+corresponds to
+representing sets as sorted tuples, so that
+<img class="math" src="_images/math/f5047d1e0cbb50ec208923a22cd517c55100fa7b.png" alt="m"/> is a sorted list of sorted tuples.</p>
+<p>We therefore now assume that <img class="math" src="_images/math/f5047d1e0cbb50ec208923a22cd517c55100fa7b.png" alt="m"/> has been linearly ordered
+as <img class="math" src="_images/math/c5f3098a4f23c5d1b089235dcade067a480ed9fc.png" alt="s_1 &lt; s_2 &lt; \dots &lt; s_{\# m}"/>.</p>
+<p>This next step is a bit of a mouthful, but, here goes
+for any <img class="math" src="_images/math/841f098cd5a7050c5a19ffdc1ccb9f2a5e85716c.png" alt="s \subset {\cal F}"/>, the linear span of the random variables</p>
+<div class="math">
+<p><img src="_images/math/88b3d89a5fbdb0a43ebe08f09eb58446c7b9013d.png" alt="\left\{ \prod_{f_j \in s} \prod_{1 \leq l \leq \# L_j} b_{l,j} \right\},"/></p>
+</div><p>is equivalent to the linear span of</p>
+<div class="math">
+<p><img src="_images/math/7ac7815983678639cb048770aaf9221e3e898c1e.png" alt="\left\{ \prod_{f_j \in \tilde{s}} \prod_{1 \leq l \leq \# L_j} (b_{l,j} - b_{l,\#L_j}: 0 \subseteq \tilde{s} \subseteq s \right\}"/></p>
+</div><p>In words, the linear space spanned by using the indicator coding
+for each factor in <img class="math" src="_images/math/841f098cd5a7050c5a19ffdc1ccb9f2a5e85716c.png" alt="s \subset {\cal F}"/> is equivalent to the column
+space spanned by using the contrast coding
+for  each <img class="math" src="_images/math/853e983794996a5f46fc2f6b762d64d37a7641d5.png" alt="\tilde{s} \subseteq s \subset {\cal F}"/> and concatenating
+them all together.</p>
+<p>Hence, the column space spanned by using the indicator coding
+for each factor in both of <img class="math" src="_images/math/05b5c11ff485d4dc99a80805de7c14778f870f01.png" alt="s_1,s_2"/> is equivalent
+to using the contrast coding for each factor in
+every subset <img class="math" src="_images/math/e460b4bd0593059c5fa709cfcbf0e285625b34c6.png" alt="\tilde{s} \subseteq s_1"/> or <img class="math" src="_images/math/ba4ef34a8ccb8a7bef0bfab52f8f1b5db8d39061.png" alt="\tilde{s} \subseteq s_2"/>. The collection of such subsets forms an <a class="reference external" href="http://en.wikipedia.org/wiki/Abstract_simplicial_complex">abstract
+simplicial complex</a> with maximal simplices <img class="math" src="_images/math/34c0181d3d6c299112520252f537368da9301874.png" alt="\{s_1,s_2\}"/>.</p>
+<p><em>R</em> effectively constructs the function <img class="math" src="_images/math/2c065e38b7d8429ae228484b91b2145504d91b7c.png" alt="g_m"/> sequentially,
+based on stages <img class="math" src="_images/math/f8b9694a438688e901a1d8364164e511c0ebb5dd.png" alt="g_m^{(i)}, 1 \leq i \leq \# m"/>
+in such a way that, for each <img class="math" src="_images/math/d1d71a7c0bdcd492bcc8f2faf018e7a1257cef6c.png" alt="1 \leq i \leq \# m"/>, the linear span of the coordinate
+functions of of <img class="math" src="_images/math/b407dcf795aeceb559c75b6f8e50dac24f761597.png" alt="g^{(i)}_m"/> is the same as the linear span of
+using all indicator codings for each factor in each of the subsets <img class="math" src="_images/math/fce47c6ee09ec8f08e2c95124810118697bffa89.png" alt="[s_1,\dots, s_i]"/>.</p>
+<p>By construction, then, the coordinate functions of the final function <img class="math" src="_images/math/3eed2f3cd2a07340c29002459f798c4964f4e03b.png" alt="g_m=g_m^{(m)}"/> span the same space as if it has used the indicator
+codings for each factor in each of the <img class="math" src="_images/math/94ba377f1c42b8e0f6c3dd7a4b37d48a8d3c9ad0.png" alt="[s_1, \dots, s_{\# m}]"/>.</p>
+<p>The rule can be expressed in terms of operations on simplicial complexes:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">factor_codings</span><span class="p">(</span><span class="o">*</span><span class="n">factor_monomials</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Find which factors to code with indicator or contrast variables</span>
+
+<span class="sd">    Determine which factors to code with indicator variables (using</span>
+<span class="sd">    len(factor.levels) columns of 0s and 1s) or contrast coding (using</span>
+<span class="sd">    len(factor.levels)-1).  The elements of the sequence should be tuples of</span>
+<span class="sd">    strings.  Further, the factors are assumed to be in *graded* order, that is</span>
+<span class="sd">    [len(f) for f in factor_monomials] is assumed non-decreasing.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; factor_codings((&#39;b&#39;,), (&#39;a&#39;,), (&#39;b&#39;, &#39;c&#39;), (&#39;a&#39;,&#39;b&#39;,&#39;c&#39;))</span>
+<span class="sd">    {(&#39;b&#39;, &#39;c&#39;): [(&#39;b&#39;, &#39;indicator&#39;), (&#39;c&#39;, &#39;contrast&#39;)], (&#39;a&#39;,): [(&#39;a&#39;, &#39;contrast&#39;)], (&#39;b&#39;,): [(&#39;b&#39;, &#39;indicator&#39;)], (&#39;a&#39;, &#39;b&#39;, &#39;c&#39;): [(&#39;a&#39;, &#39;contrast&#39;), (&#39;b&#39;, &#39;indicator&#39;), (&#39;c&#39;, &#39;indicator&#39;)]}</span>
+<span class="sd">    &gt;&gt;&gt; factor_codings((&#39;a&#39;,), (&#39;b&#39;,), (&#39;b&#39;, &#39;c&#39;), (&#39;a&#39;,&#39;b&#39;,&#39;c&#39;))</span>
+<span class="sd">    {(&#39;b&#39;, &#39;c&#39;): [(&#39;b&#39;, &#39;indicator&#39;), (&#39;c&#39;, &#39;contrast&#39;)], (&#39;a&#39;,): [(&#39;a&#39;, &#39;indicator&#39;)], (&#39;b&#39;,): [(&#39;b&#39;, &#39;contrast&#39;)], (&#39;a&#39;, &#39;b&#39;, &#39;c&#39;): [(&#39;a&#39;, &#39;contrast&#39;), (&#39;b&#39;, &#39;indicator&#39;), (&#39;c&#39;, &#39;indicator&#39;)]}</span>
+
+<span class="sd">    Here is a version with debug strings to see what is happening:</span>
+
+<span class="sd">    &gt;&gt;&gt; factor_codings((&#39;a&#39;,), (&#39;b&#39;, &#39;c&#39;), (&#39;a&#39;,&#39;b&#39;,&#39;c&#39;)) #doctest: +SKIP</span>
+<span class="sd">    Adding a from (&#39;a&#39;,) as indicator because we have not seen any factors yet.</span>
+<span class="sd">    Adding b from (&#39;b&#39;, &#39;c&#39;) as indicator because set([(&#39;c&#39;,), ()]) is not a subset of set([(), (&#39;a&#39;,)])</span>
+<span class="sd">    Adding c from (&#39;b&#39;, &#39;c&#39;) as indicator because set([(), (&#39;b&#39;,)]) is not a subset of set([(), (&#39;a&#39;,)])</span>
+<span class="sd">    Adding a from (&#39;a&#39;, &#39;b&#39;, &#39;c&#39;) as contrast because set([(&#39;c&#39;,), (&#39;b&#39;, &#39;c&#39;), (), (&#39;b&#39;,)]) is a subset of set([(&#39;b&#39;, &#39;c&#39;), (), (&#39;c&#39;,), (&#39;b&#39;,), (&#39;a&#39;,)])</span>
+<span class="sd">    Adding b from (&#39;a&#39;, &#39;b&#39;, &#39;c&#39;) as indicator because set([(&#39;c&#39;,), (), (&#39;a&#39;, &#39;c&#39;), (&#39;a&#39;,)]) is not a subset of set([(&#39;b&#39;, &#39;c&#39;), (), (&#39;c&#39;,), (&#39;b&#39;,), (&#39;a&#39;,)])</span>
+<span class="sd">    Adding c from (&#39;a&#39;, &#39;b&#39;, &#39;c&#39;) as indicator because set([(&#39;a&#39;, &#39;b&#39;), (), (&#39;b&#39;,), (&#39;a&#39;,)]) is not a subset of set([(&#39;b&#39;, &#39;c&#39;), (), (&#39;c&#39;,), (&#39;b&#39;,), (&#39;a&#39;,)])</span>
+<span class="sd">    {(&#39;b&#39;, &#39;c&#39;): [(&#39;b&#39;, &#39;indicator&#39;), (&#39;c&#39;, &#39;indicator&#39;)], (&#39;a&#39;,): [(&#39;a&#39;, &#39;indicator&#39;)], (&#39;a&#39;, &#39;b&#39;, &#39;c&#39;): [(&#39;a&#39;, &#39;contrast&#39;), (&#39;b&#39;, &#39;indicator&#39;), (&#39;c&#39;, &#39;indicator&#39;)]}</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Even though the elements of factor_monomials are assumed to be in graded</span>
+<span class="sd">    order, the final result depends on the ordering of the strings of the</span>
+<span class="sd">    factors within each of the tuples.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">lmax</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">copy</span>
+    <span class="n">already_seen</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([])</span>
+    <span class="n">final_result</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">factor_monomial</span> <span class="ow">in</span> <span class="n">factor_monomials</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">factor_monomial</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">factor_monomial</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">factor_monomial</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">lmax</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;factors are assumed to be in graded order&#39;</span><span class="p">)</span>
+        <span class="n">lmax</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">factor_monomial</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">factor_monomial</span><span class="p">)):</span>
+            <span class="n">cur</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">factor_monomial</span><span class="p">))</span>
+            <span class="n">cur</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+            <span class="n">terms</span> <span class="o">=</span> <span class="n">simplicial_complex</span><span class="p">(</span><span class="n">cur</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">already_seen</span> <span class="ow">and</span> <span class="nb">set</span><span class="p">(</span><span class="n">terms</span><span class="p">)</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">already_seen</span><span class="p">):</span>
+                <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">factor_monomial</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="s">&#39;contrast&#39;</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">factor_monomial</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="s">&#39;indicator&#39;</span><span class="p">))</span>
+        <span class="n">already_seen</span> <span class="o">=</span> <span class="n">already_seen</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">simplicial_complex</span><span class="p">(</span><span class="n">factor_monomial</span><span class="p">)[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">final_result</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="nb">tuple</span><span class="p">(</span><span class="n">factor_monomial</span><span class="p">),</span> <span class="n">result</span><span class="p">))</span>
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">final_result</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>These types of expressions are used in <em>R</em> to construct design matrices.</p>
+<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> c <span class="o">=</span> factor<span class="p">(</span>levels<span class="o">=</span>c<span class="p">(</span><span class="s">&#39;warm&#39;</span><span class="p">,</span> <span class="s">&#39;hot&#39;</span><span class="p">))</span>
+<span class="o">&gt;</span> a <span class="o">+</span> a:b <span class="o">+</span> b:c <span class="o">+</span> a:b:c
+<span class="p">[</span><span class="m">1</span>mError in b:c : <span class="kc">NA</span><span class="o">/</span><span class="kc">NaN</span> argument
+<span class="p">[</span><span class="m">0</span>m<span class="p">[</span><span class="m">1</span>mIn addition: <span class="p">[</span><span class="m">0</span>m<span class="p">[</span><span class="m">1</span>mWarning messages:
+<span class="p">[</span><span class="m">0</span>m<span class="p">[</span><span class="m">1</span>m1: In a:b : numerical expression has <span class="m">40</span> elements: only the first used
+<span class="p">[</span><span class="m">0</span>m<span class="p">[</span><span class="m">1</span>m2: In a:b : numerical expression has <span class="m">40</span> elements: only the first used
+<span class="p">[</span><span class="m">0</span>m<span class="p">[</span><span class="m">1</span>m3: In b:c : numerical expression has <span class="m">40</span> elements: only the first used
+<span class="p">[</span><span class="m">0</span>m
+</pre></div>
+</div>
+<p>I</p>
+<p>However, <em>R</em> does not meaningfully handle this product.
+In order to construct a design matrix, <em>R</em> tries to come
+up with a smart parameterization of all the columns
+represented in the formula above. Note also that I overwrote
+<em>c</em>, one of <em>R</em>&#8216;s most fundamental objects, oops.</p>
+<p>Here is an example where the product is made sense of
+and used in a linear model.</p>
+<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> a <span class="o">=</span> factor<span class="p">(</span>rep<span class="p">(</span>c<span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">,</span><span class="m">3</span><span class="p">,</span><span class="m">3</span><span class="p">,</span><span class="m">3</span><span class="p">),</span> <span class="m">10</span><span class="p">))</span>
+<span class="o">&gt;</span> b <span class="o">=</span> factor<span class="p">(</span>rep<span class="p">(</span>c<span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">2</span><span class="p">),</span><span class="m">10</span><span class="p">))</span>
+<span class="o">&gt;</span> cc <span class="o">=</span> factor<span class="p">(</span>rep<span class="p">(</span>c<span class="p">(</span><span class="s">&#39;hot&#39;</span><span class="p">,</span><span class="s">&#39;warm&#39;</span><span class="p">,</span><span class="s">&#39;hot&#39;</span><span class="p">,</span><span class="s">&#39;warm&#39;</span><span class="p">,</span><span class="s">&#39;hot&#39;</span><span class="p">,</span><span class="s">&#39;warm&#39;</span><span class="p">,</span><span class="s">&#39;hot&#39;</span><span class="p">,</span><span class="s">&#39;warm&#39;</span><span class="p">,</span><span class="s">&#39;hot&#39;</span> 
+<span class="p">,</span><span class="s">&#39;warm&#39;</span><span class="p">,</span><span class="s">&#39;hot&#39;</span><span class="p">,</span><span class="s">&#39;warm&#39;</span><span class="p">),</span><span class="m">10</span><span class="p">))</span>
+<span class="o">&gt;</span> Y <span class="o">=</span> rnorm<span class="p">(</span><span class="m">120</span><span class="p">)</span>
+
+<span class="o">&gt;</span> lm1 <span class="o">=</span> lm<span class="p">(</span>Y~a<span class="o">+</span>b<span class="o">+</span>cc<span class="o">+</span>a:b:cc<span class="o">-</span><span class="m">1</span><span class="p">)</span>
+<span class="o">&gt;</span> print<span class="p">(</span>lm1<span class="p">$</span>coef<span class="p">)</span>
+          a1           a2           a3           b2       ccwarm  a1:b1:cchot 
+<span class="m">-0.165564563</span> <span class="m">-0.942317121</span> <span class="m">-0.423865319</span>  <span class="m">0.278352089</span>  <span class="m">0.100561274</span>  <span class="m">0.009229245</span> 
+ a2:b1:cchot  a3:b1:cchot  a1:b2:cchot  a2:b2:cchot  a3:b2:cchot a1:b1:ccwarm 
+ <span class="m">1.164071237</span>  <span class="m">0.944561917</span>  <span class="m">0.165298863</span>  <span class="m">0.642074287</span>           <span class="kc">NA</span> <span class="m">-0.002138406</span> 
+a2:b1:ccwarm a3:b1:ccwarm a1:b2:ccwarm a2:b2:ccwarm a3:b2:ccwarm 
+ <span class="m">0.552700381</span>           <span class="kc">NA</span>           <span class="kc">NA</span>           <span class="kc">NA</span>           <span class="kc">NA</span> 
+</pre></div>
+</div>
+<p>At this point, the algebraic tools being used are slightly different.  The
+monoid structure is forgotten and we turn to working with simple polynomials.
+What <em>R</em> does is tries to find an alternative, but equivalent, expression for
+something like <img class="math" src="_images/math/f777f920f013580b189e2621f8fecbf04d5c34de.png" alt="a \cdot b \cdot c"/> because it recognizes <img class="math" src="_images/math/ba341f7a0cb489c5bbb67e14e28a869fa5a534c3.png" alt="a \cdot b
+\cdot c"/> as <em>maximal</em> in the formula above even though <img class="math" src="_images/math/c7d457e388298246adb06c587bccd419ea67f7e8.png" alt="a"/> as well as
+<img class="math" src="_images/math/67e789167f554110898d8a401bfaaf447ce2b65c.png" alt="a \cdot b"/> and <img class="math" src="_images/math/b31f18fa86d636936473919ef6b5c29fbae785f3.png" alt="b \cdot c"/> also appear.  In this case, equivalence
+means equivalence in the additive sense. That is, it constructs a second element
+of this monoid ring such that the column span, when computed, is identical to
+that of <img class="math" src="_images/math/f777f920f013580b189e2621f8fecbf04d5c34de.png" alt="a \cdot b \cdot c"/> which is the pairwise product of the dummy
+indicator variables <img class="math" src="_images/math/a5b29b358e825defa3e11b7d903d43ec31e5909a.png" alt="a,b,c"/>. The polynomials that <em>R</em> uses for this are
+generated by <img class="math" src="_images/math/b7a6e534aaa3c6a0a868cc5a708d084ec68041cc.png" alt="\{a,b,c,a-\pmb{1},b-\pmb{1},c-\pmb{1}\}"/>.  An expression of
+the form <img class="math" src="_images/math/fe598deaea49747403a85223eb0478c1ba8a2a53.png" alt="a-\pmb{1}"/> indicates that <em>R</em> will use &#8220;contrasts&#8221; instead of
+&#8220;dummy variables&#8221; to encode this factor in the expression. There are several
+choices of <em>contrast</em> to use.</p>
+<p>If the contrast encoding involves dropping a term, say, the term corresponding
+to the last level in a factor, then the expression</p>
+<div class="math">
+<p><img src="_images/math/924544b8d6f5761681bda5853f1fc76e7b83c03d.png" alt="(a-1)\cdot b \cdot (c-1)"/></p>
+</div><p>has columns</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="n">a_2</span> <span class="o">*</span> <span class="n">b_3</span> <span class="o">*</span> <span class="n">c_hot</span><span class="p">,</span> <span class="n">a_2</span> <span class="o">*</span> <span class="n">b_4</span> <span class="o">*</span> <span class="n">c_hot</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Note that this assumes an <em>ordering</em> of the levels of a factor.
+This is not a problem, but it makes some difference in terms of what
+columns of the design matrix are produced by <em>R</em>. For instance,
+if we changed &#8220;hot&#8221; to &#8220;S&#8221; for &#8220;sweltering&#8221; and &#8220;warm&#8221; to &#8220;C&#8221; for &#8220;comfy&#8221; in the levels of <em>c</em> then the design matrix would have columns</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="n">a_2</span> <span class="o">*</span> <span class="n">b_3</span> <span class="o">*</span> <span class="n">c_C</span><span class="p">,</span> <span class="n">a_2</span> <span class="o">*</span> <span class="n">b_4</span> <span class="o">*</span> <span class="n">c_C</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Therfore, the columns that <em>R</em> generates depend on
+the order of the levels of the factors, and we will
+see, they also depend on the order of the names of the factors.</p>
+<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> dd <span class="o">=</span> factor<span class="p">(</span>rep<span class="p">(</span>c<span class="p">(</span><span class="s">&#39;S&#39;</span><span class="p">,</span><span class="s">&#39;C&#39;</span><span class="p">,</span><span class="s">&#39;S&#39;</span><span class="p">,</span><span class="s">&#39;C&#39;</span><span class="p">,</span><span class="s">&#39;S&#39;</span><span class="p">,</span><span class="s">&#39;C&#39;</span><span class="p">,</span><span class="s">&#39;S&#39;</span><span class="p">,</span><span class="s">&#39;C&#39;</span><span class="p">,</span><span class="s">&#39;S&#39;</span><span class="p">,</span><span class="s">&#39;C&#39;</span><span class="p">,</span><span class="s">&#39;S&#39;</span><span class="p">,</span><span class="s">&#39;C&#39;</span><span class="p">),</span><span class="m">10</span><span class="p">))</span>
+
+<span class="o">&gt;</span> lm2 <span class="o">=</span> lm<span class="p">(</span>Y~a<span class="o">+</span>b<span class="o">+</span>dd<span class="o">+</span>a:b:dd<span class="o">-</span><span class="m">1</span><span class="p">)</span>
+<span class="o">&gt;</span> print<span class="p">(</span>lm2<span class="p">$</span>coef<span class="p">)</span>
+        a1         a2         a3         b2        ddS  a1:b1:ddC  a2:b1:ddC 
+ <span class="m">1.0448575</span>  <span class="m">0.7448804</span>  <span class="m">0.6212579</span> <span class="m">-0.6662098</span> <span class="m">-0.1005613</span> <span class="m">-1.1119992</span> <span class="m">-1.0339358</span> 
+ a3:b1:ddC  a1:b2:ddC  a2:b2:ddC  a3:b2:ddC  a1:b1:ddS  a2:b1:ddS  a3:b1:ddS 
+<span class="m">-0.9445619</span> <span class="m">-0.1652989</span> <span class="m">-0.6420743</span>         <span class="kc">NA</span> <span class="m">-1.1006315</span> <span class="m">-0.4225650</span>         <span class="kc">NA</span> 
+ a1:b2:ddS  a2:b2:ddS  a3:b2:ddS 
+        <span class="kc">NA</span>         <span class="kc">NA</span>         <span class="kc">NA</span> 
+
+<span class="o">&gt;</span> print<span class="p">(</span>sum<span class="p">((</span>fitted<span class="p">(</span>lm1<span class="p">)</span><span class="o">-</span>fitted<span class="p">(</span>lm2<span class="p">))</span><span class="o">^</span><span class="m">2</span><span class="p">))</span>
+<span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="m">7.018416</span>e<span class="o">-</span><span class="m">29</span>
+</pre></div>
+</div>
+<p>The point of these code snippets is to emphasize that
+the columns created by <em>R</em> depend on a total
+linear ordering of monomials whose names depend
+both on the <em>factor names</em> and the <em>factor levels</em>.
+Algebraically, the monomial</p>
+<div class="math">
+<p><img src="_images/math/924544b8d6f5761681bda5853f1fc76e7b83c03d.png" alt="(a-1)\cdot b \cdot (c-1)"/></p>
+</div><p>knows nothing about the <em>levels</em> of the factors so it
+does not know how to construct this design matrix. However,
+we can create a linear ordering of the
+monomials given a linear ordering of <img class="math" src="_images/math/8628adabfab417286e77b98380455cea0dd23413.png" alt="{\cal F}"/>.</p>
+<p>The algorithm <em>R</em> uses to construct the columns of the design matrix is
+relatively straightforward, at least as described in Hastie &amp; Chambers (1992),
+once the linear ordering of the monomials in the monoid ring is fixed, as well
+as the ordering of the levels of the factors.  As the monoid ring is graded
+<a class="reference external" href="http://en.wikipedia.org/wiki/Graded_algebra">graded</a>, there is a natural
+ordering of monomials in terms of the cardinality of the subsets they represent
+(remember our monoid ring is algebraically isomorphic to the semi-lattice of
+subsets of <img class="math" src="_images/math/8628adabfab417286e77b98380455cea0dd23413.png" alt="{\cal F}"/> with binary opertion <img class="math" src="_images/math/a6cef8fd2bc2c7f9f1e27327b739f2cd7baa31ac.png" alt="\cup"/>).  This is just to
+emphasize that to implement <em>R</em>&#8216;s algorithm, we must specify a total ordering
+within monomials of a fixed degree. <em>R</em> seems to use the name of the factor to
+create this ordering.</p>
+<p>Given a sequence, <img class="math" src="_images/math/ad28c83c99a8fd0dd2e2e594c9d02ee532765a0a.png" alt="S"/> of monomials in the monoid ring, <em>R</em> first creates a
+new sequence <img class="math" src="_images/math/fc97ef67268cd4e91bacdf12b8901d7036c9a056.png" alt="N"/> of monomials of the same length as <img class="math" src="_images/math/ad28c83c99a8fd0dd2e2e594c9d02ee532765a0a.png" alt="S"/> in the
+monoid ring such that for each <img class="math" src="_images/math/34857b3ba74ce5cd8607f3ebd23e9015908ada71.png" alt="i"/>, the <tt class="docutils literal"><span class="pre">'maximal</span> <span class="pre">elements'</span></tt> in
+<img class="math" src="_images/math/c69d46e48312cf190136b4399d288c6bffce408c.png" alt="S[:i]"/> and <img class="math" src="_images/math/87b0c49486f5a0b604da78ca65095dfb78d4fc55.png" alt="N[:i]"/> are identical. In turn, this means that the
+columns of the design matrix generated by <img class="math" src="_images/math/c69d46e48312cf190136b4399d288c6bffce408c.png" alt="S[:i]"/> and <img class="math" src="_images/math/87b0c49486f5a0b604da78ca65095dfb78d4fc55.png" alt="N[:i]"/> are
+identical. Therefore, the design matrix generated by <img class="math" src="_images/math/ad28c83c99a8fd0dd2e2e594c9d02ee532765a0a.png" alt="S"/> and <img class="math" src="_images/math/fc97ef67268cd4e91bacdf12b8901d7036c9a056.png" alt="N"/>
+have the same column space.</p>
+<p>It then uses this new sequence <img class="math" src="_images/math/fc97ef67268cd4e91bacdf12b8901d7036c9a056.png" alt="N"/> to ultimately construct the design
+matrix. The span of the columns of the design matrix will always include the
+span of the dummy encoding of this maximal monomial. Sometimes, it will yield a
+full-rank design matrix, and sometimes not.</p>
+<p>Given a sequence of monomials in the monoid ring (not necessarily sorted) <em>R</em>&#8216;s
+is essentially:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">N</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">monomial</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">S</span><span class="p">):</span>
+   <span class="n">new_monomial</span> <span class="o">=</span> <span class="mi">1</span>
+   <span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="n">monomial</span><span class="p">:</span>
+       <span class="n">margin</span> <span class="o">=</span> <span class="n">monomial</span> <span class="o">/</span> <span class="n">variable</span>
+       <span class="k">if</span> <span class="n">margin</span> <span class="ow">in</span> <span class="n">generated</span><span class="p">(</span><span class="n">S</span><span class="p">[:</span><span class="n">idx</span><span class="p">]):</span>
+           <span class="n">new_monomial</span> <span class="o">*=</span> <span class="p">(</span><span class="n">variable</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+       <span class="k">else</span><span class="p">:</span>
+           <span class="n">new_monomial</span> <span class="o">*=</span> <span class="n">variable</span>
+   <span class="n">N</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_monomial</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Formally, this ordering of the ring takes the expression</p>
+<div class="math">
+<p><img src="_images/math/0107f3e9dda0a3722aade49270bd9980623dc3bb.png" alt="a+a \cdot b + b \cdot c + a \cdot b \cdot c"/></p>
+</div><p>and yields sorted sequences of orders 0 through 3, in this case.  In <em>R</em>&#8216;s
+version, the sequences are sequences, rather then sets, i.e. the order matters.
+For our expression above, we have the following sequences:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">S</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;&#39;</span><span class="p">]</span>
+<span class="n">S</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;a&#39;</span><span class="p">]</span>
+<span class="n">S</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;ab&#39;</span><span class="p">,</span><span class="s">&#39;bc&#39;</span><span class="p">]</span>
+<span class="n">S</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;abc&#39;</span><span class="p">]</span>
+
+<span class="c"># this gives a linear ordering</span>
+<span class="n">initial</span> <span class="o">=</span> <span class="n">S</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">S</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">S</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">S</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>The algorithm proceeds as</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">final</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">initial</span><span class="p">):</span>
+   <span class="n">q</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+   <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">p</span><span class="p">:</span>
+      <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
+      <span class="k">if</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">genereated</span><span class="p">(</span><span class="n">initial</span><span class="p">[:</span><span class="n">i</span><span class="p">]):</span>
+         <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;(</span><span class="si">%s</span><span class="s">-1)&#39;</span> <span class="o">%</span> <span class="n">s</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+   <span class="n">final</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">final</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">initial</span><span class="p">):</span>
+   <span class="n">q</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+   <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">p</span><span class="p">:</span>
+      <span class="k">if</span> <span class="n">q</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="ow">in</span> <span class="n">initial</span><span class="p">:</span>
+         <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;(</span><span class="si">%s</span><span class="s">-1)&#39;</span> <span class="o">%</span> <span class="n">s</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+   <span class="n">final</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="ancova.html" title="Categorical Formulae"
+             >previous</a> |</li>
+        <li><a href="index.html">home</a>|&nbsp;</li>
+        <li><a href="search.html">search</a>|&nbsp;</li>
+       <li><a href="contents.html">documentation </a> &raquo;</li>
+ 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, J. Taylor.
+      Last updated on Jul 30, 2011.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1pre.
+    </div>
+  </body>
+</html>

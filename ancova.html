@@ -1,0 +1,400 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Categorical Formulae &mdash; Formula Documentation</title>
+    
+    <link rel="stylesheet" href="_static/formula.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1.0.dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Formula Documentation" href="index.html" />
+    <link rel="next" title="Formula" href="formula_math.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="index.html" /> 
+  </head>
+  <body>
+
+<div style="background-color: white; text-align: left; padding: 10px 10px 15px 15px">
+<a href="index.html"><img src="_static/logo.png" border="0" alt="py4sci"/></a>
+</div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="formula_math.html" title="Formula"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="&lt;no title&gt;"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">home</a>|&nbsp;</li>
+        <li><a href="search.html">search</a>|&nbsp;</li>
+       <li><a href="contents.html">documentation </a> &raquo;</li>
+ 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Categorical Formulae</a><ul>
+<li><a class="reference internal" href="#example">Example</a></li>
+<li><a class="reference internal" href="#factor-codings">Factor Codings</a></li>
+<li><a class="reference internal" href="#two-way-interactions">Two-way interactions</a></li>
+<li><a class="reference internal" href="#intercept">Intercept</a></li>
+<li><a class="reference internal" href="#contrasts">Contrasts</a></li>
+<li><a class="reference internal" href="#contrast-matrices-slices">Contrast Matrices &amp; Slices</a></li>
+<li><a class="reference internal" href="#sums-of-squares">Sums of squares</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">&lt;no title&gt;</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="formula_math.html"
+                        title="next chapter">Formula</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/ancova.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="categorical-formulae">
+<h1>Categorical Formulae<a class="headerlink" href="#categorical-formulae" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="example">
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
+<p>This is an example with one numeric variable
+and 2 categorical variables. It can be found
+<a class="reference external" href="http://stats191.stanford.edu/interactions.html">here</a>
+though this example has modified the data to be characters
+instead of numeric. This just makes <em>R</em> automatically
+treat some things as factors.</p>
+<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> url <span class="o">=</span> <span class="s">&#39;http://stats191.stanford.edu/data/salary.csv&#39;</span>
+<span class="o">&gt;</span> data <span class="o">=</span> read.table<span class="p">(</span>url<span class="p">,</span> header<span class="o">=</span><span class="k-Variable">T</span><span class="p">,</span> sep<span class="o">=</span><span class="s">&#39;,&#39;</span><span class="p">)</span>
+
+<span class="o">&gt;</span> salary.lm <span class="o">=</span> lm<span class="p">(</span>S ~ X:E <span class="o">+</span> X:P<span class="p">,</span> data<span class="o">=</span>data<span class="p">)</span>
+<span class="o">&gt;</span> print<span class="p">(</span>coef<span class="p">(</span>salary.lm<span class="p">))</span>
+<span class="p">(</span>Intercept<span class="p">)</span>        X:EB        X:EM        X:EP        X:PM 
+ <span class="m">12938.3805</span>    <span class="m">190.3962</span>    <span class="m">347.6023</span>    <span class="m">301.9127</span>    <span class="m">698.2767</span> 
+</pre></div>
+</div>
+<p>The order of the two terms above matters</p>
+<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> salary2.lm <span class="o">=</span> lm<span class="p">(</span>S ~ X:P <span class="o">+</span> X:E<span class="p">,</span> data<span class="o">=</span>data<span class="p">)</span>
+<span class="o">&gt;</span> print<span class="p">(</span>coef<span class="p">(</span>salary2.lm<span class="p">))</span>
+<span class="p">(</span>Intercept<span class="p">)</span>        X:PL        X:PM        X:EM        X:EP 
+ <span class="m">12938.3805</span>    <span class="m">190.3962</span>    <span class="m">888.6730</span>    <span class="m">157.2060</span>    <span class="m">111.5165</span> 
+</pre></div>
+</div>
+<p>Let&#8217;s try this with the ANCOVA model.</p>
+<p>To fit the model, we use <em>scikits.statsmodels</em></p>
+<p>Interchanging the order above</p>
+<p>The difference in the order has to do with how <em>R</em> constructs
+a design matrix from a set of factors (and the corresponding
+numeric variable).</p>
+</div>
+<div class="section" id="factor-codings">
+<h2>Factor Codings<a class="headerlink" href="#factor-codings" title="Permalink to this headline">¶</a></h2>
+<p>The difference manifests itself in how each factor
+multiplying <em>X</em> above is <em>coded</em> in each
+product. A factor appearing in a product of factors
+can be coded either as in <em>indicator</em> which
+includes all relevant dummy variables for the
+factor or as a <em>contrast</em> which includes one less
+column. The default behavior of <em>R</em> is to drop a term,
+which <em>ANCOVA</em> also follows. <em>R</em> drops
+the first term in a sorted list of the levels of the factor,
+<em>ANCOVA</em> follows the same behavior by default.</p>
+<p>For instance:</p>
+<p>In the first formula, <em>P</em> appears as a contrast while <em>E</em> appears
+as an indicator. In the second formula, <em>E</em> appears as a contrast
+and <em>P</em> as an indicator.</p>
+</div>
+<div class="section" id="two-way-interactions">
+<h2>Two-way interactions<a class="headerlink" href="#two-way-interactions" title="Permalink to this headline">¶</a></h2>
+<p>We can also specify two-way interactions in <em>R</em></p>
+<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> print<span class="p">(</span>coef<span class="p">(</span>lm<span class="p">(</span>S ~ X:P:E<span class="p">,</span> data<span class="o">=</span>data<span class="p">)))</span>
+<span class="p">(</span>Intercept<span class="p">)</span>     X:PL:EB     X:PM:EB     X:PL:EM     X:PM:EM     X:PL:EP 
+ <span class="m">13454.2368</span>    <span class="m">189.4646</span>    <span class="m">498.6643</span>    <span class="m">275.1639</span>   <span class="m">1046.6828</span>   <span class="m">-124.0655</span> 
+    X:PM:EP 
+   <span class="m">971.4152</span> 
+</pre></div>
+</div>
+<p>As well as in the <em>ANCOVA</em></p>
+<p>If we add in some parts of the formula, it becomes a little harder to
+predict:</p>
+<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> print<span class="p">(</span>coef<span class="p">(</span>lm<span class="p">(</span>S ~ X:E:P <span class="o">+</span> X:P <span class="o">+</span> X:E<span class="p">,</span> data<span class="o">=</span>data<span class="p">)))</span>
+<span class="p">(</span>Intercept<span class="p">)</span>        X:PL        X:PM        X:EM        X:EP     X:EM:PM 
+<span class="m">13454.23676</span>   <span class="m">189.46457</span>   <span class="m">498.66431</span>    <span class="m">85.69928</span>  <span class="m">-313.53006</span>   <span class="m">462.31922</span> 
+    X:EP:PM 
+  <span class="m">786.28093</span> 
+</pre></div>
+</div>
+<p>Changing the order above again changes the terms in the
+formula</p>
+<p>as it does in <em>R</em>:</p>
+<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> print<span class="p">(</span>coef<span class="p">(</span>lm<span class="p">(</span>S ~ X:E:P <span class="o">+</span> X:E <span class="o">+</span> X:P<span class="p">,</span> data<span class="o">=</span>data<span class="p">)))</span>
+<span class="p">(</span>Intercept<span class="p">)</span>        X:EB        X:EM        X:EP        X:PM     X:EM:PM 
+ <span class="m">13454.2368</span>    <span class="m">189.4646</span>    <span class="m">275.1639</span>   <span class="m">-124.0655</span>    <span class="m">309.1997</span>    <span class="m">462.3192</span> 
+    X:EP:PM 
+   <span class="m">786.2809</span> 
+</pre></div>
+</div>
+<p>What is important is the <em>graded</em> order. That is, for the numeric
+variable <em>X</em>, the first order factors are ordered in <em>f4</em> as
+<em>[set([P]),set([E])]</em> and its
+second order factors are <em>[set([P,E])]</em> while it has no zeroth order
+factors. The only difference between <em>ancova4</em> and <em>ancova5</em> is the order
+of its first order factors.</p>
+<p>Adding <em>X</em> to the <em>R</em> formula adds a zeroth order factor.</p>
+<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> print<span class="p">(</span>coef<span class="p">(</span>lm<span class="p">(</span>S ~ X <span class="o">+</span> X:E:P <span class="o">+</span> X:E <span class="o">+</span> X:P<span class="p">,</span> data<span class="o">=</span>data<span class="p">)))</span>
+<span class="p">(</span>Intercept<span class="p">)</span>           X        X:EM        X:EP        X:PM     X:EM:PM 
+<span class="m">13454.23676</span>   <span class="m">189.46457</span>    <span class="m">85.69928</span>  <span class="m">-313.53006</span>   <span class="m">309.19974</span>   <span class="m">462.31922</span> 
+    X:EP:PM 
+  <span class="m">786.28093</span> 
+</pre></div>
+</div>
+<p>With the categorical formula, this can be achieved
+by</p>
+<p>One more example</p>
+<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> print<span class="p">(</span>coef<span class="p">(</span>lm<span class="p">(</span>S ~ X:E:P <span class="o">+</span> X:E<span class="p">,</span> data<span class="o">=</span>data<span class="p">)))</span>
+<span class="p">(</span>Intercept<span class="p">)</span>        X:EB        X:EM        X:EP     X:EB:PM     X:EM:PM 
+ <span class="m">13454.2368</span>    <span class="m">189.4646</span>    <span class="m">275.1639</span>   <span class="m">-124.0655</span>    <span class="m">309.1997</span>    <span class="m">771.5190</span> 
+    X:EP:PM 
+  <span class="m">1095.4807</span> 
+</pre></div>
+</div>
+</div>
+<div class="section" id="intercept">
+<h2>Intercept<a class="headerlink" href="#intercept" title="Permalink to this headline">¶</a></h2>
+<p>The ubiquitous intercept can be suppressed using
+the keyword argument &#8220;add_intercept&#8221; to the
+constructor of ANCOVA</p>
+<p>In <em>R</em> the intercept can be removed (most of the time) by appending <em>-1</em>
+to the string specifying the formula:</p>
+<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> print<span class="p">(</span>coef<span class="p">(</span>lm<span class="p">(</span>S ~ X <span class="o">+</span> X:P:E <span class="o">+</span> X:E <span class="o">+</span> X:P <span class="o">-</span> <span class="m">1</span><span class="p">,</span> data<span class="o">=</span>data<span class="p">)))</span>
+        X      X:EB      X:EM      X:EP      X:PM   X:PM:EM   X:PM:EP 
+ <span class="m">3597.319</span> <span class="m">-2369.363</span> <span class="m">-2165.563</span>        <span class="kc">NA</span>  <span class="m">1452.476</span>  <span class="m">-656.674</span> <span class="m">-2744.263</span> 
+</pre></div>
+</div>
+<p>This design matrix is not the same as obtained by <em>ANCOVA</em>,
+hence, the coefficients are also different.
+This is related to <em>R</em>&#8216;s treatment of factors and numeric variables
+as equal. The <em>ANCOVA</em> module makes a distinction
+between these two. The reason <em>R</em> has a missing value in the coefficients
+is that its rules for generating design matrices told it that <em>E</em> should
+be coded with indicators in the term <em>X:E</em> which leads
+to a linear dependence with <em>X</em> already in the model.
+The <em>ANCOVA</em> implementation treats <em>X</em> as <em>(X,1)</em> and hence when <em>(X,E)</em>
+is to be added it sees that there will be a linear dependence if
+<em>E</em> is added with indicator functions. Effectively, all columns with
+<em>X</em> in them are the product of the columns of a
+purely categorical formula. In this case, the columns
+are the same as</p>
+<p>This is how the <em>ANCOVA</em> is constructed. For each numeric term,
+there is a corresponding pure categorical formula. For example</p>
+<p>Any of those sequences above can be used to create new ANCOVA instances
+whose formulae is that numeric expression multiplied by the corresponding
+purely categorical formula.</p>
+</div>
+<div class="section" id="contrasts">
+<h2>Contrasts<a class="headerlink" href="#contrasts" title="Permalink to this headline">¶</a></h2>
+<p>Each <em>(expr, factor)</em> pair in the <em>ANCOVA</em> specification
+maps to a specific contrast.</p>
+<p>As opposed to</p>
+<p>These contrasts are the default contrasts that
+drop the first level of the factor. This can be changed
+with the <em>default_contrast</em> keyword argument</p>
+</div>
+<div class="section" id="contrast-matrices-slices">
+<h2>Contrast Matrices &amp; Slices<a class="headerlink" href="#contrast-matrices-slices" title="Permalink to this headline">¶</a></h2>
+<p>Each contrast can be associated with some columns of the
+final design matrix. These are also elements
+of the <em>formula</em> attribute</p>
+<p>The slices can be interpreted as contrast matrices</p>
+<p>Note, however, that these contrast matrices depend on the <em>default_coding</em>
+argument. Generally speaking, they are appropriate for use when
+the <em>default_coding</em> is &#8220;main_effect&#8221; rather than &#8220;drop_reference&#8221;.
+<em>TODO: construct these properly for different default coding</em></p>
+<p>Further, not all these contrasts are estimable.
+. Whether
+they are estimable or not depends on the actual
+design matrix used to fit an OLS model. Users should keep this in mind.
+In this example, the contrast <em>I(X):E:P</em> would not be estimable
+if we never observed a laborer with a PhD, for example.</p>
+</div>
+<div class="section" id="sums-of-squares">
+<h2>Sums of squares<a class="headerlink" href="#sums-of-squares" title="Permalink to this headline">¶</a></h2>
+<p>Compare this to the R output</p>
+<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> anova<span class="p">(</span>lm<span class="p">(</span>S ~ X:E <span class="o">+</span> X:P <span class="o">+</span> X:P:E<span class="p">,</span> data<span class="o">=</span>data<span class="p">))</span>
+Analysis of Variance Table
+
+Response: S
+          Df    Sum Sq   Mean Sq <span class="k-Variable">F</span> value    Pr<span class="p">(</span><span class="o">&gt;</span><span class="k-Variable">F</span><span class="p">)</span>    
+X:E        <span class="m">3</span> <span class="m">498268907</span> <span class="m">166089636</span> <span class="m">35.5208</span> <span class="m">3.077</span>e<span class="o">-</span><span class="m">11</span> <span class="o">***</span>
+X:P        <span class="m">1</span> <span class="m">295195692</span> <span class="m">295195692</span> <span class="m">63.1322</span> <span class="m">1.119</span>e<span class="o">-</span><span class="m">09</span> <span class="o">***</span>
+X:E:P      <span class="m">2</span>  <span class="m">25275391</span>  <span class="m">12637696</span>  <span class="m">2.7028</span>   <span class="m">0.07957</span> <span class="m">.</span>  
+Residuals <span class="m">39</span> <span class="m">182357587</span>   <span class="m">4675836</span>                      
+<span class="o">---</span>
+Signif. codes:  <span class="m">0</span> ‘<span class="o">***</span>’ <span class="m">0.001</span> ‘<span class="o">**</span>’ <span class="m">0.01</span> ‘<span class="o">*</span>’ <span class="m">0.05</span> ‘<span class="m">.</span>’ <span class="m">0.1</span> ‘ ’ <span class="m">1</span> 
+</pre></div>
+</div>
+<p>For type II:</p>
+<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> library<span class="p">(</span>car<span class="p">)</span>
+<span class="p">[</span><span class="m">1</span>mLoading required package: MASS
+<span class="p">[</span><span class="m">0</span>m<span class="p">[</span><span class="m">1</span>mLoading required package: nnet
+<span class="p">[</span><span class="m">0</span>m<span class="p">[</span><span class="m">1</span>mLoading required package: survival
+<span class="p">[</span><span class="m">0</span>m<span class="p">[</span><span class="m">1</span>mLoading required package: splines
+<span class="p">[</span><span class="m">0</span>m<span class="p">[</span><span class="m">1</span>mWarning messages:
+<span class="p">[</span><span class="m">0</span>m<span class="p">[</span><span class="m">1</span>m1: package <span class="s">&#39;car&#39;</span> was built under R version <span class="m">2.12.2</span> 
+<span class="p">[</span><span class="m">0</span>m<span class="p">[</span><span class="m">1</span>m2: package <span class="s">&#39;MASS&#39;</span> was built under R version <span class="m">2.12.2</span> 
+<span class="p">[</span><span class="m">0</span>m<span class="p">[</span><span class="m">1</span>m3: package <span class="s">&#39;survival&#39;</span> was built under R version <span class="m">2.12.2</span> 
+<span class="p">[</span><span class="m">0</span>m<span class="o">&gt;</span> Anova<span class="p">(</span>lm<span class="p">(</span>S ~ X:E <span class="o">+</span> X:P <span class="o">+</span> X:P:E<span class="p">,</span> data<span class="o">=</span>data<span class="p">),</span> type<span class="o">=</span><span class="s">&#39;II&#39;</span><span class="p">)</span>
+Anova Table <span class="p">(</span>Type II tests<span class="p">)</span>
+
+Response: S
+             Sum Sq Df <span class="k-Variable">F</span> value    Pr<span class="p">(</span><span class="o">&gt;</span><span class="k-Variable">F</span><span class="p">)</span>    
+X:E        <span class="m">96080371</span>  <span class="m">3</span>  <span class="m">6.8494</span> <span class="m">0.0008116</span> <span class="o">***</span>
+X:P       <span class="m">295195692</span>  <span class="m">1</span> <span class="m">63.1322</span> <span class="m">1.119</span>e<span class="o">-</span><span class="m">09</span> <span class="o">***</span>
+X:E:P      <span class="m">25275391</span>  <span class="m">2</span>  <span class="m">2.7028</span> <span class="m">0.0795676</span> <span class="m">.</span>  
+Residuals <span class="m">182357587</span> <span class="m">39</span>                      
+<span class="o">---</span>
+Signif. codes:  <span class="m">0</span> ‘<span class="o">***</span>’ <span class="m">0.001</span> ‘<span class="o">**</span>’ <span class="m">0.01</span> ‘<span class="o">*</span>’ <span class="m">0.05</span> ‘<span class="m">.</span>’ <span class="m">0.1</span> ‘ ’ <span class="m">1</span> 
+</pre></div>
+</div>
+<p>And type III:</p>
+<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> library<span class="p">(</span>car<span class="p">)</span>
+<span class="o">&gt;</span> Anova<span class="p">(</span>lm<span class="p">(</span>S ~ X:E <span class="o">+</span> X:P <span class="o">+</span> X:P:E<span class="p">,</span> data<span class="o">=</span>data<span class="p">),</span> type<span class="o">=</span><span class="s">&#39;III&#39;</span><span class="p">)</span>
+Anova Table <span class="p">(</span>Type III tests<span class="p">)</span>
+
+Response: S
+                Sum Sq Df  <span class="k-Variable">F</span> value    Pr<span class="p">(</span><span class="o">&gt;</span><span class="k-Variable">F</span><span class="p">)</span>    
+<span class="p">(</span>Intercept<span class="p">)</span> <span class="m">2160721083</span>  <span class="m">1</span> <span class="m">462.1037</span> <span class="o">&lt;</span> <span class="m">2.2</span>e<span class="o">-</span><span class="m">16</span> <span class="o">***</span>
+X:E           <span class="m">70707720</span>  <span class="m">3</span>   <span class="m">5.0406</span>  <span class="m">0.004775</span> <span class="o">**</span> 
+X:P           <span class="m">11631680</span>  <span class="m">1</span>   <span class="m">2.4876</span>  <span class="m">0.122823</span>    
+X:E:P         <span class="m">25275391</span>  <span class="m">2</span>   <span class="m">2.7028</span>  <span class="m">0.079568</span> <span class="m">.</span>  
+Residuals    <span class="m">182357587</span> <span class="m">39</span>                       
+<span class="o">---</span>
+Signif. codes:  <span class="m">0</span> ‘<span class="o">***</span>’ <span class="m">0.001</span> ‘<span class="o">**</span>’ <span class="m">0.01</span> ‘<span class="o">*</span>’ <span class="m">0.05</span> ‘<span class="m">.</span>’ <span class="m">0.1</span> ‘ ’ <span class="m">1</span> 
+</pre></div>
+</div>
+<p>Reversing the order changes the ANOVA tables, in particular
+the degrees of freedom associated to each contrast. This is
+because the codings change when the order of the factors change.</p>
+<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> library<span class="p">(</span>car<span class="p">)</span>
+<span class="o">&gt;</span> Anova<span class="p">(</span>lm<span class="p">(</span>S ~ X:P <span class="o">+</span> X:E <span class="o">+</span> X:P:E<span class="p">,</span> data<span class="o">=</span>data<span class="p">),</span> type<span class="o">=</span><span class="s">&#39;II&#39;</span><span class="p">)</span>
+Anova Table <span class="p">(</span>Type II tests<span class="p">)</span>
+
+Response: S
+             Sum Sq Df <span class="k-Variable">F</span> value    Pr<span class="p">(</span><span class="o">&gt;</span><span class="k-Variable">F</span><span class="p">)</span>    
+X:P       <span class="m">344134185</span>  <span class="m">2</span> <span class="m">36.7992</span> <span class="m">1.049</span>e<span class="o">-</span><span class="m">09</span> <span class="o">***</span>
+X:E        <span class="m">17420924</span>  <span class="m">2</span>  <span class="m">1.8629</span>   <span class="m">0.16878</span>    
+X:P:E      <span class="m">25275391</span>  <span class="m">2</span>  <span class="m">2.7028</span>   <span class="m">0.07957</span> <span class="m">.</span>  
+Residuals <span class="m">182357587</span> <span class="m">39</span>                      
+<span class="o">---</span>
+Signif. codes:  <span class="m">0</span> ‘<span class="o">***</span>’ <span class="m">0.001</span> ‘<span class="o">**</span>’ <span class="m">0.01</span> ‘<span class="o">*</span>’ <span class="m">0.05</span> ‘<span class="m">.</span>’ <span class="m">0.1</span> ‘ ’ <span class="m">1</span> 
+</pre></div>
+</div>
+<div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> library<span class="p">(</span>car<span class="p">)</span>
+<span class="o">&gt;</span> Anova<span class="p">(</span>lm<span class="p">(</span>S ~ X:P <span class="o">+</span> X:E <span class="o">+</span> X:P:E<span class="p">,</span> data<span class="o">=</span>data<span class="p">),</span> type<span class="o">=</span><span class="s">&#39;III&#39;</span><span class="p">)</span>
+Anova Table <span class="p">(</span>Type III tests<span class="p">)</span>
+
+Response: S
+                Sum Sq Df  <span class="k-Variable">F</span> value  Pr<span class="p">(</span><span class="o">&gt;</span><span class="k-Variable">F</span><span class="p">)</span>    
+<span class="p">(</span>Intercept<span class="p">)</span> <span class="m">2160721083</span>  <span class="m">1</span> <span class="m">462.1037</span> <span class="o">&lt;</span> <span class="m">2</span>e<span class="o">-</span><span class="m">16</span> <span class="o">***</span>
+X:P           <span class="m">41682013</span>  <span class="m">2</span>   <span class="m">4.4572</span> <span class="m">0.01806</span> <span class="o">*</span>  
+X:E            <span class="m">9511377</span>  <span class="m">2</span>   <span class="m">1.0171</span> <span class="m">0.37104</span>    
+X:P:E         <span class="m">25275391</span>  <span class="m">2</span>   <span class="m">2.7028</span> <span class="m">0.07957</span> <span class="m">.</span>  
+Residuals    <span class="m">182357587</span> <span class="m">39</span>                     
+<span class="o">---</span>
+Signif. codes:  <span class="m">0</span> ‘<span class="o">***</span>’ <span class="m">0.001</span> ‘<span class="o">**</span>’ <span class="m">0.01</span> ‘<span class="o">*</span>’ <span class="m">0.05</span> ‘<span class="m">.</span>’ <span class="m">0.1</span> ‘ ’ <span class="m">1</span> 
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="formula_math.html" title="Formula"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="&lt;no title&gt;"
+             >previous</a> |</li>
+        <li><a href="index.html">home</a>|&nbsp;</li>
+        <li><a href="search.html">search</a>|&nbsp;</li>
+       <li><a href="contents.html">documentation </a> &raquo;</li>
+ 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, J. Taylor.
+      Last updated on Jul 30, 2011.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1pre.
+    </div>
+  </body>
+</html>

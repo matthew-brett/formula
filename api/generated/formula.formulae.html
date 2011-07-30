@@ -1,0 +1,2372 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>formulae &mdash; Formula Documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/formula.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1.0.dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Formula Documentation" href="../../index.html" /> 
+  </head>
+  <body>
+
+<div style="background-color: white; text-align: left; padding: 10px 10px 15px 15px">
+<a href="../../index.html"><img src="../../_static/logo.png" border="0" alt="py4sci"/></a>
+</div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">home</a>|&nbsp;</li>
+        <li><a href="../../search.html">search</a>|&nbsp;</li>
+       <li><a href="../../contents.html">documentation </a> &raquo;</li>
+ 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">formulae</a><ul>
+<li><a class="reference internal" href="#module-formulae">Module: <tt class="docutils literal"><span class="pre">formulae</span></tt></a><ul>
+<li><a class="reference internal" href="#formula-objects">Formula objects</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#classes">Classes</a><ul>
+<li><a class="reference internal" href="#beta"><tt class="docutils literal"><span class="pre">Beta</span></tt></a><ul>
+</ul>
+</li>
+<li><a class="reference internal" href="#formula"><tt class="docutils literal"><span class="pre">Formula</span></tt></a><ul>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#functions">Functions</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../_sources/api/generated/formula.formulae.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="formulae">
+<h1>formulae<a class="headerlink" href="#formulae" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-formulae">
+<h2>Module: <tt class="xref py py-mod docutils literal"><span class="pre">formulae</span></tt><a class="headerlink" href="#module-formulae" title="Permalink to this headline">¶</a></h2>
+<p>Inheritance diagram for <tt class="docutils literal"><span class="pre">formula.formulae</span></tt>:</p>
+<img src="../../_images/inheritanceeac98a96a5.png" usemap="#inheritanceeac98a96a5" class="inheritance"/><map id="inheritanceeac98a96a5" name="inheritanceeac98a96a5">
+</map>
+<span class="target" id="module-formula.formulae"></span><div class="section" id="formula-objects">
+<h3>Formula objects<a class="headerlink" href="#formula-objects" title="Permalink to this headline">¶</a></h3>
+<p>A formula is basically a sympy expression for the mean of something of
+the form:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">mean</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">Beta</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">*</span><span class="n">e</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">expr</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Or, a linear combination of sympy expressions, with each one multiplied
+by its own &#8220;Beta&#8221;. The elements of expr can be instances of Term (for a
+linear regression formula, they would all be instances of Term). But, in
+general, there might be some other parameters (i.e. sympy.Symbol
+instances) that are not Terms.</p>
+<p>The design matrix is made up of columns that are the derivatives of mean
+with respect to everything that is not a Term, evaluted at a recarray
+that has field names given by [str(t) for t in self.terms].</p>
+<p>For those familiar with R&#8217;s formula syntax, if we wanted a design matrix
+like the following:</p>
+<div class="highlight-python"><pre>&gt; s.table = read.table("http://www-stat.stanford.edu/~jtaylo/courses/stats191/data/supervisor.table", header=T)
+&gt; d = model.matrix(lm(Y ~ X1*X3, s.table)
+)
+&gt; d
+   (Intercept) X1 X3 X1:X3
+1            1 51 39  1989
+2            1 64 54  3456
+3            1 70 69  4830
+4            1 63 47  2961
+5            1 78 66  5148
+6            1 55 44  2420
+7            1 67 56  3752
+8            1 75 55  4125
+9            1 82 67  5494
+10           1 61 47  2867
+11           1 53 58  3074
+12           1 60 39  2340
+13           1 62 42  2604
+14           1 83 45  3735
+15           1 77 72  5544
+16           1 90 72  6480
+17           1 85 69  5865
+18           1 60 75  4500
+19           1 70 57  3990
+20           1 58 54  3132
+21           1 40 34  1360
+22           1 61 62  3782
+23           1 66 50  3300
+24           1 37 58  2146
+25           1 54 48  2592
+26           1 77 63  4851
+27           1 75 74  5550
+28           1 57 45  2565
+29           1 85 71  6035
+30           1 82 59  4838
+attr(,"assign")
+[1] 0 1 2 3
+&gt;</pre>
+</div>
+<p>With the Formula, it looks like this:</p>
+<p>First read the same data as above:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">dirname</span><span class="p">,</span> <span class="n">join</span> <span class="k">as</span> <span class="n">pjoin</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">formula</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fname</span> <span class="o">=</span> <span class="n">pjoin</span><span class="p">(</span><span class="n">dirname</span><span class="p">(</span><span class="n">formula</span><span class="o">.</span><span class="n">__file__</span><span class="p">),</span> <span class="s">&#39;data&#39;</span><span class="p">,</span> <span class="s">&#39;supervisor.table&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">recfromtxt</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Define the formula</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">formula</span> <span class="kn">import</span> <span class="n">terms</span><span class="p">,</span> <span class="n">Formula</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">X1</span><span class="p">,</span> <span class="n">X3</span> <span class="o">=</span> <span class="n">terms</span><span class="p">((</span><span class="s">&#39;X1&#39;</span><span class="p">,</span> <span class="s">&#39;X3&#39;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">Formula</span><span class="p">([</span><span class="n">X1</span><span class="p">,</span> <span class="n">X3</span><span class="p">,</span> <span class="n">X1</span><span class="o">*</span><span class="n">X3</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="o">.</span><span class="n">mean</span>
+<span class="go">_b0*X1 + _b1*X3 + _b2*X1*X3 + _b3</span>
+</pre></div>
+</div>
+<p>The 1 is the &#8220;intercept&#8221; term, I have explicity not used R&#8217;s default of adding
+it to everything.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="o">.</span><span class="n">design</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+<span class="go">array([(51.0, 39.0, 1989.0, 1.0), (64.0, 54.0, 3456.0, 1.0),</span>
+<span class="go">       (70.0, 69.0, 4830.0, 1.0), (63.0, 47.0, 2961.0, 1.0),</span>
+<span class="go">       (78.0, 66.0, 5148.0, 1.0), (55.0, 44.0, 2420.0, 1.0),</span>
+<span class="go">       (67.0, 56.0, 3752.0, 1.0), (75.0, 55.0, 4125.0, 1.0),</span>
+<span class="go">       (82.0, 67.0, 5494.0, 1.0), (61.0, 47.0, 2867.0, 1.0),</span>
+<span class="go">       (53.0, 58.0, 3074.0, 1.0), (60.0, 39.0, 2340.0, 1.0),</span>
+<span class="go">       (62.0, 42.0, 2604.0, 1.0), (83.0, 45.0, 3735.0, 1.0),</span>
+<span class="go">       (77.0, 72.0, 5544.0, 1.0), (90.0, 72.0, 6480.0, 1.0),</span>
+<span class="go">       (85.0, 69.0, 5865.0, 1.0), (60.0, 75.0, 4500.0, 1.0),</span>
+<span class="go">       (70.0, 57.0, 3990.0, 1.0), (58.0, 54.0, 3132.0, 1.0),</span>
+<span class="go">       (40.0, 34.0, 1360.0, 1.0), (61.0, 62.0, 3782.0, 1.0),</span>
+<span class="go">       (66.0, 50.0, 3300.0, 1.0), (37.0, 58.0, 2146.0, 1.0),</span>
+<span class="go">       (54.0, 48.0, 2592.0, 1.0), (77.0, 63.0, 4851.0, 1.0),</span>
+<span class="go">       (75.0, 74.0, 5550.0, 1.0), (57.0, 45.0, 2565.0, 1.0),</span>
+<span class="go">       (85.0, 71.0, 6035.0, 1.0), (82.0, 59.0, 4838.0, 1.0)], </span>
+<span class="go">      dtype=[(&#39;X1&#39;, &#39;&lt;f8&#39;), (&#39;X3&#39;, &#39;&lt;f8&#39;), (&#39;X1*X3&#39;, &#39;&lt;f8&#39;), (&#39;1&#39;, &#39;&lt;f8&#39;)])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="beta">
+<h3><a class="reference internal" href="#formula.formulae.Beta" title="formula.formulae.Beta"><tt class="xref py py-class docutils literal"><span class="pre">Beta</span></tt></a><a class="headerlink" href="#beta" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="formula.formulae.Beta">
+<em class="property">class </em><tt class="descclassname">formula.formulae.</tt><tt class="descname">Beta</tt><a class="headerlink" href="#formula.formulae.Beta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">sympy.core.symbol.Dummy</span></tt></p>
+<p>A dummy symbol tied to a Term <cite>term</cite></p>
+<p class="rubric">Methods</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#formula.formulae.Beta.apart" title="formula.formulae.Beta.apart"><tt class="xref py py-obj docutils literal"><span class="pre">apart</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#formula.formulae.Beta.args_cnc" title="formula.formulae.Beta.args_cnc"><tt class="xref py py-obj docutils literal"><span class="pre">args_cnc</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#formula.formulae.Beta.as_base_exp" title="formula.formulae.Beta.as_base_exp"><tt class="xref py py-obj docutils literal"><span class="pre">as_base_exp</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#formula.formulae.Beta.as_coeff_Mul" title="formula.formulae.Beta.as_coeff_Mul"><tt class="xref py py-obj docutils literal"><span class="pre">as_coeff_Mul</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#formula.formulae.Beta.as_coeff_add" title="formula.formulae.Beta.as_coeff_add"><tt class="xref py py-obj docutils literal"><span class="pre">as_coeff_add</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#formula.formulae.Beta.as_coeff_exponent" title="formula.formulae.Beta.as_coeff_exponent"><tt class="xref py py-obj docutils literal"><span class="pre">as_coeff_exponent</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#formula.formulae.Beta.as_coeff_factors" title="formula.formulae.Beta.as_coeff_factors"><tt class="xref py py-obj docutils literal"><span class="pre">as_coeff_factors</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#formula.formulae.Beta.as_coeff_mul" title="formula.formulae.Beta.as_coeff_mul"><tt class="xref py py-obj docutils literal"><span class="pre">as_coeff_mul</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#formula.formulae.Beta.as_coeff_terms" title="formula.formulae.Beta.as_coeff_terms"><tt class="xref py py-obj docutils literal"><span class="pre">as_coeff_terms</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#formula.formulae.Beta.as_coefficient" title="formula.formulae.Beta.as_coefficient"><tt class="xref py py-obj docutils literal"><span class="pre">as_coefficient</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#formula.formulae.Beta.as_dummy" title="formula.formulae.Beta.as_dummy"><tt class="xref py py-obj docutils literal"><span class="pre">as_dummy</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#formula.formulae.Beta.as_expr" title="formula.formulae.Beta.as_expr"><tt class="xref py py-obj docutils literal"><span class="pre">as_expr</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#formula.formulae.Beta.as_independent" title="formula.formulae.Beta.as_independent"><tt class="xref py py-obj docutils literal"><span class="pre">as_independent</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#formula.formulae.Beta.as_leading_term" title="formula.formulae.Beta.as_leading_term"><tt class="xref py py-obj docutils literal"><span class="pre">as_leading_term</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#formula.formulae.Beta.as_numer_denom" title="formula.formulae.Beta.as_numer_denom"><tt class="xref py py-obj docutils literal"><span class="pre">as_numer_denom</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#formula.formulae.Beta.as_ordered_factors" title="formula.formulae.Beta.as_ordered_factors"><tt class="xref py py-obj docutils literal"><span class="pre">as_ordered_factors</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#formula.formulae.Beta.as_ordered_terms" title="formula.formulae.Beta.as_ordered_terms"><tt class="xref py py-obj docutils literal"><span class="pre">as_ordered_terms</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#formula.formulae.Beta.as_poly" title="formula.formulae.Beta.as_poly"><tt class="xref py py-obj docutils literal"><span class="pre">as_poly</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#formula.formulae.Beta.as_powers_dict" title="formula.formulae.Beta.as_powers_dict"><tt class="xref py py-obj docutils literal"><span class="pre">as_powers_dict</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#formula.formulae.Beta.as_real_imag" title="formula.formulae.Beta.as_real_imag"><tt class="xref py py-obj docutils literal"><span class="pre">as_real_imag</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#formula.formulae.Beta.as_terms" title="formula.formulae.Beta.as_terms"><tt class="xref py py-obj docutils literal"><span class="pre">as_terms</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#formula.formulae.Beta.atoms" title="formula.formulae.Beta.atoms"><tt class="xref py py-obj docutils literal"><span class="pre">atoms</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#formula.formulae.Beta.cancel" title="formula.formulae.Beta.cancel"><tt class="xref py py-obj docutils literal"><span class="pre">cancel</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#formula.formulae.Beta.class_key" title="formula.formulae.Beta.class_key"><tt class="xref py py-obj docutils literal"><span class="pre">class_key</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#formula.formulae.Beta.coeff" title="formula.formulae.Beta.coeff"><tt class="xref py py-obj docutils literal"><span class="pre">coeff</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#formula.formulae.Beta.collect" title="formula.formulae.Beta.collect"><tt class="xref py py-obj docutils literal"><span class="pre">collect</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#formula.formulae.Beta.combsimp" title="formula.formulae.Beta.combsimp"><tt class="xref py py-obj docutils literal"><span class="pre">combsimp</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#formula.formulae.Beta.compare" title="formula.formulae.Beta.compare"><tt class="xref py py-obj docutils literal"><span class="pre">compare</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#formula.formulae.Beta.compare_pretty" title="formula.formulae.Beta.compare_pretty"><tt class="xref py py-obj docutils literal"><span class="pre">compare_pretty</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#formula.formulae.Beta.compute_leading_term" title="formula.formulae.Beta.compute_leading_term"><tt class="xref py py-obj docutils literal"><span class="pre">compute_leading_term</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#formula.formulae.Beta.conjugate" title="formula.formulae.Beta.conjugate"><tt class="xref py py-obj docutils literal"><span class="pre">conjugate</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#formula.formulae.Beta.could_extract_minus_sign" title="formula.formulae.Beta.could_extract_minus_sign"><tt class="xref py py-obj docutils literal"><span class="pre">could_extract_minus_sign</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#formula.formulae.Beta.count" title="formula.formulae.Beta.count"><tt class="xref py py-obj docutils literal"><span class="pre">count</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#formula.formulae.Beta.count_ops" title="formula.formulae.Beta.count_ops"><tt class="xref py py-obj docutils literal"><span class="pre">count_ops</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#formula.formulae.Beta.diff" title="formula.formulae.Beta.diff"><tt class="xref py py-obj docutils literal"><span class="pre">diff</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#formula.formulae.Beta.doit" title="formula.formulae.Beta.doit"><tt class="xref py py-obj docutils literal"><span class="pre">doit</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#formula.formulae.Beta.dummy_eq" title="formula.formulae.Beta.dummy_eq"><tt class="xref py py-obj docutils literal"><span class="pre">dummy_eq</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#formula.formulae.Beta.evalf" title="formula.formulae.Beta.evalf"><tt class="xref py py-obj docutils literal"><span class="pre">evalf</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#formula.formulae.Beta.expand" title="formula.formulae.Beta.expand"><tt class="xref py py-obj docutils literal"><span class="pre">expand</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#formula.formulae.Beta.extract_additively" title="formula.formulae.Beta.extract_additively"><tt class="xref py py-obj docutils literal"><span class="pre">extract_additively</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#formula.formulae.Beta.extract_multiplicatively" title="formula.formulae.Beta.extract_multiplicatively"><tt class="xref py py-obj docutils literal"><span class="pre">extract_multiplicatively</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#formula.formulae.Beta.factor" title="formula.formulae.Beta.factor"><tt class="xref py py-obj docutils literal"><span class="pre">factor</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#formula.formulae.Beta.find" title="formula.formulae.Beta.find"><tt class="xref py py-obj docutils literal"><span class="pre">find</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#formula.formulae.Beta.getO" title="formula.formulae.Beta.getO"><tt class="xref py py-obj docutils literal"><span class="pre">getO</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#formula.formulae.Beta.getn" title="formula.formulae.Beta.getn"><tt class="xref py py-obj docutils literal"><span class="pre">getn</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#formula.formulae.Beta.has" title="formula.formulae.Beta.has"><tt class="xref py py-obj docutils literal"><span class="pre">has</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#formula.formulae.Beta.integrate" title="formula.formulae.Beta.integrate"><tt class="xref py py-obj docutils literal"><span class="pre">integrate</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#formula.formulae.Beta.invert" title="formula.formulae.Beta.invert"><tt class="xref py py-obj docutils literal"><span class="pre">invert</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#formula.formulae.Beta.is_hypergeometric" title="formula.formulae.Beta.is_hypergeometric"><tt class="xref py py-obj docutils literal"><span class="pre">is_hypergeometric</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#formula.formulae.Beta.is_polynomial" title="formula.formulae.Beta.is_polynomial"><tt class="xref py py-obj docutils literal"><span class="pre">is_polynomial</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#formula.formulae.Beta.is_rational_function" title="formula.formulae.Beta.is_rational_function"><tt class="xref py py-obj docutils literal"><span class="pre">is_rational_function</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#formula.formulae.Beta.iter_basic_args" title="formula.formulae.Beta.iter_basic_args"><tt class="xref py py-obj docutils literal"><span class="pre">iter_basic_args</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#formula.formulae.Beta.leadterm" title="formula.formulae.Beta.leadterm"><tt class="xref py py-obj docutils literal"><span class="pre">leadterm</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#formula.formulae.Beta.limit" title="formula.formulae.Beta.limit"><tt class="xref py py-obj docutils literal"><span class="pre">limit</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#formula.formulae.Beta.lseries" title="formula.formulae.Beta.lseries"><tt class="xref py py-obj docutils literal"><span class="pre">lseries</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#formula.formulae.Beta.match" title="formula.formulae.Beta.match"><tt class="xref py py-obj docutils literal"><span class="pre">match</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#formula.formulae.Beta.matches" title="formula.formulae.Beta.matches"><tt class="xref py py-obj docutils literal"><span class="pre">matches</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#formula.formulae.Beta.n" title="formula.formulae.Beta.n"><tt class="xref py py-obj docutils literal"><span class="pre">n</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#formula.formulae.Beta.normal" title="formula.formulae.Beta.normal"><tt class="xref py py-obj docutils literal"><span class="pre">normal</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#formula.formulae.Beta.nseries" title="formula.formulae.Beta.nseries"><tt class="xref py py-obj docutils literal"><span class="pre">nseries</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#formula.formulae.Beta.nsimplify" title="formula.formulae.Beta.nsimplify"><tt class="xref py py-obj docutils literal"><span class="pre">nsimplify</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#formula.formulae.Beta.powsimp" title="formula.formulae.Beta.powsimp"><tt class="xref py py-obj docutils literal"><span class="pre">powsimp</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#formula.formulae.Beta.radsimp" title="formula.formulae.Beta.radsimp"><tt class="xref py py-obj docutils literal"><span class="pre">radsimp</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#formula.formulae.Beta.ratsimp" title="formula.formulae.Beta.ratsimp"><tt class="xref py py-obj docutils literal"><span class="pre">ratsimp</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#formula.formulae.Beta.refine" title="formula.formulae.Beta.refine"><tt class="xref py py-obj docutils literal"><span class="pre">refine</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#formula.formulae.Beta.removeO" title="formula.formulae.Beta.removeO"><tt class="xref py py-obj docutils literal"><span class="pre">removeO</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#formula.formulae.Beta.replace" title="formula.formulae.Beta.replace"><tt class="xref py py-obj docutils literal"><span class="pre">replace</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#formula.formulae.Beta.rewrite" title="formula.formulae.Beta.rewrite"><tt class="xref py py-obj docutils literal"><span class="pre">rewrite</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#formula.formulae.Beta.separate" title="formula.formulae.Beta.separate"><tt class="xref py py-obj docutils literal"><span class="pre">separate</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#formula.formulae.Beta.series" title="formula.formulae.Beta.series"><tt class="xref py py-obj docutils literal"><span class="pre">series</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#formula.formulae.Beta.simplify" title="formula.formulae.Beta.simplify"><tt class="xref py py-obj docutils literal"><span class="pre">simplify</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#formula.formulae.Beta.sort_key" title="formula.formulae.Beta.sort_key"><tt class="xref py py-obj docutils literal"><span class="pre">sort_key</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#formula.formulae.Beta.subs" title="formula.formulae.Beta.subs"><tt class="xref py py-obj docutils literal"><span class="pre">subs</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#formula.formulae.Beta.together" title="formula.formulae.Beta.together"><tt class="xref py py-obj docutils literal"><span class="pre">together</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#formula.formulae.Beta.trigsimp" title="formula.formulae.Beta.trigsimp"><tt class="xref py py-obj docutils literal"><span class="pre">trigsimp</span></tt></a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="formula.formulae.Beta.__init__">
+<tt class="descname">__init__</tt><big>(</big><big>)</big><a class="headerlink" href="#formula.formulae.Beta.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>x.__init__(...) initializes x; see x.__class__.__doc__ for signature</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.apart">
+<tt class="descname">apart</tt><big>(</big><em>x=None</em>, <em>**args</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.apart" title="Permalink to this definition">¶</a></dt>
+<dd><p>See the apart function in sympy.polys</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.args">
+<tt class="descname">args</tt><a class="headerlink" href="#formula.formulae.Beta.args" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a tuple of arguments of &#8216;self&#8217;.</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">symbols</span><span class="p">,</span> <span class="n">cot</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy.abc</span> <span class="kn">import</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">cot</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">args</span>
+<span class="go">(x,)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">cot</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">x</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">args</span>
+<span class="go">(x, y)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="go">y</span>
+</pre></div>
+</div>
+<p>Note for developers: Never use self._args, always use self.args.
+Only when you are creating your own new function, use _args
+in the __new__. Don&#8217;t override .args() from Basic (so that it&#8217;s
+easy to change the interface in the future if needed).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.args_cnc">
+<tt class="descname">args_cnc</tt><big>(</big><big>)</big><a class="headerlink" href="#formula.formulae.Beta.args_cnc" title="Permalink to this definition">¶</a></dt>
+<dd><p>treat self as Mul and split it into tuple (set, list)
+where <cite>set</cite> contains the commutative parts and <cite>list</cite> contains
+the ordered non-commutative args.</p>
+<p>A special treatment is that -1 is separated from a Rational:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">symbols</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span><span class="p">,</span> <span class="n">B</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="s">&#39;A B&#39;</span><span class="p">,</span> <span class="n">commutative</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="s">&#39;x y&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">args_cnc</span><span class="p">()</span>
+<span class="go">[set([-1, 2, x, y]), []]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">A</span><span class="o">*</span><span class="n">B</span><span class="o">*</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">args_cnc</span><span class="p">()</span>
+<span class="go">[set([-1, 2, x, y]), [A, B]]</span>
+</pre></div>
+</div>
+<p>The arg is treated as a Mul:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="o">-</span><span class="mi">2</span> <span class="o">+</span> <span class="n">x</span> <span class="o">+</span> <span class="n">A</span><span class="p">)</span><span class="o">.</span><span class="n">args_cnc</span><span class="p">()</span>
+<span class="go">[set(), [x - 2 + A]]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.as_base_exp">
+<tt class="descname">as_base_exp</tt><big>(</big><big>)</big><a class="headerlink" href="#formula.formulae.Beta.as_base_exp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.as_coeff_Mul">
+<tt class="descname">as_coeff_Mul</tt><big>(</big><big>)</big><a class="headerlink" href="#formula.formulae.Beta.as_coeff_Mul" title="Permalink to this definition">¶</a></dt>
+<dd><p>Efficiently extract the coefficient of a product.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.as_coeff_add">
+<tt class="descname">as_coeff_add</tt><big>(</big><em>*deps</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.as_coeff_add" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the tuple (c, args) where self is written as an Add, <cite>a</cite>.</p>
+<p>c should be a Rational added to any terms of the Add that are
+independent of deps.</p>
+<p>args should be a tuple of all other terms of <cite>a</cite>; args is empty
+if self is a Number or if self is independent of deps (when given).</p>
+<p>This should be used when you don&#8217;t know if self is an Add or not but
+you want to treat self as an Add or if you want to process the
+individual arguments of the tail of self as an Add.</p>
+<ul class="simple">
+<li>if you know self is an Add and want only the head, use self.args[0];</li>
+<li>if you don&#8217;t want to process the arguments of the tail but need the
+tail then use self.as_two_terms() which gives the head and tail.</li>
+<li>if you want to split self into an independent and dependent parts
+use self.as_independent(<a href="#id1"><span class="problematic" id="id2">*</span></a>deps)</li>
+</ul>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">S</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy.abc</span> <span class="kn">import</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">S</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span><span class="o">.</span><span class="n">as_coeff_add</span><span class="p">()</span>
+<span class="go">(3, ())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="mi">3</span> <span class="o">+</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">as_coeff_add</span><span class="p">()</span>
+<span class="go">(3, (y, x))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="mi">3</span> <span class="o">+</span> <span class="n">x</span> <span class="o">+</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">as_coeff_add</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="go">(y + 3, (x,))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="mi">3</span> <span class="o">+</span> <span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">as_coeff_add</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="go">(y + 3, ())</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.as_coeff_exponent">
+<tt class="descname">as_coeff_exponent</tt><big>(</big><em>x</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.as_coeff_exponent" title="Permalink to this definition">¶</a></dt>
+<dd><p>c*x**e -&gt; c,e where x can be any symbolic expression.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.as_coeff_factors">
+<tt class="descname">as_coeff_factors</tt><big>(</big><em>*deps</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.as_coeff_factors" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.as_coeff_mul">
+<tt class="descname">as_coeff_mul</tt><big>(</big><em>*deps</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.as_coeff_mul" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the tuple (c, args) where self is written as a Mul, <cite>m</cite>.</p>
+<p>c should be a Rational multiplied by any terms of the Mul that are
+independent of deps.</p>
+<p>args should be a tuple of all other terms of m; args is empty
+if self is a Number or if self is independent of deps (when given).</p>
+<p>This should be used when you don&#8217;t know if self is a Mul or not but
+you want to treat self as a Mul or if you want to process the
+individual arguments of the tail of self as a Mul.</p>
+<ul class="simple">
+<li>if you know self is a Mul and want only the head, use self.args[0];</li>
+<li>if you don&#8217;t want to process the arguments of the tail but need the
+tail then use self.as_two_terms() which gives the head and tail;</li>
+<li>if you want to split self into an independent and dependent parts
+use self.as_independent(<a href="#id3"><span class="problematic" id="id4">*</span></a>deps)</li>
+</ul>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">S</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy.abc</span> <span class="kn">import</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">S</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span><span class="o">.</span><span class="n">as_coeff_mul</span><span class="p">()</span>
+<span class="go">(3, ())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">as_coeff_mul</span><span class="p">()</span>
+<span class="go">(3, (x, y))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">as_coeff_mul</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="go">(3*y, (x,))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">as_coeff_mul</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="go">(3*y, ())</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.as_coeff_terms">
+<tt class="descname">as_coeff_terms</tt><big>(</big><em>*deps</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.as_coeff_terms" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.as_coefficient">
+<tt class="descname">as_coefficient</tt><big>(</big><em>expr</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.as_coefficient" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extracts symbolic coefficient at the given expression. In
+other words, this functions separates &#8216;self&#8217; into product
+of &#8216;expr&#8217; and &#8216;expr&#8217;-free coefficient. If such separation
+is not possible it will return None.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">E</span><span class="p">,</span> <span class="n">pi</span><span class="p">,</span> <span class="n">sin</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="n">symbols</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy.abc</span> <span class="kn">import</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">E</span><span class="o">.</span><span class="n">as_coefficient</span><span class="p">(</span><span class="n">E</span><span class="p">)</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">E</span><span class="p">)</span><span class="o">.</span><span class="n">as_coefficient</span><span class="p">(</span><span class="n">E</span><span class="p">)</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="n">E</span><span class="p">)</span><span class="o">*</span><span class="n">E</span><span class="p">)</span><span class="o">.</span><span class="n">as_coefficient</span><span class="p">(</span><span class="n">E</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">E</span> <span class="o">+</span> <span class="n">x</span><span class="o">*</span><span class="n">E</span><span class="p">)</span><span class="o">.</span><span class="n">as_coefficient</span><span class="p">(</span><span class="n">E</span><span class="p">)</span>
+<span class="go">x + 2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">E</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">as_coefficient</span><span class="p">(</span><span class="n">E</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">E</span><span class="o">*</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">as_coefficient</span><span class="p">(</span><span class="n">E</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">pi</span><span class="o">*</span><span class="n">I</span><span class="p">)</span><span class="o">.</span><span class="n">as_coefficient</span><span class="p">(</span><span class="n">pi</span><span class="o">*</span><span class="n">I</span><span class="p">)</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">I</span><span class="p">)</span><span class="o">.</span><span class="n">as_coefficient</span><span class="p">(</span><span class="n">pi</span><span class="o">*</span><span class="n">I</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.as_dummy">
+<tt class="descname">as_dummy</tt><big>(</big><big>)</big><a class="headerlink" href="#formula.formulae.Beta.as_dummy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.as_expr">
+<tt class="descname">as_expr</tt><big>(</big><em>*gens</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.as_expr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a polynomial to a SymPy expression.</p>
+<p><strong>Examples</strong></p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">sin</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy.abc</span> <span class="kn">import</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">as_poly</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="o">.</span><span class="n">as_expr</span><span class="p">()</span>
+<span class="go">x**2 + x*y</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">as_expr</span><span class="p">()</span>
+<span class="go">sin(x)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.as_independent">
+<tt class="descname">as_independent</tt><big>(</big><em>*deps</em>, <em>**hint</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.as_independent" title="Permalink to this definition">¶</a></dt>
+<dd><p>A mostly naive separation of a Mul or Add into arguments that are not/
+are dependent on deps. To obtain as complete a separation of variables
+as possible, use a separation method first, e.g.:</p>
+<blockquote>
+<div>separatevars() to change Mul, Add and Pow (including exp) into Mul
+.expand(mul=True) to change Add or Mul into Add
+.expand(log=True) to change log expr into an Add</div></blockquote>
+<p>The only non-naive thing that is done here is to respect noncommutative
+ordering of variables.</p>
+<p>The returned tuple (i, d) has the following interpretation:</p>
+<ul class="simple">
+<li>i will has no variable that appears in deps</li>
+<li>d will be 1 or else have terms that contain variables that are in deps</li>
+<li>if self is an Add then self = i + d</li>
+<li>if self is a Mul then self = i*d</li>
+<li>if self is anything else, either tuple (self, S.One) or (S.One, self)
+is returned.</li>
+</ul>
+<p>To force the expression to be treated as an Add, use the hint as_Add=True</p>
+<p>Examples:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>&#8211; self is an Add</dt>
+<dd><div class="first highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">sin</span><span class="p">,</span> <span class="n">cos</span><span class="p">,</span> <span class="n">exp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy.abc</span> <span class="kn">import</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span>
+</pre></div>
+</div>
+<div class="last highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">as_independent</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="go">(0, x*y + x)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">as_independent</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="go">(x, x*y)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">y</span> <span class="o">+</span> <span class="n">x</span> <span class="o">+</span> <span class="n">z</span><span class="p">)</span><span class="o">.</span><span class="n">as_independent</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="go">(y + z, 2*x*sin(x) + x)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">y</span> <span class="o">+</span> <span class="n">x</span> <span class="o">+</span> <span class="n">z</span><span class="p">)</span><span class="o">.</span><span class="n">as_independent</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="go">(z, 2*x*sin(x) + x + y)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p class="attribution">&mdash;self is a Mul
+&gt;&gt;&gt; (x*sin(x)*cos(y)).as_independent(x)
+(cos(y), x*sin(x))</p>
+</div></blockquote>
+<blockquote>
+<div><blockquote>
+<div><blockquote>
+<div>non-commutative terms cannot always be separated out
+when self is a Mul</div></blockquote>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">symbols</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">,</span> <span class="n">n3</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="s">&#39;n1 n2 n3&#39;</span><span class="p">,</span> <span class="n">commutative</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">n1</span> <span class="o">+</span> <span class="n">n1</span><span class="o">*</span><span class="n">n2</span><span class="p">)</span><span class="o">.</span><span class="n">as_independent</span><span class="p">(</span><span class="n">n2</span><span class="p">)</span>
+<span class="go">(n1, n1*n2)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">n2</span><span class="o">*</span><span class="n">n1</span> <span class="o">+</span> <span class="n">n1</span><span class="o">*</span><span class="n">n2</span><span class="p">)</span><span class="o">.</span><span class="n">as_independent</span><span class="p">(</span><span class="n">n2</span><span class="p">)</span>
+<span class="go">(0, n1*n2 + n2*n1)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">n1</span><span class="o">*</span><span class="n">n2</span><span class="o">*</span><span class="n">n3</span><span class="p">)</span><span class="o">.</span><span class="n">as_independent</span><span class="p">(</span><span class="n">n1</span><span class="p">)</span>
+<span class="go">(1, n1*n2*n3)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">n1</span><span class="o">*</span><span class="n">n2</span><span class="o">*</span><span class="n">n3</span><span class="p">)</span><span class="o">.</span><span class="n">as_independent</span><span class="p">(</span><span class="n">n2</span><span class="p">)</span>
+<span class="go">(n1, n2*n3)</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p class="attribution">&mdash;self is anything else:
+&gt;&gt;&gt; (sin(x)).as_independent(x)
+(1, sin(x))
+&gt;&gt;&gt; (sin(x)).as_independent(y)
+(sin(x), 1)
+&gt;&gt;&gt; exp(x+y).as_independent(x)
+(1, exp(x + y))</p>
+</div></blockquote>
+<blockquote>
+<div><dl class="docutils">
+<dt>&#8211; force self to be treated as an Add:</dt>
+<dd><div class="first last highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">as_independent</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">as_Add</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">(0, 3*x)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p class="attribution">&mdash;force self to be treated as a Mul:
+&gt;&gt;&gt; (3+x).as_independent(x, as_Add=0)
+(1, x + 3)
+&gt;&gt;&gt; (-3+x).as_independent(x, as_Add=0)
+(1, x - 3)</p>
+</div></blockquote>
+<blockquote>
+<div><blockquote>
+<div><p>Note how the below differs from the above in making the
+constant on the dep term positive.
+&gt;&gt;&gt; (y*(-3+x)).as_independent(x)
+(y, x - 3)</p>
+<p>Note: when trying to get independent terms, a separation method
+might need to be used first. In this case, it is important to keep
+track of what you send to this routine so you know how to interpret
+the returned values</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">separatevars</span><span class="p">,</span> <span class="n">log</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">separatevars</span><span class="p">(</span><span class="n">exp</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="p">))</span><span class="o">.</span><span class="n">as_independent</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="go">(exp(y), exp(x))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">as_independent</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="go">(x, x*y)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">separatevars</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">as_independent</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="go">(x, y + 1)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">y</span><span class="p">))</span><span class="o">.</span><span class="n">as_independent</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="go">(x, y + 1)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">y</span><span class="p">))</span><span class="o">.</span><span class="n">expand</span><span class="p">(</span><span class="n">mul</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span><span class="n">as_independent</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="go">(x, x*y)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="n">symbols</span><span class="p">(</span><span class="s">&#39;a b&#39;</span><span class="p">,</span><span class="n">positive</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">log</span><span class="p">(</span><span class="n">a</span><span class="o">*</span><span class="n">b</span><span class="p">)</span><span class="o">.</span><span class="n">expand</span><span class="p">(</span><span class="n">log</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span><span class="o">.</span><span class="n">as_independent</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="go">(log(a), log(b))</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div></blockquote>
+<dl class="docutils">
+<dt>See also: .separatevars(), .expand(log=True),</dt>
+<dd>.as_two_terms(), .as_coeff_add(), .as_coeff_mul()</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.as_leading_term">
+<tt class="descname">as_leading_term</tt><big>(</big><em>*args</em>, <em>**kw_args</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.as_leading_term" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the leading term.</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy.abc</span> <span class="kn">import</span> <span class="n">x</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">x</span><span class="o">+</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">as_leading_term</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="n">x</span><span class="o">+</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">as_leading_term</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="go">x**(-2)</span>
+</pre></div>
+</div>
+<p>Note:</p>
+<p>self is assumed to be the result returned by Basic.series().</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.as_numer_denom">
+<tt class="descname">as_numer_denom</tt><big>(</big><big>)</big><a class="headerlink" href="#formula.formulae.Beta.as_numer_denom" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.as_ordered_factors">
+<tt class="descname">as_ordered_factors</tt><big>(</big><em>order=None</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.as_ordered_factors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform an expression to an ordered list of factors.</p>
+<p><strong>Examples</strong></p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">sin</span><span class="p">,</span> <span class="n">cos</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy.abc</span> <span class="kn">import</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="o">.</span><span class="n">as_ordered_factors</span><span class="p">()</span>
+<span class="go">[2, x, y, sin(x), cos(x)]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.as_ordered_terms">
+<tt class="descname">as_ordered_terms</tt><big>(</big><em>order=None</em>, <em>data=False</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.as_ordered_terms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform an expression to an ordered list of terms.</p>
+<p><strong>Examples</strong></p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">sin</span><span class="p">,</span> <span class="n">cos</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy.abc</span> <span class="kn">import</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">as_ordered_terms</span><span class="p">()</span>
+<span class="go">[sin(x)**2*cos(x), sin(x)**2, 1]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.as_poly">
+<tt class="descname">as_poly</tt><big>(</big><em>*gens</em>, <em>**args</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.as_poly" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts <cite>self</cite> to a polynomial or returns <cite>None</cite>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">Poly</span><span class="p">,</span> <span class="n">sin</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy.abc</span> <span class="kn">import</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">as_poly</span><span class="p">()</span>
+<span class="go">Poly(x**2 + x*y, x, y, domain=&#39;ZZ&#39;)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">as_poly</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="go">Poly(x**2 + x*y, x, y, domain=&#39;ZZ&#39;)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">sin</span><span class="p">(</span><span class="n">y</span><span class="p">))</span><span class="o">.</span><span class="n">as_poly</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="go">None</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.as_powers_dict">
+<tt class="descname">as_powers_dict</tt><big>(</big><big>)</big><a class="headerlink" href="#formula.formulae.Beta.as_powers_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.as_real_imag">
+<tt class="descname">as_real_imag</tt><big>(</big><em>deep=True</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.as_real_imag" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.as_terms">
+<tt class="descname">as_terms</tt><big>(</big><big>)</big><a class="headerlink" href="#formula.formulae.Beta.as_terms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform an expression to a list of terms.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.assumptions0">
+<tt class="descname">assumptions0</tt><a class="headerlink" href="#formula.formulae.Beta.assumptions0" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return object <cite>type</cite> assumptions.</p>
+<p>For example:</p>
+<blockquote>
+<div>Symbol(&#8216;x&#8217;, real=True)
+Symbol(&#8216;x&#8217;, integer=True)</div></blockquote>
+<p>are different objects. In other words, besides Python type (Symbol in
+this case), the initial assumptions are also forming their typeinfo.</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">Symbol</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy.abc</span> <span class="kn">import</span> <span class="n">x</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">assumptions0</span>
+<span class="go">{}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">Symbol</span><span class="p">(</span><span class="s">&quot;x&quot;</span><span class="p">,</span> <span class="n">positive</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">assumptions0</span>
+<span class="go">{&#39;commutative&#39;: True, &#39;complex&#39;: True, &#39;imaginary&#39;: False,</span>
+<span class="go">&#39;negative&#39;: False, &#39;nonnegative&#39;: True, &#39;nonpositive&#39;: False,</span>
+<span class="go">&#39;nonzero&#39;: True, &#39;positive&#39;: True, &#39;real&#39;: True, &#39;zero&#39;: False}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.atoms">
+<tt class="descname">atoms</tt><big>(</big><em>*types</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.atoms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the atoms that form the current object.</p>
+<p>By default, only objects that are truly atomic and can&#8217;t
+be divided into smaller pieces are returned: symbols, numbers,
+and number symbols like I and pi. It is possible to request
+atoms of any type, however, as demonstrated below.</p>
+<p>Examples:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">I</span><span class="p">,</span> <span class="n">pi</span><span class="p">,</span> <span class="n">sin</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy.abc</span> <span class="kn">import</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="n">y</span> <span class="o">+</span> <span class="n">I</span><span class="o">*</span><span class="n">pi</span><span class="p">))</span><span class="o">.</span><span class="n">atoms</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>set([1, 2, I, pi, x, y])</p>
+<p>If one or more types are given, the results will contain only
+those types of atoms:</p>
+<p>Examples:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">Number</span><span class="p">,</span> <span class="n">NumberSymbol</span><span class="p">,</span> <span class="n">Symbol</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="n">y</span> <span class="o">+</span> <span class="n">I</span><span class="o">*</span><span class="n">pi</span><span class="p">))</span><span class="o">.</span><span class="n">atoms</span><span class="p">(</span><span class="n">Symbol</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>set([x, y])</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="n">y</span> <span class="o">+</span> <span class="n">I</span><span class="o">*</span><span class="n">pi</span><span class="p">))</span><span class="o">.</span><span class="n">atoms</span><span class="p">(</span><span class="n">Number</span><span class="p">)</span>
+<span class="go">set([1, 2])</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="n">y</span> <span class="o">+</span> <span class="n">I</span><span class="o">*</span><span class="n">pi</span><span class="p">))</span><span class="o">.</span><span class="n">atoms</span><span class="p">(</span><span class="n">Number</span><span class="p">,</span> <span class="n">NumberSymbol</span><span class="p">)</span>
+<span class="go">set([1, 2, pi])</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="n">y</span> <span class="o">+</span> <span class="n">I</span><span class="o">*</span><span class="n">pi</span><span class="p">))</span><span class="o">.</span><span class="n">atoms</span><span class="p">(</span><span class="n">Number</span><span class="p">,</span> <span class="n">NumberSymbol</span><span class="p">,</span> <span class="n">I</span><span class="p">)</span>
+<span class="go">set([1, 2, I, pi])</span>
+</pre></div>
+</div>
+<p>Note that I (imaginary unit) and zoo (complex infinity) are special
+types of number symbols and are not part of the NumberSymbol class.</p>
+<p>The type can be given implicitly, too:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="n">y</span> <span class="o">+</span> <span class="n">I</span><span class="o">*</span><span class="n">pi</span><span class="p">))</span><span class="o">.</span><span class="n">atoms</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="c"># x is a Symbol</span>
+</pre></div>
+</div>
+<p>set([x, y])</p>
+<p>Be careful to check your assumptions when using the implicit option
+since S(1).is_Integer = True but type(S(1)) is One, a special type
+of sympy atom, while type(S(2)) is type Integer and will find all
+integers in an expression:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">S</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="n">y</span> <span class="o">+</span> <span class="n">I</span><span class="o">*</span><span class="n">pi</span><span class="p">))</span><span class="o">.</span><span class="n">atoms</span><span class="p">(</span><span class="n">S</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>set([1])</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="n">y</span> <span class="o">+</span> <span class="n">I</span><span class="o">*</span><span class="n">pi</span><span class="p">))</span><span class="o">.</span><span class="n">atoms</span><span class="p">(</span><span class="n">S</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="go">set([1, 2])</span>
+</pre></div>
+</div>
+<p>Finally, arguments to atoms() can select more than atomic atoms: any
+sympy type (loaded in core/__init__.py) can be listed as an argument
+and those types of &#8220;atoms&#8221; as found in scanning the arguments of the
+expression recursively:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">Function</span><span class="p">,</span> <span class="n">Mul</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="n">y</span> <span class="o">+</span> <span class="n">I</span><span class="o">*</span><span class="n">pi</span><span class="p">))</span><span class="o">.</span><span class="n">atoms</span><span class="p">(</span><span class="n">Function</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>set([sin(y + I*pi)])</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="n">y</span> <span class="o">+</span> <span class="n">I</span><span class="o">*</span><span class="n">pi</span><span class="p">))</span><span class="o">.</span><span class="n">atoms</span><span class="p">(</span><span class="n">Mul</span><span class="p">)</span>
+<span class="go">set([I*pi, 2*sin(y + I*pi)])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.cancel">
+<tt class="descname">cancel</tt><big>(</big><em>*gens</em>, <em>**args</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.cancel" title="Permalink to this definition">¶</a></dt>
+<dd><p>See the cancel function in sympy.polys</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="formula.formulae.Beta.class_key">
+<em class="property">classmethod </em><tt class="descname">class_key</tt><big>(</big><big>)</big><a class="headerlink" href="#formula.formulae.Beta.class_key" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.coeff">
+<tt class="descname">coeff</tt><big>(</big><em>x</em>, <em>right=False</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.coeff" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the coefficient of the exact term &#8220;x&#8221; or None if there is no &#8220;x&#8221;.</p>
+<p>When x is noncommutative, the coeff to the left (default) or right of x
+can be returned. The keyword &#8216;right&#8217; is ignored when x is commutative.</p>
+<p>Examples:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">symbols</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy.abc</span> <span class="kn">import</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span>
+</pre></div>
+</div>
+<p>You can select terms that have an explicit negative in front of them:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">coeff</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">x</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">coeff</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">2*y</span>
+</pre></div>
+</div>
+<p>You can select terms with no rational coefficient:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">coeff</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">x</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="mi">3</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="o">+</span><span class="mi">4</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">coeff</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can select terms that have a numerical term in front of them:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">coeff</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">-y</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">sqrt</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">coeff</span><span class="p">(</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="go">x</span>
+</pre></div>
+</div>
+<p>The matching is exact:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="mi">3</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="o">+</span><span class="mi">4</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">coeff</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="mi">3</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="o">+</span><span class="mi">4</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">coeff</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">4</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="mi">3</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="o">+</span><span class="mi">4</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">coeff</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">z</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">coeff</span><span class="p">((</span><span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">z</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">z</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">coeff</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In addition, no factoring is done, so 2 + y is not obtained from the
+following:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="o">+</span><span class="mi">2</span><span class="o">+</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">coeff</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">y</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">o</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="s">&#39;n m o&#39;</span><span class="p">,</span> <span class="n">commutative</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">n</span><span class="o">.</span><span class="n">coeff</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">n</span><span class="p">)</span><span class="o">.</span><span class="n">coeff</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<span class="go">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">n</span><span class="o">*</span><span class="n">m</span> <span class="o">+</span> <span class="n">m</span><span class="o">*</span><span class="n">n</span><span class="o">*</span><span class="n">m</span><span class="p">)</span><span class="o">.</span><span class="n">coeff</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="c"># = (1 + m)*n*m</span>
+<span class="go">1 + m</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">n</span><span class="o">*</span><span class="n">m</span> <span class="o">+</span> <span class="n">m</span><span class="o">*</span><span class="n">n</span><span class="o">*</span><span class="n">m</span><span class="p">)</span><span class="o">.</span><span class="n">coeff</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> <span class="c"># = (1 + m)*n*m</span>
+<span class="go">m</span>
+</pre></div>
+</div>
+<p>If there is more than one possible coefficient None is returned:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">n</span><span class="o">*</span><span class="n">m</span> <span class="o">+</span> <span class="n">m</span><span class="o">*</span><span class="n">n</span><span class="p">)</span><span class="o">.</span><span class="n">coeff</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If there is only one possible coefficient, it is returned:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">n</span><span class="o">*</span><span class="n">m</span> <span class="o">+</span> <span class="n">o</span><span class="o">*</span><span class="n">m</span><span class="o">*</span><span class="n">n</span><span class="p">)</span><span class="o">.</span><span class="n">coeff</span><span class="p">(</span><span class="n">m</span><span class="o">*</span><span class="n">n</span><span class="p">)</span>
+<span class="go">o</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">n</span><span class="o">*</span><span class="n">m</span> <span class="o">+</span> <span class="n">o</span><span class="o">*</span><span class="n">m</span><span class="o">*</span><span class="n">n</span><span class="p">)</span><span class="o">.</span><span class="n">coeff</span><span class="p">(</span><span class="n">m</span><span class="o">*</span><span class="n">n</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.collect">
+<tt class="descname">collect</tt><big>(</big><em>syms</em>, <em>evaluate=True</em>, <em>exact=False</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.collect" title="Permalink to this definition">¶</a></dt>
+<dd><p>See the collect function in sympy.simplify</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.combsimp">
+<tt class="descname">combsimp</tt><big>(</big><big>)</big><a class="headerlink" href="#formula.formulae.Beta.combsimp" title="Permalink to this definition">¶</a></dt>
+<dd><p>See the combsimp function in sympy.simplify</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.compare">
+<tt class="descname">compare</tt><big>(</big><em>other</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.compare" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return -1,0,1 if the object is smaller, equal, or greater than other.</p>
+<p>Not in the mathematical sense. If the object is of a different type
+from the &#8220;other&#8221; then their classes are ordered according to
+the sorted_classes list.</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy.abc</span> <span class="kn">import</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">compare</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="go">-1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">compare</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="o">.</span><span class="n">compare</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="formula.formulae.Beta.compare_pretty">
+<em class="property">static </em><tt class="descname">compare_pretty</tt><big>(</big><em>a</em>, <em>b</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.compare_pretty" title="Permalink to this definition">¶</a></dt>
+<dd><p>Is a &gt; b in the sense of ordering in printing?</p>
+<p>yes ..... return 1
+no ...... return -1
+equal ... return 0</p>
+<p>Strategy:</p>
+<p>It uses Basic.compare as a fallback, but improves it in many cases,
+like x**3, x**4, O(x**3) etc. In those simple cases, it just parses the
+expression and returns the &#8220;sane&#8221; ordering such as:</p>
+<p>1 &lt; x &lt; x**2 &lt; x**3 &lt; O(x**4) etc.</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy.abc</span> <span class="kn">import</span> <span class="n">x</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">Basic</span><span class="p">,</span> <span class="n">Number</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Basic</span><span class="o">.</span><span class="n">_compare_pretty</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">-1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Basic</span><span class="o">.</span><span class="n">_compare_pretty</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Basic</span><span class="o">.</span><span class="n">_compare_pretty</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Basic</span><span class="o">.</span><span class="n">_compare_pretty</span><span class="p">(</span><span class="n">Number</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">Number</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Basic</span><span class="o">.</span><span class="n">_compare_pretty</span><span class="p">(</span><span class="n">Number</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Number</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.compute_leading_term">
+<tt class="descname">compute_leading_term</tt><big>(</big><em>x</em>, <em>skip_abs=False</em>, <em>logx=None</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.compute_leading_term" title="Permalink to this definition">¶</a></dt>
+<dd><p>as_leading_term is only allowed for results of .series()
+This is a wrapper to compute a series first.
+If skip_abs is true, the absolute term is assumed to be zero.
+(This is necessary because sometimes it cannot be simplified</p>
+<blockquote>
+<div>to zero without a lot of work, but is still known to be zero.
+See log._eval_nseries for an example.)</div></blockquote>
+<p>If skip_log is true, log(x) is treated as an independent symbol.
+(This is needed for the gruntz algorithm.)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.conjugate">
+<tt class="descname">conjugate</tt><big>(</big><big>)</big><a class="headerlink" href="#formula.formulae.Beta.conjugate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.could_extract_minus_sign">
+<tt class="descname">could_extract_minus_sign</tt><big>(</big><big>)</big><a class="headerlink" href="#formula.formulae.Beta.could_extract_minus_sign" title="Permalink to this definition">¶</a></dt>
+<dd><p>Canonical way to choose an element in the set {e, -e} where
+e is any expression. If the canonical element is e, we have
+e.could_extract_minus_sign() == True, else
+e.could_extract_minus_sign() == False.</p>
+<p>For any expression, the set {e.could_extract_minus_sign(),
+(-e).could_extract_minus_sign()} must be {True, False}.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy.abc</span> <span class="kn">import</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">could_extract_minus_sign</span><span class="p">()</span> <span class="o">!=</span> <span class="p">(</span><span class="n">y</span><span class="o">-</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">could_extract_minus_sign</span><span class="p">()</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.count">
+<tt class="descname">count</tt><big>(</big><em>query</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Count the number of matching subexpressions.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.count_ops">
+<tt class="descname">count_ops</tt><big>(</big><em>visual=None</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.count_ops" title="Permalink to this definition">¶</a></dt>
+<dd><p>wrapper for count_ops that returns the operation count.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.default_assumptions">
+<tt class="descname">default_assumptions</tt><em class="property"> = {'comparable': False}</em><a class="headerlink" href="#formula.formulae.Beta.default_assumptions" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.diff">
+<tt class="descname">diff</tt><big>(</big><em>*symbols</em>, <em>**assumptions</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.diff" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.doit">
+<tt class="descname">doit</tt><big>(</big><em>**hints</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.doit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.dummy_eq">
+<tt class="descname">dummy_eq</tt><big>(</big><em>other</em>, <em>symbol=None</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.dummy_eq" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compare two expressions and handle dummy symbols.</p>
+<p><strong>Examples</strong></p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">Dummy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy.abc</span> <span class="kn">import</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">Dummy</span><span class="p">(</span><span class="s">&#39;u&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">u</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">dummy_eq</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">u</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">u</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">dummy_eq</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">u</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">dummy_eq</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">y</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.dummy_index">
+<tt class="descname">dummy_index</tt><a class="headerlink" href="#formula.formulae.Beta.dummy_index" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.evalf">
+<tt class="descname">evalf</tt><big>(</big><em>n=15</em>, <em>subs=None</em>, <em>maxn=100</em>, <em>chop=False</em>, <em>strict=False</em>, <em>quad=None</em>, <em>verbose=False</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.evalf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluate the given formula to an accuracy of n digits.
+Optional keyword arguments:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>subs=&lt;dict&gt;</dt>
+<dd>Substitute numerical values for symbols, e.g.
+subs={x:3, y:1+pi}.</dd>
+<dt>maxn=&lt;integer&gt;</dt>
+<dd>Allow a maximum temporary working precision of maxn digits
+(default=100)</dd>
+<dt>chop=&lt;bool&gt;</dt>
+<dd>Replace tiny real or imaginary parts in subresults
+by exact zeros (default=False)</dd>
+<dt>strict=&lt;bool&gt;</dt>
+<dd>Raise PrecisionExhausted if any subresult fails to evaluate
+to full accuracy, given the available maxprec
+(default=False)</dd>
+<dt>quad=&lt;str&gt;</dt>
+<dd>Choose algorithm for numerical quadrature. By default,
+tanh-sinh quadrature is used. For oscillatory
+integrals on an infinite interval, try quad=&#8217;osc&#8217;.</dd>
+<dt>verbose=&lt;bool&gt;</dt>
+<dd>Print debug information (default=False)</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.expand">
+<tt class="descname">expand</tt><big>(</big><em>deep=True</em>, <em>modulus=None</em>, <em>power_base=True</em>, <em>power_exp=True</em>, <em>mul=True</em>, <em>log=True</em>, <em>multinomial=True</em>, <em>basic=True</em>, <em>**hints</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.expand" title="Permalink to this definition">¶</a></dt>
+<dd><p>Expand an expression using hints.</p>
+<p>See the docstring in function.expand for more information.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.extract_additively">
+<tt class="descname">extract_additively</tt><big>(</big><em>c</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.extract_additively" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return None if it&#8217;s not possible to make self in the form
+something + c in a nice way, i.e. preserving the properties
+of arguments of self.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">symbols</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="s">&#39;x,y&#39;</span><span class="p">,</span> <span class="n">real</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="p">((</span><span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="p">)</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">extract_additively</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">extract_additively</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">extract_additively</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">extract_additively</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">)</span>
+<span class="go">2*x + 1</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">extract_additively</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="p">)</span>
+<span class="go">-3*x + 1</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.extract_multiplicatively">
+<tt class="descname">extract_multiplicatively</tt><big>(</big><em>c</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.extract_multiplicatively" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return None if it&#8217;s not possible to make self in the form
+c * something in a nice way, i.e. preserving the properties
+of arguments of self.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">symbols</span><span class="p">,</span> <span class="n">Rational</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="s">&#39;x,y&#39;</span><span class="p">,</span> <span class="n">real</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="p">((</span><span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="p">)</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">extract_multiplicatively</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">y</span><span class="p">)</span>
+<span class="go">x*y**2</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="p">((</span><span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="p">)</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">extract_multiplicatively</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">4</span> <span class="o">*</span> <span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">extract_multiplicatively</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">x</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">extract_multiplicatively</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">Rational</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">extract_multiplicatively</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">x/6</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.factor">
+<tt class="descname">factor</tt><big>(</big><em>*gens</em>, <em>**args</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.factor" title="Permalink to this definition">¶</a></dt>
+<dd><p>See the factor() function in sympy.polys.polytools</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.find">
+<tt class="descname">find</tt><big>(</big><em>query</em>, <em>group=False</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.find" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find all subexpressions matching a query.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.free_symbols">
+<tt class="descname">free_symbols</tt><a class="headerlink" href="#formula.formulae.Beta.free_symbols" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.func">
+<tt class="descname">func</tt><a class="headerlink" href="#formula.formulae.Beta.func" title="Permalink to this definition">¶</a></dt>
+<dd><p>The top-level function in an expression.</p>
+<p>The following should hold for all objects:</p>
+<div class="highlight-python"><pre>&gt;&gt; x == x.func(*x.args)</pre>
+</div>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy.abc</span> <span class="kn">import</span> <span class="n">x</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">x</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">func</span>
+<span class="go">&lt;class &#39;sympy.core.mul.Mul&#39;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">args</span>
+<span class="go">(2, x)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">a</span><span class="o">.</span><span class="n">args</span><span class="p">)</span>
+<span class="go">2*x</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">==</span> <span class="n">a</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">a</span><span class="o">.</span><span class="n">args</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.getO">
+<tt class="descname">getO</tt><big>(</big><big>)</big><a class="headerlink" href="#formula.formulae.Beta.getO" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the additive O(..) symbol if there is one, else None.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.getn">
+<tt class="descname">getn</tt><big>(</big><big>)</big><a class="headerlink" href="#formula.formulae.Beta.getn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the order of the expression.</p>
+<p>The order is determined either from the O(...) term. If there
+is no O(...) term, it returns None.</p>
+<p>Example:
+&gt;&gt;&gt; from sympy import O
+&gt;&gt;&gt; from sympy.abc import x
+&gt;&gt;&gt; (1 + x + O(x**2)).getn()
+2
+&gt;&gt;&gt; (1 + x).getn()
+&gt;&gt;&gt;</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.has">
+<tt class="descname">has</tt><big>(</big><em>*args</em>, <em>**kw_args</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.has" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test whether any subexpression matches any of the patterns.</p>
+<p>Examples:
+&gt;&gt;&gt; from sympy import sin, S
+&gt;&gt;&gt; from sympy.abc import x, y, z
+&gt;&gt;&gt; (x**2 + sin(x*y)).has(z)
+False
+&gt;&gt;&gt; (x**2 + sin(x*y)).has(x, y, z)
+True
+&gt;&gt;&gt; x.has(x)
+True</p>
+<p>Note that <tt class="docutils literal"><span class="pre">expr.has(*patterns)</span></tt> is exactly equivalent to
+<tt class="docutils literal"><span class="pre">any(expr.has(p)</span> <span class="pre">for</span> <span class="pre">p</span> <span class="pre">in</span> <span class="pre">patterns)</span></tt>. In particular, <tt class="docutils literal"><span class="pre">False</span></tt> is
+returned when the list of patterns is empty.
+&gt;&gt;&gt; x.has()
+False</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.integrate">
+<tt class="descname">integrate</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.integrate" title="Permalink to this definition">¶</a></dt>
+<dd><p>See the integrate function in sympy.integrals</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.invert">
+<tt class="descname">invert</tt><big>(</big><em>g</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.invert" title="Permalink to this definition">¶</a></dt>
+<dd><p>See the invert function in sympy.polys</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.is_Add">
+<tt class="descname">is_Add</tt><em class="property"> = False</em><a class="headerlink" href="#formula.formulae.Beta.is_Add" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.is_AlgebraicNumber">
+<tt class="descname">is_AlgebraicNumber</tt><em class="property"> = False</em><a class="headerlink" href="#formula.formulae.Beta.is_AlgebraicNumber" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.is_Atom">
+<tt class="descname">is_Atom</tt><em class="property"> = True</em><a class="headerlink" href="#formula.formulae.Beta.is_Atom" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.is_Boolean">
+<tt class="descname">is_Boolean</tt><em class="property"> = False</em><a class="headerlink" href="#formula.formulae.Beta.is_Boolean" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.is_Derivative">
+<tt class="descname">is_Derivative</tt><em class="property"> = False</em><a class="headerlink" href="#formula.formulae.Beta.is_Derivative" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.is_Dummy">
+<tt class="descname">is_Dummy</tt><em class="property"> = True</em><a class="headerlink" href="#formula.formulae.Beta.is_Dummy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.is_Equality">
+<tt class="descname">is_Equality</tt><em class="property"> = False</em><a class="headerlink" href="#formula.formulae.Beta.is_Equality" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.is_Float">
+<tt class="descname">is_Float</tt><em class="property"> = False</em><a class="headerlink" href="#formula.formulae.Beta.is_Float" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.is_Function">
+<tt class="descname">is_Function</tt><em class="property"> = False</em><a class="headerlink" href="#formula.formulae.Beta.is_Function" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.is_Integer">
+<tt class="descname">is_Integer</tt><em class="property"> = False</em><a class="headerlink" href="#formula.formulae.Beta.is_Integer" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.is_Mul">
+<tt class="descname">is_Mul</tt><em class="property"> = False</em><a class="headerlink" href="#formula.formulae.Beta.is_Mul" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.is_Not">
+<tt class="descname">is_Not</tt><em class="property"> = False</em><a class="headerlink" href="#formula.formulae.Beta.is_Not" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.is_Number">
+<tt class="descname">is_Number</tt><em class="property"> = False</em><a class="headerlink" href="#formula.formulae.Beta.is_Number" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.is_NumberSymbol">
+<tt class="descname">is_NumberSymbol</tt><em class="property"> = False</em><a class="headerlink" href="#formula.formulae.Beta.is_NumberSymbol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.is_Order">
+<tt class="descname">is_Order</tt><em class="property"> = False</em><a class="headerlink" href="#formula.formulae.Beta.is_Order" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.is_Piecewise">
+<tt class="descname">is_Piecewise</tt><em class="property"> = False</em><a class="headerlink" href="#formula.formulae.Beta.is_Piecewise" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.is_Poly">
+<tt class="descname">is_Poly</tt><em class="property"> = False</em><a class="headerlink" href="#formula.formulae.Beta.is_Poly" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.is_Pow">
+<tt class="descname">is_Pow</tt><em class="property"> = False</em><a class="headerlink" href="#formula.formulae.Beta.is_Pow" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.is_Rational">
+<tt class="descname">is_Rational</tt><em class="property"> = False</em><a class="headerlink" href="#formula.formulae.Beta.is_Rational" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.is_Real">
+<tt class="descname">is_Real</tt><a class="headerlink" href="#formula.formulae.Beta.is_Real" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deprecated alias for is_Float</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.is_Relational">
+<tt class="descname">is_Relational</tt><em class="property"> = False</em><a class="headerlink" href="#formula.formulae.Beta.is_Relational" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.is_Symbol">
+<tt class="descname">is_Symbol</tt><em class="property"> = True</em><a class="headerlink" href="#formula.formulae.Beta.is_Symbol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.is_Wild">
+<tt class="descname">is_Wild</tt><em class="property"> = False</em><a class="headerlink" href="#formula.formulae.Beta.is_Wild" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.is_bounded">
+<tt class="descname">is_bounded</tt><a class="headerlink" href="#formula.formulae.Beta.is_bounded" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.is_commutative">
+<tt class="descname">is_commutative</tt><a class="headerlink" href="#formula.formulae.Beta.is_commutative" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.is_comparable">
+<tt class="descname">is_comparable</tt><em class="property"> = False</em><a class="headerlink" href="#formula.formulae.Beta.is_comparable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.is_complex">
+<tt class="descname">is_complex</tt><a class="headerlink" href="#formula.formulae.Beta.is_complex" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.is_composite">
+<tt class="descname">is_composite</tt><a class="headerlink" href="#formula.formulae.Beta.is_composite" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.is_even">
+<tt class="descname">is_even</tt><a class="headerlink" href="#formula.formulae.Beta.is_even" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.is_finite">
+<tt class="descname">is_finite</tt><a class="headerlink" href="#formula.formulae.Beta.is_finite" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.is_hypergeometric">
+<tt class="descname">is_hypergeometric</tt><big>(</big><em>k</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.is_hypergeometric" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.is_imaginary">
+<tt class="descname">is_imaginary</tt><a class="headerlink" href="#formula.formulae.Beta.is_imaginary" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.is_infinitesimal">
+<tt class="descname">is_infinitesimal</tt><a class="headerlink" href="#formula.formulae.Beta.is_infinitesimal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.is_integer">
+<tt class="descname">is_integer</tt><a class="headerlink" href="#formula.formulae.Beta.is_integer" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.is_irrational">
+<tt class="descname">is_irrational</tt><a class="headerlink" href="#formula.formulae.Beta.is_irrational" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.is_negative">
+<tt class="descname">is_negative</tt><a class="headerlink" href="#formula.formulae.Beta.is_negative" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.is_noninteger">
+<tt class="descname">is_noninteger</tt><a class="headerlink" href="#formula.formulae.Beta.is_noninteger" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.is_nonnegative">
+<tt class="descname">is_nonnegative</tt><a class="headerlink" href="#formula.formulae.Beta.is_nonnegative" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.is_nonpositive">
+<tt class="descname">is_nonpositive</tt><a class="headerlink" href="#formula.formulae.Beta.is_nonpositive" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.is_nonzero">
+<tt class="descname">is_nonzero</tt><a class="headerlink" href="#formula.formulae.Beta.is_nonzero" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.is_number">
+<tt class="descname">is_number</tt><a class="headerlink" href="#formula.formulae.Beta.is_number" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.is_odd">
+<tt class="descname">is_odd</tt><a class="headerlink" href="#formula.formulae.Beta.is_odd" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.is_polynomial">
+<tt class="descname">is_polynomial</tt><big>(</big><em>*syms</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.is_polynomial" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if self is a polynomial in syms and False otherwise.</p>
+<p>This checks if self is an exact polynomial in syms.  This function
+returns False for expressions that are &#8220;polynomials&#8221; with symbolic
+exponents.  Thus, you should be able to apply polynomial algorithms to
+expressions for which this returns True, and Poly(expr, <a href="#id5"><span class="problematic" id="id6">*</span></a>syms) should
+work only if and only if expr.is_polynomial(<a href="#id7"><span class="problematic" id="id8">*</span></a>syms) returns True. The
+polynomial does not have to be in expanded form.  If no symbols are
+given, all free symbols in the expression will be used.</p>
+<p>This is not part of the assumptions system.  You cannot do
+Symbol(&#8216;z&#8217;, polynomial=True).</p>
+<p><strong>Examples</strong>
+&gt;&gt;&gt; from sympy import Symbol
+&gt;&gt;&gt; x = Symbol(&#8216;x&#8217;)
+&gt;&gt;&gt; ((x**2 + 1)**4).is_polynomial(x)
+True
+&gt;&gt;&gt; ((x**2 + 1)**4).is_polynomial()
+True
+&gt;&gt;&gt; (2**x + 1).is_polynomial(x)
+False</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">n</span> <span class="o">=</span> <span class="n">Symbol</span><span class="p">(</span><span class="s">&#39;n&#39;</span><span class="p">,</span> <span class="n">nonnegative</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">integer</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">is_polynomial</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+<p>This function does not attempt any nontrivial simplifications that may
+result in an expression that does not appear to be a polynomial to
+become one.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">sqrt</span><span class="p">,</span> <span class="n">factor</span><span class="p">,</span> <span class="n">cancel</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">Symbol</span><span class="p">(</span><span class="s">&#39;y&#39;</span><span class="p">,</span> <span class="n">positive</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">y</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">is_polynomial</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">factor</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="go">y + 1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">factor</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">.</span><span class="n">is_polynomial</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="p">(</span><span class="n">y</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="o">.</span><span class="n">is_polynomial</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cancel</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="go">y + 1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cancel</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="o">.</span><span class="n">is_polynomial</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p>See also .is_rational_function()</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.is_positive">
+<tt class="descname">is_positive</tt><a class="headerlink" href="#formula.formulae.Beta.is_positive" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.is_prime">
+<tt class="descname">is_prime</tt><a class="headerlink" href="#formula.formulae.Beta.is_prime" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.is_rational">
+<tt class="descname">is_rational</tt><a class="headerlink" href="#formula.formulae.Beta.is_rational" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.is_rational_function">
+<tt class="descname">is_rational_function</tt><big>(</big><em>*syms</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.is_rational_function" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test whether function is a ratio of two polynomials in the given
+symbols, syms. When syms is not given, all free symbols will be used.
+The rational function does not have to be in expanded or in any kind of
+canonical form.</p>
+<p>This function returns False for expressions that are &#8220;rational
+functions&#8221; with symbolic exponents.  Thus, you should be able to call
+.as_numer_denom() and apply polynomial algorithms to the result for
+expressions for which this returns True.</p>
+<p>This is not part of the assumptions system.  You cannot do
+Symbol(&#8216;z&#8217;, rational_function=True).</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">Symbol</span><span class="p">,</span> <span class="n">sin</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy.abc</span> <span class="kn">import</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">x</span><span class="o">/</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">is_rational_function</span><span class="p">()</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">is_rational_function</span><span class="p">()</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">x</span><span class="o">/</span><span class="n">sin</span><span class="p">(</span><span class="n">y</span><span class="p">))</span><span class="o">.</span><span class="n">is_rational_function</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">n</span> <span class="o">=</span> <span class="n">Symbol</span><span class="p">(</span><span class="s">&#39;n&#39;</span><span class="p">,</span> <span class="n">integer</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">is_rational_function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+<p>This function does not attempt any nontrivial simplifications that may
+result in an expression that does not appear to be a rational function
+to become one.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">sqrt</span><span class="p">,</span> <span class="n">factor</span><span class="p">,</span> <span class="n">cancel</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">Symbol</span><span class="p">(</span><span class="s">&#39;y&#39;</span><span class="p">,</span> <span class="n">positive</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">y</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">y</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">is_rational_function</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">factor</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="go">(y + 1)/y</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">factor</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">.</span><span class="n">is_rational_function</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p>See also is_rational_function().</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.is_real">
+<tt class="descname">is_real</tt><a class="headerlink" href="#formula.formulae.Beta.is_real" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.is_unbounded">
+<tt class="descname">is_unbounded</tt><a class="headerlink" href="#formula.formulae.Beta.is_unbounded" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.is_zero">
+<tt class="descname">is_zero</tt><a class="headerlink" href="#formula.formulae.Beta.is_zero" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.iter_basic_args">
+<tt class="descname">iter_basic_args</tt><big>(</big><big>)</big><a class="headerlink" href="#formula.formulae.Beta.iter_basic_args" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterates arguments of &#8216;self&#8217;.</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy.abc</span> <span class="kn">import</span> <span class="n">x</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">x</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">iter_basic_args</span><span class="p">()</span>
+<span class="go">&lt;tupleiterator object at 0x...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">iter_basic_args</span><span class="p">())</span>
+<span class="go">[2, x]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.leadterm">
+<tt class="descname">leadterm</tt><big>(</big><em>x</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.leadterm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the leading term a*x**b as a tuple (a, b).</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy.abc</span> <span class="kn">import</span> <span class="n">x</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">x</span><span class="o">+</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">leadterm</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="go">(1, 0)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="n">x</span><span class="o">+</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">leadterm</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="go">(1, -2)</span>
+</pre></div>
+</div>
+<p>Note:</p>
+<p>self is assumed to be the result returned by Basic.series().</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.limit">
+<tt class="descname">limit</tt><big>(</big><em>x</em>, <em>xlim</em>, <em>dir='+'</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.limit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute limit x-&gt;xlim.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.lseries">
+<tt class="descname">lseries</tt><big>(</big><em>x=None</em>, <em>x0=0</em>, <em>dir='+'</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.lseries" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrapper for series yielding an iterator of the terms of the series.</p>
+<p>Note: an infinite series will yield an infinite iterator. The following,
+for exaxmple, will never terminate. It will just keep printing terms
+of the sin(x) series:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>for term in sin(x).lseries(x):</dt>
+<dd>print term</dd>
+</dl>
+</div></blockquote>
+<p>The advantage of lseries() over nseries() is that many times you are
+just interested in the next term in the series (i.e. the first term for
+example), but you don&#8217;t know how many you should ask for in nseries()
+using the &#8220;n&#8221; parameter.</p>
+<p>See also nseries().</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.match">
+<tt class="descname">match</tt><big>(</big><em>pattern</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.match" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pattern matching.</p>
+<p>Wild symbols match all.</p>
+<p>Return None when expression (self) does not match
+with pattern. Otherwise return a dictionary such that</p>
+<blockquote>
+<div>pattern.subs(self.match(pattern)) == self</div></blockquote>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">symbols</span><span class="p">,</span> <span class="n">Wild</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy.abc</span> <span class="kn">import</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">Wild</span><span class="p">(</span><span class="s">&quot;p&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">q</span> <span class="o">=</span> <span class="n">Wild</span><span class="p">(</span><span class="s">&quot;q&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span> <span class="o">=</span> <span class="n">Wild</span><span class="p">(</span><span class="s">&quot;r&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">p</span><span class="o">**</span><span class="n">p</span><span class="p">)</span>
+<span class="go">{p_: x + y}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">p</span><span class="o">**</span><span class="n">q</span><span class="p">)</span>
+<span class="go">{p_: x + y, q_: x + y}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">p</span><span class="o">*</span><span class="n">q</span><span class="o">**</span><span class="n">r</span><span class="p">)</span>
+<span class="go">{p_: 4, q_: x, r_: 2}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">p</span><span class="o">*</span><span class="n">q</span><span class="o">**</span><span class="n">r</span><span class="p">)</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">p</span><span class="o">*</span><span class="n">q</span><span class="o">**</span><span class="n">r</span><span class="p">))</span>
+<span class="go">4*x**2</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.matches">
+<tt class="descname">matches</tt><big>(</big><em>expr</em>, <em>repl_dict={}</em>, <em>evaluate=False</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.matches" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.n">
+<tt class="descname">n</tt><big>(</big><em>n=15</em>, <em>subs=None</em>, <em>maxn=100</em>, <em>chop=False</em>, <em>strict=False</em>, <em>quad=None</em>, <em>verbose=False</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.n" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluate the given formula to an accuracy of n digits.
+Optional keyword arguments:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>subs=&lt;dict&gt;</dt>
+<dd>Substitute numerical values for symbols, e.g.
+subs={x:3, y:1+pi}.</dd>
+<dt>maxn=&lt;integer&gt;</dt>
+<dd>Allow a maximum temporary working precision of maxn digits
+(default=100)</dd>
+<dt>chop=&lt;bool&gt;</dt>
+<dd>Replace tiny real or imaginary parts in subresults
+by exact zeros (default=False)</dd>
+<dt>strict=&lt;bool&gt;</dt>
+<dd>Raise PrecisionExhausted if any subresult fails to evaluate
+to full accuracy, given the available maxprec
+(default=False)</dd>
+<dt>quad=&lt;str&gt;</dt>
+<dd>Choose algorithm for numerical quadrature. By default,
+tanh-sinh quadrature is used. For oscillatory
+integrals on an infinite interval, try quad=&#8217;osc&#8217;.</dd>
+<dt>verbose=&lt;bool&gt;</dt>
+<dd>Print debug information (default=False)</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Beta.name">
+<tt class="descname">name</tt><a class="headerlink" href="#formula.formulae.Beta.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.normal">
+<tt class="descname">normal</tt><big>(</big><big>)</big><a class="headerlink" href="#formula.formulae.Beta.normal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.nseries">
+<tt class="descname">nseries</tt><big>(</big><em>x=None</em>, <em>x0=0</em>, <em>n=6</em>, <em>dir='+'</em>, <em>logx=None</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.nseries" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrapper to _eval_nseries if assumptions allow, else to series.</p>
+<p>If x is given, x0 is 0, dir=&#8217;+&#8217;, and self has x, then _eval_nseries is
+called. This calculates &#8220;n&#8221; terms in the innermost expressions and
+then builds up the final series just by &#8220;cross-multiplying&#8221; everything
+out.</p>
+<p>Advantage &#8211; it&#8217;s fast, because we don&#8217;t have to determine how many
+terms we need to calculate in advance.</p>
+<p>Disadvantage &#8211; you may end up with less terms than you may have
+expected, but the O(x**n) term appended will always be correct and
+so the result, though perhaps shorter, will also be correct.</p>
+<p>If any of those assumptions is not met, this is treated like a
+wrapper to series which will try harder to return the correct
+number of terms.</p>
+<p>See also lseries().</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.nsimplify">
+<tt class="descname">nsimplify</tt><big>(</big><em>constants=</em><span class="optional">[</span><span class="optional">]</span>, <em>tolerance=None</em>, <em>full=False</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.nsimplify" title="Permalink to this definition">¶</a></dt>
+<dd><p>See the nsimplify function in sympy.simplify</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.powsimp">
+<tt class="descname">powsimp</tt><big>(</big><em>deep=False</em>, <em>combine='all'</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.powsimp" title="Permalink to this definition">¶</a></dt>
+<dd><p>See the powsimp function in sympy.simplify</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.radsimp">
+<tt class="descname">radsimp</tt><big>(</big><big>)</big><a class="headerlink" href="#formula.formulae.Beta.radsimp" title="Permalink to this definition">¶</a></dt>
+<dd><p>See the radsimp function in sympy.simplify</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.ratsimp">
+<tt class="descname">ratsimp</tt><big>(</big><big>)</big><a class="headerlink" href="#formula.formulae.Beta.ratsimp" title="Permalink to this definition">¶</a></dt>
+<dd><p>See the ratsimp function in sympy.simplify</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.refine">
+<tt class="descname">refine</tt><big>(</big><em>assumption=True</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.refine" title="Permalink to this definition">¶</a></dt>
+<dd><p>See the refine function in sympy.assumptions</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.removeO">
+<tt class="descname">removeO</tt><big>(</big><big>)</big><a class="headerlink" href="#formula.formulae.Beta.removeO" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes the additive O(..) symbol if there is one</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.replace">
+<tt class="descname">replace</tt><big>(</big><em>query</em>, <em>value</em>, <em>map=False</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.replace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Replace matching subexpressions of <tt class="docutils literal"><span class="pre">self</span></tt> with <tt class="docutils literal"><span class="pre">value</span></tt>.</p>
+<p>If map=True then also return the mapping {old: new} where <cite>old`</cite>
+was a sub-expression found with query and <tt class="docutils literal"><span class="pre">new</span></tt> is the replacement
+value for it.</p>
+<p>Traverses an expression tree and performs replacement of matching
+subexpressions from the bottom to the top of the tree. The list of
+possible combinations of queries and replacement values is listed
+below:</p>
+<dl class="docutils">
+<dt>1.1. type -&gt; type</dt>
+<dd>obj.replace(sin, tan)</dd>
+<dt>1.2. type -&gt; func</dt>
+<dd>obj.replace(sin, lambda expr, arg: ...)</dd>
+<dt>2.1. expr -&gt; expr</dt>
+<dd>obj.replace(sin(a), tan(a))</dd>
+<dt>2.2. expr -&gt; func</dt>
+<dd>obj.replace(sin(a), lambda a: ...)</dd>
+<dt>3.1. func -&gt; func</dt>
+<dd>obj.replace(lambda expr: ..., lambda expr: ...)</dd>
+</dl>
+<p>Examples:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">log</span><span class="p">,</span> <span class="n">sin</span><span class="p">,</span> <span class="n">cos</span><span class="p">,</span> <span class="n">tan</span><span class="p">,</span> <span class="n">Wild</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy.abc</span> <span class="kn">import</span> <span class="n">x</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">log</span><span class="p">(</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="o">+</span> <span class="n">tan</span><span class="p">(</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">sin</span><span class="p">,</span> <span class="n">cos</span><span class="p">)</span>
+<span class="go">log(cos(x)) + tan(cos(x**2))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">sin</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">arg</span><span class="p">:</span> <span class="n">sin</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">arg</span><span class="p">))</span>
+<span class="go">log(sin(2*x)) + tan(sin(2*x**2))</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">sin</span><span class="p">,</span> <span class="n">cos</span><span class="p">,</span> <span class="nb">map</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="go">(cos(x), {sin(x): cos(x)})</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">Wild</span><span class="p">(</span><span class="s">&#39;a&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">sin</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="n">cos</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+<span class="go">log(cos(x)) + tan(cos(x**2))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">sin</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="k">lambda</span> <span class="n">a</span><span class="p">:</span> <span class="n">sin</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">a</span><span class="p">))</span>
+<span class="go">log(sin(2*x)) + tan(sin(2*x**2))</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="k">lambda</span> <span class="n">expr</span><span class="p">:</span> <span class="n">expr</span><span class="o">.</span><span class="n">is_Number</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">expr</span><span class="p">:</span> <span class="n">expr</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">4*sin(x**9)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.rewrite">
+<tt class="descname">rewrite</tt><big>(</big><em>*args</em>, <em>**hints</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.rewrite" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rewrites expression containing applications of functions
+of one kind in terms of functions of different kind. For
+example you can rewrite trigonometric functions as complex
+exponentials or combinatorial functions as gamma function.</p>
+<p>As a pattern this function accepts a list of functions to
+to rewrite (instances of DefinedFunction class). As rule
+you can use string or a destination function instance (in
+this case rewrite() will use the str() function).</p>
+<p>There is also possibility to pass hints on how to rewrite
+the given expressions. For now there is only one such hint
+defined called &#8216;deep&#8217;. When &#8216;deep&#8217; is set to False it will
+forbid functions to rewrite their contents.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">sin</span><span class="p">,</span> <span class="n">exp</span><span class="p">,</span> <span class="n">I</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy.abc</span> <span class="kn">import</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">rewrite</span><span class="p">(</span><span class="n">sin</span><span class="p">,</span> <span class="n">exp</span><span class="p">)</span>
+<span class="go">-I*(exp(I*x) - exp(-I*x))/2</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.separate">
+<tt class="descname">separate</tt><big>(</big><em>deep=False</em>, <em>force=False</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.separate" title="Permalink to this definition">¶</a></dt>
+<dd><p>See the separate function in sympy.simplify</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.series">
+<tt class="descname">series</tt><big>(</big><em>x=None</em>, <em>x0=0</em>, <em>n=6</em>, <em>dir='+'</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.series" title="Permalink to this definition">¶</a></dt>
+<dd><p>Series expansion of &#8220;self&#8221; around <cite>x = x0</cite> yielding either terms of
+the series one by one (the lazy series given when n=None), else
+all the terms at once when n != None.</p>
+<p>Note: when n != None, if an O() term is returned then the x in the
+in it and the entire expression represents x - x0, the displacement
+from x0. (If there is no O() term then the series was exact and x has
+it&#8217;s normal meaning.) This is currently necessary since sympy&#8217;s O()
+can only represent terms at x0=0. So instead of</p>
+<blockquote>
+<div>&gt;&gt; cos(x).series(x0=1, n=2)
+(1 - x)*sin(1) + cos(1) + O((x - 1)**2)</div></blockquote>
+<p>which graphically looks like this:</p>
+<blockquote>
+<div><blockquote>
+<div><blockquote>
+<div>.|.         . .</div></blockquote>
+<p>. |      .     .</p>
+</div></blockquote>
+<dl class="docutils">
+<dt>&#8212;+&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;-</dt>
+<dd><div class="first last line-block">
+<div class="line">. .          . .</div>
+<div class="line-block">
+<div class="line">x=0</div>
+</div>
+</div>
+</dd>
+</dl>
+</div></blockquote>
+<p>the following is returned instead</p>
+<blockquote>
+<div>-x*sin(1) + cos(1) + O(x**2)</div></blockquote>
+<p>whose graph is this</p>
+<blockquote>
+<div><blockquote>
+<div><blockquote>
+<div><blockquote>
+<div>|</div></blockquote>
+<p>. .|        . .</p>
+</div></blockquote>
+<p>.        .     .</p>
+</div></blockquote>
+<dl class="docutils">
+<dt>&#8212;&#8211;+&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;.</dt>
+<dd><div class="first last line-block">
+<div class="line">. .          . .</div>
+<div class="line-block">
+<div class="line">x=0</div>
+</div>
+</div>
+</dd>
+</dl>
+</div></blockquote>
+<p>which is identical to cos(x + 1).series(n=2).</p>
+<dl class="docutils">
+<dt>Usage:</dt>
+<dd><p class="first">Returns the series expansion of &#8220;self&#8221; around the point <cite>x = x0</cite>
+with respect to <cite>x</cite> up to O(x**n) (default n is 6).</p>
+<p>If <cite>x=None</cite> and <cite>self</cite> is univariate, the univariate symbol will
+be supplied, otherwise an error will be raised.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">cos</span><span class="p">,</span> <span class="n">exp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy.abc</span> <span class="kn">import</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">series</span><span class="p">()</span>
+<span class="go">1 - x**2/2 + x**4/24 + O(x**6)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">series</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="go">1 - x**2/2 + O(x**4)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e</span> <span class="o">=</span> <span class="n">cos</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">exp</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e</span><span class="o">.</span><span class="n">series</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">cos(x + 1) - y*sin(x + 1) + O(y**2)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e</span><span class="o">.</span><span class="n">series</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">cos(exp(y)) - x*sin(exp(y)) + O(x**2)</span>
+</pre></div>
+</div>
+<p>If <cite>n=None</cite> then an iterator of the series terms will be returned.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">term</span><span class="o">=</span><span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">series</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">term</span><span class="o">.</span><span class="n">next</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">)]</span>
+<span class="go">[1, -x**2/2]</span>
+</pre></div>
+</div>
+<p>For <cite>dir=+</cite> (default) the series is calculated from the right and
+for <cite>dir=-</cite> the series from the left. For smooth functions this
+flag will not alter the results.</p>
+<div class="last highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">series</span><span class="p">(</span><span class="nb">dir</span><span class="o">=</span><span class="s">&quot;+&quot;</span><span class="p">)</span>
+<span class="go">x</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">series</span><span class="p">(</span><span class="nb">dir</span><span class="o">=</span><span class="s">&quot;-&quot;</span><span class="p">)</span>
+<span class="go">-x</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.simplify">
+<tt class="descname">simplify</tt><big>(</big><big>)</big><a class="headerlink" href="#formula.formulae.Beta.simplify" title="Permalink to this definition">¶</a></dt>
+<dd><p>See the simplify function in sympy.simplify</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.sort_key">
+<tt class="descname">sort_key</tt><big>(</big><em>order=None</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.sort_key" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.subs">
+<tt class="descname">subs</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.subs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Substitutes an expression.</p>
+<p>Calls either _subs_old_new, _subs_dict or _subs_list depending
+if you give it two arguments (old, new), a dictionary or a list.</p>
+<p>Examples:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">pi</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy.abc</span> <span class="kn">import</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">pi</span><span class="p">)</span>
+<span class="go">pi*y + 1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">subs</span><span class="p">({</span><span class="n">x</span><span class="p">:</span><span class="n">pi</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span><span class="mi">2</span><span class="p">})</span>
+<span class="go">1 + 2*pi</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">subs</span><span class="p">([(</span><span class="n">x</span><span class="p">,</span><span class="n">pi</span><span class="p">),</span> <span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="mi">2</span><span class="p">)])</span>
+<span class="go">1 + 2*pi</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">subs</span><span class="p">([(</span><span class="n">y</span><span class="p">,</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="mi">2</span><span class="p">)])</span>
+<span class="go">6</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">subs</span><span class="p">([(</span><span class="n">x</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)])</span>
+<span class="go">x**2 + 2</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.together">
+<tt class="descname">together</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.together" title="Permalink to this definition">¶</a></dt>
+<dd><p>See the together function in sympy.polys</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Beta.trigsimp">
+<tt class="descname">trigsimp</tt><big>(</big><em>deep=False</em>, <em>recursive=False</em><big>)</big><a class="headerlink" href="#formula.formulae.Beta.trigsimp" title="Permalink to this definition">¶</a></dt>
+<dd><p>See the trigsimp function in sympy.simplify</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="formula">
+<h3><a class="reference internal" href="#formula.formulae.Formula" title="formula.formulae.Formula"><tt class="xref py py-class docutils literal"><span class="pre">Formula</span></tt></a><a class="headerlink" href="#formula" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="formula.formulae.Formula">
+<em class="property">class </em><tt class="descclassname">formula.formulae.</tt><tt class="descname">Formula</tt><big>(</big><em>seq</em>, <em>char='b'</em><big>)</big><a class="headerlink" href="#formula.formulae.Formula" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>A Formula is a model for a mean in a regression model.</p>
+<p>It is often given by a sequence of sympy expressions, with the mean
+model being the sum of each term multiplied by a linear regression
+coefficient.</p>
+<p>The expressions may depend on additional Symbol instances,
+giving a non-linear regression model.</p>
+<p class="rubric">Methods</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#formula.formulae.Formula.delete_terms" title="formula.formulae.Formula.delete_terms"><tt class="xref py py-obj docutils literal"><span class="pre">delete_terms</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#formula.formulae.Formula.design" title="formula.formulae.Formula.design"><tt class="xref py py-obj docutils literal"><span class="pre">design</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#formula.formulae.Formula.subs" title="formula.formulae.Formula.subs"><tt class="xref py py-obj docutils literal"><span class="pre">subs</span></tt></a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="formula.formulae.Formula.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>seq</em>, <em>char='b'</em><big>)</big><a class="headerlink" href="#formula.formulae.Formula.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Formula.coefs">
+<tt class="descname">coefs</tt><a class="headerlink" href="#formula.formulae.Formula.coefs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Coefficients in the linear regression formula.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Formula.delete_terms">
+<tt class="descname">delete_terms</tt><big>(</big><em>other</em><big>)</big><a class="headerlink" href="#formula.formulae.Formula.delete_terms" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Formula.design">
+<tt class="descname">design</tt><big>(</big><em>input</em>, <em>param=None</em>, <em>return_float=False</em>, <em>contrasts=None</em><big>)</big><a class="headerlink" href="#formula.formulae.Formula.design" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct the design matrix, and optional contrast matrices.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>input</strong> : np.recarray</p>
+<blockquote>
+<div><p>Recarray including fields needed to compute the Terms in
+getparams(self.design_expr).</p>
+</div></blockquote>
+<p><strong>param</strong> : None or np.recarray</p>
+<blockquote>
+<div><p>Recarray including fields that are not Terms in
+getparams(self.design_expr)</p>
+</div></blockquote>
+<p><strong>return_float</strong> : bool, optional</p>
+<blockquote>
+<div><p>If True, return a np.float array rather than a np.recarray</p>
+</div></blockquote>
+<p><strong>contrasts</strong> : None or dict, optional</p>
+<blockquote class="last">
+<div><p>Contrasts. The items in this dictionary should be (str,
+Formula) pairs where a contrast matrix is constructed for
+each Formula by evaluating its design at the same parameters
+as self.design. If not None, then the return_float is set to True.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Formula.design_expr">
+<tt class="descname">design_expr</tt><a class="headerlink" href="#formula.formulae.Formula.design_expr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Formula.dtype">
+<tt class="descname">dtype</tt><a class="headerlink" href="#formula.formulae.Formula.dtype" title="Permalink to this definition">¶</a></dt>
+<dd><p>The dtype of the design matrix of the Formula.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Formula.mean">
+<tt class="descname">mean</tt><a class="headerlink" href="#formula.formulae.Formula.mean" title="Permalink to this definition">¶</a></dt>
+<dd><p>Expression for the mean, expressed as a linear combination of terms, each with dummy variables in front.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Formula.params">
+<tt class="descname">params</tt><a class="headerlink" href="#formula.formulae.Formula.params" title="Permalink to this definition">¶</a></dt>
+<dd><p>The parameters in the Formula.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.formulae.Formula.subs">
+<tt class="descname">subs</tt><big>(</big><em>old</em>, <em>new</em><big>)</big><a class="headerlink" href="#formula.formulae.Formula.subs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform a sympy substitution on all terms in the Formula</p>
+<p>Returns a new instance of the same class</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>old</strong> : sympy.Basic</p>
+<blockquote>
+<div><p>The expression to be changed</p>
+</div></blockquote>
+<p><strong>new</strong> : sympy.Basic</p>
+<blockquote>
+<div><p>The value to change it to.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first last"><strong>newf</strong> : Formula</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">formula</span> <span class="kn">import</span> <span class="n">terms</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">terms</span><span class="p">(</span><span class="s">&#39;s, t&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">,</span> <span class="n">g</span> <span class="o">=</span> <span class="p">[</span><span class="n">sympy</span><span class="o">.</span><span class="n">Function</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="s">&#39;fg&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">form</span> <span class="o">=</span> <span class="n">Formula</span><span class="p">([</span><span class="n">f</span><span class="p">(</span><span class="n">t</span><span class="p">),</span><span class="n">g</span><span class="p">(</span><span class="n">s</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">newform</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Function</span><span class="p">(</span><span class="s">&#39;h&#39;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">newform</span><span class="o">.</span><span class="n">terms</span>
+<span class="go">array([f(t), h(s)], dtype=object)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">form</span><span class="o">.</span><span class="n">terms</span>
+<span class="go">array([f(t), g(s)], dtype=object)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Formula.terms">
+<tt class="descname">terms</tt><a class="headerlink" href="#formula.formulae.Formula.terms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Terms in the linear regression formula.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="formula.formulae.Formula.unique">
+<tt class="descname">unique</tt><a class="headerlink" href="#formula.formulae.Formula.unique" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a Formula(np.unique(self.terms))</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="formula.formulae.is_beta">
+<tt class="descclassname">formula.formulae.</tt><tt class="descname">is_beta</tt><big>(</big><em>obj</em><big>)</big><a class="headerlink" href="#formula.formulae.is_beta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Is obj a Beta?</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="formula.formulae.is_formula">
+<tt class="descclassname">formula.formulae.</tt><tt class="descname">is_formula</tt><big>(</big><em>obj</em><big>)</big><a class="headerlink" href="#formula.formulae.is_formula" title="Permalink to this definition">¶</a></dt>
+<dd><p>Is obj a Formula?</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">home</a>|&nbsp;</li>
+        <li><a href="../../search.html">search</a>|&nbsp;</li>
+       <li><a href="../../contents.html">documentation </a> &raquo;</li>
+ 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, J. Taylor.
+      Last updated on Jul 30, 2011.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1pre.
+    </div>
+  </body>
+</html>

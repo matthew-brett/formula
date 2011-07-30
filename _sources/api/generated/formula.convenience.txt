@@ -1,0 +1,29 @@
+.. AUTO-GENERATED FILE -- DO NOT EDIT!
+
+convenience
+===========
+
+Module: :mod:`convenience`
+--------------------------
+.. automodule:: formula.convenience
+
+.. currentmodule:: formula.convenience
+
+Functions
+---------
+
+
+.. autofunction:: formula.convenience.define
+
+
+.. autofunction:: formula.convenience.make_recarray
+
+
+.. autofunction:: formula.convenience.natural_spline
+
+
+.. autofunction:: formula.convenience.terms
+
+
+.. autofunction:: formula.convenience.terms_from_rec
+

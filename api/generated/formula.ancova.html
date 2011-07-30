@@ -1,0 +1,490 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ancova &mdash; Formula Documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/formula.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1.0.dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Formula Documentation" href="../../index.html" /> 
+  </head>
+  <body>
+
+<div style="background-color: white; text-align: left; padding: 10px 10px 15px 15px">
+<a href="../../index.html"><img src="../../_static/logo.png" border="0" alt="py4sci"/></a>
+</div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">home</a>|&nbsp;</li>
+        <li><a href="../../search.html">search</a>|&nbsp;</li>
+       <li><a href="../../contents.html">documentation </a> &raquo;</li>
+ 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">ancova</a><ul>
+<li><a class="reference internal" href="#module-ancova">Module: <tt class="docutils literal"><span class="pre">ancova</span></tt></a></li>
+<li><a class="reference internal" href="#class">Class</a></li>
+<li><a class="reference internal" href="#id1"><tt class="docutils literal"><span class="pre">ANCOVA</span></tt></a><ul>
+</ul>
+</li>
+<li><a class="reference internal" href="#functions">Functions</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../_sources/api/generated/formula.ancova.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="ancova">
+<h1>ancova<a class="headerlink" href="#ancova" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-ancova">
+<h2>Module: <tt class="xref py py-mod docutils literal"><span class="pre">ancova</span></tt><a class="headerlink" href="#module-ancova" title="Permalink to this headline">¶</a></h2>
+<p>Inheritance diagram for <tt class="docutils literal"><span class="pre">formula.ancova</span></tt>:</p>
+<img src="../../_images/inheritance6d2929479e.png" usemap="#inheritance6d2929479e" class="inheritance"/><map id="inheritance6d2929479e" name="inheritance6d2929479e">
+</map>
+<span class="target" id="module-formula.ancova"></span></div>
+<div class="section" id="class">
+<h2>Class<a class="headerlink" href="#class" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="id1">
+<h2><a class="reference internal" href="#formula.ancova.ANCOVA" title="formula.ancova.ANCOVA"><tt class="xref py py-class docutils literal"><span class="pre">ANCOVA</span></tt></a><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="formula.ancova.ANCOVA">
+<em class="property">class </em><tt class="descclassname">formula.ancova.</tt><tt class="descname">ANCOVA</tt><big>(</big><em>*expr_factor_tuples</em>, <em>**keywords</em><big>)</big><a class="headerlink" href="#formula.ancova.ANCOVA" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p class="rubric">Methods</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#formula.ancova.ANCOVA.all_but_above" title="formula.ancova.ANCOVA.all_but_above"><tt class="xref py py-obj docutils literal"><span class="pre">all_but_above</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#formula.ancova.ANCOVA.delete_terms" title="formula.ancova.ANCOVA.delete_terms"><tt class="xref py py-obj docutils literal"><span class="pre">delete_terms</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#formula.ancova.ANCOVA.multiply_by_expression" title="formula.ancova.ANCOVA.multiply_by_expression"><tt class="xref py py-obj docutils literal"><span class="pre">multiply_by_expression</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#formula.ancova.ANCOVA.multiply_by_factor" title="formula.ancova.ANCOVA.multiply_by_factor"><tt class="xref py py-obj docutils literal"><span class="pre">multiply_by_factor</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#formula.ancova.ANCOVA.sequence" title="formula.ancova.ANCOVA.sequence"><tt class="xref py py-obj docutils literal"><span class="pre">sequence</span></tt></a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="formula.ancova.ANCOVA.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>*expr_factor_tuples</em>, <em>**keywords</em><big>)</big><a class="headerlink" href="#formula.ancova.ANCOVA.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="formula.ancova.ANCOVA.Rstr">
+<tt class="descname">Rstr</tt><a class="headerlink" href="#formula.ancova.ANCOVA.Rstr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Right-hand side for a formula in R. Any &#8220;*&#8221; in the
+sympy expressions are replaced with &#8221;:&#8221;.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">Term</span><span class="p">(</span><span class="s">&#39;x&#39;</span><span class="p">);</span> <span class="n">f</span> <span class="o">=</span> <span class="n">Factor</span><span class="p">(</span><span class="s">&#39;f&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span> <span class="p">;</span> <span class="n">h</span> <span class="o">=</span><span class="n">Factor</span><span class="p">(</span><span class="s">&#39;h&#39;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">ANCOVA</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">f</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span><span class="p">,(</span><span class="n">f</span><span class="p">,</span><span class="n">h</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">Rstr</span>
+<span class="go">&#39;1+I(x):f+I(x):f:h&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="formula.ancova.ANCOVA.add_intercept">
+<tt class="descname">add_intercept</tt><em class="property"> = True</em><a class="headerlink" href="#formula.ancova.ANCOVA.add_intercept" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="formula.ancova.ANCOVA.add_main_effects">
+<tt class="descname">add_main_effects</tt><em class="property"> = False</em><a class="headerlink" href="#formula.ancova.ANCOVA.add_main_effects" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="formula.ancova.ANCOVA.all_but_above">
+<tt class="descname">all_but_above</tt><big>(</big><em>expr</em>, <em>factors</em><big>)</big><a class="headerlink" href="#formula.ancova.ANCOVA.all_but_above" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create an ANCOVA for formula
+that has all variables except everything
+in self that is &#8220;greater&#8221; than (expr, factors).
+That is, all pairings of (expr, factors) where
+factors is not a superset of factors
+as well as everything else in the model.</p>
+<p>This is used in creating type II sums of squares tables.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="formula.ancova.ANCOVA.codings">
+<tt class="descname">codings</tt><a class="headerlink" href="#formula.ancova.ANCOVA.codings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return R&#8217;s interpretation of how each (expr, [factors])
+instance in the Formula should be coded.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">Term</span><span class="p">(</span><span class="s">&#39;x&#39;</span><span class="p">);</span> <span class="n">f</span> <span class="o">=</span> <span class="n">Factor</span><span class="p">(</span><span class="s">&#39;f&#39;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span> <span class="p">;</span> <span class="n">h</span> <span class="o">=</span><span class="n">Factor</span><span class="p">(</span><span class="s">&#39;h&#39;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">ANCOVA</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">f</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span><span class="p">,(</span><span class="n">f</span><span class="p">,</span><span class="n">h</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">codings</span>
+<span class="go">{1: {}, x: {(&#39;f&#39;,): [(&#39;f&#39;, &#39;indicator&#39;)], (&#39;f&#39;, &#39;h&#39;): [(&#39;f&#39;, &#39;indicator&#39;), (&#39;h&#39;, &#39;contrast&#39;)]}}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="formula.ancova.ANCOVA.contrast_matrices">
+<tt class="descname">contrast_matrices</tt><a class="headerlink" href="#formula.ancova.ANCOVA.contrast_matrices" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the canonical contrast matrices of the ANCOVA.
+The order is determined by the sorted order of
+numerical terms in the ANCOVA.
+Each numerical term yields several contrasts.</p>
+<p class="rubric">Notes</p>
+<p>This implicitly assumes that default_coding is &#8220;main_effect&#8221;.</p>
+<p>Not all contrasts are estimable depending on the design
+matrix. Hence, when these contrasts are used to compute F-statistics
+the actual &#8220;degrees of freedom&#8221; of the F-statistic depends on
+the projection of the rows of the contrast matrices onto the
+row space of the design matrix. Consistent contrast matrices
+can be found using <cite>formula.utils.contrast_from_cols_or_rows</cite></p>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">Term</span><span class="p">(</span><span class="s">&#39;x&#39;</span><span class="p">);</span> <span class="n">f</span> <span class="o">=</span> <span class="n">Factor</span><span class="p">(</span><span class="s">&#39;f&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span> <span class="p">;</span> <span class="n">h</span> <span class="o">=</span><span class="n">Factor</span><span class="p">(</span><span class="s">&#39;h&#39;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">ANCOVA</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">f</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span><span class="p">,(</span><span class="n">f</span><span class="p">,</span><span class="n">h</span><span class="p">)))</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">contrast_matrices</span><span class="p">[</span><span class="s">&#39;I(x):f&#39;</span><span class="p">]</span>
+<span class="go">array([[ 0.,  1.,  0.,  0.,  0.,  0.,  0.],</span>
+<span class="go">       [ 0.,  0.,  1.,  0.,  0.,  0.,  0.],</span>
+<span class="go">       [ 0.,  0.,  0.,  1.,  0.,  0.,  0.]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="formula.ancova.ANCOVA.contrast_names">
+<tt class="descname">contrast_names</tt><a class="headerlink" href="#formula.ancova.ANCOVA.contrast_names" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the canonical order of the contrasts of the ANCOVA
+formula that will be used, for instance, in type I sum
+of squares.</p>
+<p>The numeric variables are sorted, then within
+each numeric, the graded order of the
+factors is preserved.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="formula.ancova.ANCOVA.contrasts">
+<tt class="descname">contrasts</tt><a class="headerlink" href="#formula.ancova.ANCOVA.contrasts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the canonical contrasts of the ANCOVA.
+The order is determined by the sorted order of
+numerical terms in the ANCOVA.
+Each numerical term yields several</p>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">Term</span><span class="p">(</span><span class="s">&#39;x&#39;</span><span class="p">);</span> <span class="n">f</span> <span class="o">=</span> <span class="n">Factor</span><span class="p">(</span><span class="s">&#39;f&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span> <span class="p">;</span> <span class="n">h</span> <span class="o">=</span><span class="n">Factor</span><span class="p">(</span><span class="s">&#39;h&#39;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">ANCOVA</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">f</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span><span class="p">,(</span><span class="n">f</span><span class="p">,</span><span class="n">h</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cs</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">contrasts</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">cs</span><span class="o">.</span><span class="n">items</span><span class="p">())</span> <span class="c"># to give predictable order from dict for doctest</span>
+<span class="go">[(&#39;1&#39;, Formula([1])), (&#39;I(x):f&#39;, Formula([f_1*x, f_2*x, f_3*x])), (&#39;I(x):f:h&#39;, Formula([f_1*h_1*x, f_2*h_1*x, f_3*h_1*x]))]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.ancova.ANCOVA.delete_terms">
+<tt class="descname">delete_terms</tt><big>(</big><em>*expr_factor_tuples</em><big>)</big><a class="headerlink" href="#formula.ancova.ANCOVA.delete_terms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete <cite>expr_factor_tuples</cite> definitions from self</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>*expr_factor_tuples</strong> : arguments (variable number)</p>
+<blockquote>
+<div><p>zero or more expression factor tuples (see class docstring)</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>reduced_anova</strong> : ANOVA instance</p>
+<blockquote class="last">
+<div><p>ANOVA with expr_factor_tuples removed</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">Term</span><span class="p">(</span><span class="s">&#39;x&#39;</span><span class="p">);</span> <span class="n">f</span> <span class="o">=</span> <span class="n">Factor</span><span class="p">(</span><span class="s">&#39;f&#39;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">));</span> <span class="n">h</span> <span class="o">=</span><span class="n">Factor</span><span class="p">(</span><span class="s">&#39;h&#39;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">=</span><span class="n">ANCOVA</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">f</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span><span class="p">,(</span><span class="n">f</span><span class="p">,</span><span class="n">h</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
+<span class="go">ANCOVA([(1, ()), (x, (Factor(&#39;f&#39;, [0, 1, 2]),)), (x, (Factor(&#39;f&#39;, [0, 1, 2]), Factor(&#39;h&#39;, [0, 1])))])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">delete_terms</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">f</span><span class="p">))</span>
+<span class="go">ANCOVA([(1, ()), (x, (Factor(&#39;f&#39;, [0, 1, 2]), Factor(&#39;h&#39;, [0, 1])))])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="formula.ancova.ANCOVA.formula">
+<tt class="descname">formula</tt><a class="headerlink" href="#formula.ancova.ANCOVA.formula" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a Formula using R&#8217;s rules for
+coding factors.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">Term</span><span class="p">(</span><span class="s">&#39;x&#39;</span><span class="p">);</span> <span class="n">f</span> <span class="o">=</span> <span class="n">Factor</span><span class="p">(</span><span class="s">&#39;f&#39;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span> <span class="p">;</span> <span class="n">h</span> <span class="o">=</span><span class="n">Factor</span><span class="p">(</span><span class="s">&#39;h&#39;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">=</span><span class="n">ANCOVA</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">f</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span><span class="p">,(</span><span class="n">f</span><span class="p">,</span><span class="n">h</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">formula</span>
+<span class="go">Formula([1, f_0*x, f_1*x, f_2*x, f_0*h_1*x, f_1*h_1*x, f_2*h_1*x])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="formula.ancova.ANCOVA.formulae">
+<tt class="descname">formulae</tt><a class="headerlink" href="#formula.ancova.ANCOVA.formulae" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the canonical formulae, one for each item
+in self.sequence()</p>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">Term</span><span class="p">(</span><span class="s">&#39;x&#39;</span><span class="p">);</span> <span class="n">f</span> <span class="o">=</span> <span class="n">Factor</span><span class="p">(</span><span class="s">&#39;f&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span> <span class="p">;</span> <span class="n">h</span> <span class="o">=</span><span class="n">Factor</span><span class="p">(</span><span class="s">&#39;h&#39;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">ANCOVA</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">f</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span><span class="p">,(</span><span class="n">f</span><span class="p">,</span><span class="n">h</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">formulae</span>
+<span class="go">[Formula([1]), Formula([f_1*x, f_2*x, f_3*x]), Formula([f_1*h_1*x, f_2*h_1*x, f_3*h_1*x])]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.ancova.ANCOVA.multiply_by_expression">
+<tt class="descname">multiply_by_expression</tt><big>(</big><em>expr</em><big>)</big><a class="headerlink" href="#formula.ancova.ANCOVA.multiply_by_expression" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new ANCOVA with each
+existing expression multiplied by
+expr.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.ancova.ANCOVA.multiply_by_factor">
+<tt class="descname">multiply_by_factor</tt><big>(</big><em>factor</em><big>)</big><a class="headerlink" href="#formula.ancova.ANCOVA.multiply_by_factor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new ANCOVA with each
+existing factor multiplied by factor.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="formula.ancova.ANCOVA.sequence">
+<tt class="descname">sequence</tt><big>(</big><em>expr=None</em><big>)</big><a class="headerlink" href="#formula.ancova.ANCOVA.sequence" title="Permalink to this definition">¶</a></dt>
+<dd><p>A sequence that can be used to construct an equivalent model
+if expr is None. If expr is not None, then this
+model is equivalent to the given model but only
+has numeric terms matching expr.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">Term</span><span class="p">(</span><span class="s">&#39;x&#39;</span><span class="p">);</span> <span class="n">f</span> <span class="o">=</span> <span class="n">Factor</span><span class="p">(</span><span class="s">&#39;f&#39;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span> <span class="p">;</span> <span class="n">h</span> <span class="o">=</span><span class="n">Factor</span><span class="p">(</span><span class="s">&#39;h&#39;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">i</span> <span class="o">=</span> <span class="n">Factor</span><span class="p">(</span><span class="s">&#39;i&#39;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">ANCOVA</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">f</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span><span class="p">,(</span><span class="n">f</span><span class="p">,</span><span class="n">h</span><span class="p">)),(</span><span class="n">x</span><span class="p">,(</span><span class="n">i</span><span class="p">,</span><span class="n">h</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">sequence</span><span class="p">()</span>
+<span class="go">[(1, ()), (x, (Factor(&#39;f&#39;, [0, 1, 2]),)), (x, (Factor(&#39;f&#39;, [0, 1, 2]), Factor(&#39;h&#39;, [0, 1]))), (x, (Factor(&#39;i&#39;, [0, 1, 2]), Factor(&#39;h&#39;, [0, 1])))]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="formula.ancova.ANCOVA.slices">
+<tt class="descname">slices</tt><a class="headerlink" href="#formula.ancova.ANCOVA.slices" title="Permalink to this definition">¶</a></dt>
+<dd><p>The column slices for corresponding contrast matrices.
+See the docstring of <cite>ANCOVA.contrast_matrices</cite>.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">Term</span><span class="p">(</span><span class="s">&#39;x&#39;</span><span class="p">);</span> <span class="n">f</span> <span class="o">=</span> <span class="n">Factor</span><span class="p">(</span><span class="s">&#39;f&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span> <span class="p">;</span> <span class="n">h</span> <span class="o">=</span><span class="n">Factor</span><span class="p">(</span><span class="s">&#39;h&#39;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">ANCOVA</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">f</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span><span class="p">,(</span><span class="n">f</span><span class="p">,</span><span class="n">h</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">slices</span><span class="p">[</span><span class="s">&#39;I(x):f&#39;</span><span class="p">]</span>
+<span class="go">slice(1, 4, None)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="formula.ancova.ANCOVA.sorted_factors">
+<tt class="descname">sorted_factors</tt><a class="headerlink" href="#formula.ancova.ANCOVA.sorted_factors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Take every factor appearing in the formula
+and sort its levels. The sort matters because
+this is the column that is dropped when
+constructing a design in which this factor
+is to be coded as &#8220;contrast&#8221;.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">Term</span><span class="p">(</span><span class="s">&#39;x&#39;</span><span class="p">);</span> <span class="n">f</span> <span class="o">=</span> <span class="n">Factor</span><span class="p">(</span><span class="s">&#39;f&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span> <span class="p">;</span> <span class="n">h</span> <span class="o">=</span><span class="n">Factor</span><span class="p">(</span><span class="s">&#39;h&#39;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">ANCOVA</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">f</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span><span class="p">,(</span><span class="n">f</span><span class="p">,</span><span class="n">h</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">sorted_factors</span>
+<span class="go">{&#39;h&#39;: Factor(&#39;h&#39;, [0, 1]), &#39;f&#39;: Factor(&#39;f&#39;, [1, 2, 3])}</span>
+</pre></div>
+</div>
+<p>The ordering of the levels of the factors
+changes which columns are produced when
+a factor is coded as a contrast.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">Term</span><span class="p">(</span><span class="s">&#39;x&#39;</span><span class="p">);</span> <span class="n">f</span> <span class="o">=</span> <span class="n">Factor</span><span class="p">(</span><span class="s">&#39;f&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span> <span class="p">;</span> <span class="n">h</span> <span class="o">=</span><span class="n">Factor</span><span class="p">(</span><span class="s">&#39;h&#39;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">ANCOVA</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">h</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span><span class="p">,(</span><span class="n">f</span><span class="p">,</span><span class="n">h</span><span class="p">)))</span>
+</pre></div>
+</div>
+<p>In this example, in the &#8220;x:f:h&#8221; term, &#8220;f&#8221; is coded
+as a contrast and its &#8220;first&#8221; level is dropped. This
+is the &#8220;first&#8221; of the sorted levels of &#8220;f&#8221;.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="formula.ancova.concat">
+<tt class="descclassname">formula.ancova.</tt><tt class="descname">concat</tt><big>(</big><em>*ancovas</em><big>)</big><a class="headerlink" href="#formula.ancova.concat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new ANCOVA formula by concatenating a sequence
+of ANCOVA formulae.</p>
+<p>Note: this is not commutatitive because the
+order in which the (expr, [factors]) appear in the
+initiating sequence changes the resulting formula.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">Term</span><span class="p">(</span><span class="s">&#39;x&#39;</span><span class="p">);</span> <span class="n">f</span> <span class="o">=</span> <span class="n">Factor</span><span class="p">(</span><span class="s">&#39;f&#39;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">));</span> <span class="n">h</span> <span class="o">=</span> <span class="n">Factor</span><span class="p">(</span><span class="s">&#39;h&#39;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a1</span> <span class="o">=</span> <span class="n">ANCOVA</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">f</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a2</span> <span class="o">=</span> <span class="n">ANCOVA</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">h</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">concat</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span><span class="n">a2</span><span class="p">)</span><span class="o">.</span><span class="n">formula</span>
+<span class="go">Formula([1, f_0*x, f_1*x, f_2*x, h_1*x, h_2*x, h_3*x])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">concat</span><span class="p">(</span><span class="n">a2</span><span class="p">,</span><span class="n">a1</span><span class="p">)</span><span class="o">.</span><span class="n">formula</span>
+<span class="go">Formula([1, f_1*x, f_2*x, h_0*x, h_1*x, h_2*x, h_3*x])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="formula.ancova.get_contributions">
+<tt class="descclassname">formula.ancova.</tt><tt class="descname">get_contributions</tt><big>(</big><em>codings</em>, <em>sorted_factors</em>, <em>contrast='main_effect'</em><big>)</big><a class="headerlink" href="#formula.ancova.get_contributions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determine which columns a subset of factors</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="formula.ancova.get_factor_codings">
+<tt class="descclassname">formula.ancova.</tt><tt class="descname">get_factor_codings</tt><big>(</big><em>graded_subsets_of_factors</em><big>)</big><a class="headerlink" href="#formula.ancova.get_factor_codings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a sequence of subsets of factors, determine
+which will be coded with all their degrees of freedom (&#8220;indicator&#8221;)
+and which will be coded as contrasts (&#8220;contrast&#8221;).</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="formula.ancova.is_ancova">
+<tt class="descclassname">formula.ancova.</tt><tt class="descname">is_ancova</tt><big>(</big><em>obj</em><big>)</big><a class="headerlink" href="#formula.ancova.is_ancova" title="Permalink to this definition">¶</a></dt>
+<dd><p>Is obj an ANCOVA?</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="formula.ancova.maximal">
+<tt class="descclassname">formula.ancova.</tt><tt class="descname">maximal</tt><big>(</big><em>ancova</em><big>)</big><a class="headerlink" href="#formula.ancova.maximal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an ANCOVA formula with only the maximal elements
+for each expression.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="formula.ancova.typeI">
+<tt class="descclassname">formula.ancova.</tt><tt class="descname">typeI</tt><big>(</big><em>response</em>, <em>ancova</em>, <em>recarray</em><big>)</big><a class="headerlink" href="#formula.ancova.typeI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Produce an ANCOVA table
+from a given ANCOVA formula
+with type I sums of squares
+where the order is based on the order of terms
+in the contrast_names of ancova.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="formula.ancova.typeII">
+<tt class="descclassname">formula.ancova.</tt><tt class="descname">typeII</tt><big>(</big><em>response</em>, <em>ancova</em>, <em>recarray</em><big>)</big><a class="headerlink" href="#formula.ancova.typeII" title="Permalink to this definition">¶</a></dt>
+<dd><p>Produce an ANCOVA table
+from a given ANCOVA formula
+with type II sums of squares.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="formula.ancova.typeIII">
+<tt class="descclassname">formula.ancova.</tt><tt class="descname">typeIII</tt><big>(</big><em>response</em>, <em>ancova</em>, <em>recarray</em><big>)</big><a class="headerlink" href="#formula.ancova.typeIII" title="Permalink to this definition">¶</a></dt>
+<dd><p>Produce an ANCOVA table
+with type III sum of squares
+from a given ANCOVA formula.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">home</a>|&nbsp;</li>
+        <li><a href="../../search.html">search</a>|&nbsp;</li>
+       <li><a href="../../contents.html">documentation </a> &raquo;</li>
+ 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, J. Taylor.
+      Last updated on Jul 30, 2011.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1pre.
+    </div>
+  </body>
+</html>

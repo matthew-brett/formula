@@ -1,0 +1,350 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>convenience &mdash; Formula Documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/formula.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1.0.dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Formula Documentation" href="../../index.html" /> 
+  </head>
+  <body>
+
+<div style="background-color: white; text-align: left; padding: 10px 10px 15px 15px">
+<a href="../../index.html"><img src="../../_static/logo.png" border="0" alt="py4sci"/></a>
+</div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">home</a>|&nbsp;</li>
+        <li><a href="../../search.html">search</a>|&nbsp;</li>
+       <li><a href="../../contents.html">documentation </a> &raquo;</li>
+ 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">convenience</a><ul>
+<li><a class="reference internal" href="#module-formula.convenience">Module: <tt class="docutils literal"><span class="pre">convenience</span></tt></a></li>
+<li><a class="reference internal" href="#functions">Functions</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../_sources/api/generated/formula.convenience.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="convenience">
+<h1>convenience<a class="headerlink" href="#convenience" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-formula.convenience">
+<span id="module-convenience"></span><h2>Module: <tt class="xref py py-mod docutils literal"><span class="pre">convenience</span></tt><a class="headerlink" href="#module-formula.convenience" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="formula.convenience.define">
+<tt class="descclassname">formula.convenience.</tt><tt class="descname">define</tt><big>(</big><em>name</em>, <em>expr</em><big>)</big><a class="headerlink" href="#formula.convenience.define" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create function of t expression from arbitrary expression <cite>expr</cite></p>
+<p>Take an arbitrarily complicated expression <cite>expr</cite> of &#8216;t&#8217; and make it
+an expression that is a simple function of t, of form <tt class="docutils literal"><span class="pre">'%s(t)'</span> <span class="pre">%</span>
+<span class="pre">name</span></tt> such that when it evaluates (via <tt class="docutils literal"><span class="pre">lambdify</span></tt>) it has the
+right values.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>expr</strong> : sympy expression</p>
+<blockquote>
+<div><p>with only &#8216;t&#8217; as a Symbol</p>
+</div></blockquote>
+<p><strong>name</strong> : str</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first last"><strong>nexpr: sympy expression</strong> :</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">lambdify</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">Term</span><span class="p">(</span><span class="s">&#39;t&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">expr</span> <span class="o">=</span> <span class="n">t</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">t</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">expr</span>
+<span class="go">t**2 + 3*t</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">newexpr</span> <span class="o">=</span> <span class="n">define</span><span class="p">(</span><span class="s">&#39;f&#39;</span><span class="p">,</span> <span class="n">expr</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">newexpr</span>
+<span class="go">f(t)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">lambdify</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">newexpr</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="go">28</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="mi">3</span><span class="o">*</span><span class="mi">4</span><span class="o">+</span><span class="mi">4</span><span class="o">**</span><span class="mi">2</span>
+<span class="go">28</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="formula.convenience.make_recarray">
+<tt class="descclassname">formula.convenience.</tt><tt class="descname">make_recarray</tt><big>(</big><em>rows</em>, <em>names</em>, <em>dtypes=None</em><big>)</big><a class="headerlink" href="#formula.convenience.make_recarray" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create recarray from <cite>rows</cite> with field names <cite>names</cite></p>
+<p>Create a recarray with named columns from a list of rows and names
+for the columns. If dtype is None, the dtype is based on rows if it
+is an np.ndarray, else the data is cast as np.float. If dtypes are
+supplied, it uses the dtypes to create a np.dtype unless rows is an
+np.ndarray, in which case dtypes are ignored</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>rows: array-like</strong> :</p>
+<blockquote>
+<div><p>Rows that will be turned into an recarray.</p>
+</div></blockquote>
+<p><strong>names: sequence</strong> :</p>
+<blockquote>
+<div><p>Sequence of strings - names for the columns.</p>
+</div></blockquote>
+<p><strong>dtypes: [str or np.dtype]</strong> :</p>
+<blockquote>
+<div><p>Used to create a np.dtype, can be np.dtypes or string.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first last"><strong>v</strong> : np.ndarray</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<p>We&#8217;ve used the <a href="#id1"><span class="problematic" id="id2">``</span></a>#doctest:+ELLIPSIS option here to allow us not to care
+either about the default integer size (i4 or i8), or the machine byte order
+(&lt;,&gt;), in the record array dtype.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],[</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">],[</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">make_recarray</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;x&#39;</span><span class="p">,</span><span class="s">&#39;y&#39;</span><span class="p">])</span> 
+<span class="go">array([[(3, 4)],</span>
+<span class="go">       [(4, 6)],</span>
+<span class="go">       [(6, 8)]], </span>
+<span class="go">      dtype=[(&#39;x&#39;, ...), (&#39;y&#39;, ...)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span> <span class="o">=</span> <span class="n">make_recarray</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;w&#39;</span><span class="p">,</span> <span class="s">&#39;u&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">make_recarray</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;x&#39;</span><span class="p">,</span><span class="s">&#39;y&#39;</span><span class="p">])</span> 
+<span class="go">array([[(3, 4)],</span>
+<span class="go">       [(4, 6)],</span>
+<span class="go">       [(6, 8)]], </span>
+<span class="go">      dtype=[(&#39;x&#39;, ...), (&#39;y&#39;, ...)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">make_recarray</span><span class="p">([[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],[</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">],[</span><span class="mi">7</span><span class="p">,</span><span class="mi">9</span><span class="p">]],</span> <span class="s">&#39;wv&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">])</span> 
+<span class="go">array([(3.0, 4), (4.0, 6), (7.0, 9)], </span>
+<span class="go">      dtype=[(&#39;w&#39;, ...), (&#39;v&#39;, ...)])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="formula.convenience.natural_spline">
+<tt class="descclassname">formula.convenience.</tt><tt class="descname">natural_spline</tt><big>(</big><em>t</em>, <em>knots=None</em>, <em>order=3</em>, <em>intercept=False</em><big>)</big><a class="headerlink" href="#formula.convenience.natural_spline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a Formula containing a natural spline</p>
+<p>Spline for a Term with specified <cite>knots</cite> and <cite>order</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>t</strong> : <tt class="docutils literal"><span class="pre">Term</span></tt></p>
+<p><strong>knots</strong> : None or sequence, optional</p>
+<blockquote>
+<div><p>Sequence of float.  Default None (same as empty list)</p>
+</div></blockquote>
+<p><strong>order</strong> : int, optional</p>
+<blockquote>
+<div><p>Order of the spline. Defaults to a cubic (==3)</p>
+</div></blockquote>
+<p><strong>intercept</strong> : bool, optional</p>
+<blockquote>
+<div><p>If True, include a constant function in the natural
+spline. Default is False</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>formula</strong> : Formula</p>
+<blockquote class="last">
+<div><p>A Formula with (len(knots) + order) Terms
+(if intercept=False, otherwise includes one more Term), 
+made up of the natural spline functions.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<p>The following results depend on machine byte order</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">Term</span><span class="p">(</span><span class="s">&#39;x&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">n</span> <span class="o">=</span> <span class="n">natural_spline</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">knots</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span> <span class="n">order</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xval</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mf">7.</span><span class="p">])</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">([(</span><span class="s">&#39;x&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">n</span><span class="o">.</span><span class="n">design</span><span class="p">(</span><span class="n">xval</span><span class="p">,</span> <span class="n">return_float</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="go">array([[   3.,    9.,   27.,    8.,    0.,   -0.],</span>
+<span class="go">       [   5.,   25.,  125.,   64.,    8.,    1.],</span>
+<span class="go">       [   7.,   49.,  343.,  216.,   64.,   27.]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">n</span><span class="o">.</span><span class="n">design</span><span class="p">(</span><span class="n">xval</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">d</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">descr</span>
+<span class="go">[(&#39;ns_1(x)&#39;, &#39;&lt;f8&#39;), (&#39;ns_2(x)&#39;, &#39;&lt;f8&#39;), (&#39;ns_3(x)&#39;, &#39;&lt;f8&#39;), (&#39;ns_4(x)&#39;, &#39;&lt;f8&#39;), (&#39;ns_5(x)&#39;, &#39;&lt;f8&#39;), (&#39;ns_6(x)&#39;, &#39;&lt;f8&#39;)]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="formula.convenience.terms">
+<tt class="descclassname">formula.convenience.</tt><tt class="descname">terms</tt><big>(</big><em>names</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#formula.convenience.terms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return list of terms with names given by <cite>names</cite></p>
+<p>This is just a convenience in defining a set of terms, and is the
+equivalent of <tt class="docutils literal"><span class="pre">sympy.symbols</span></tt> for defining symbols in sympy.</p>
+<p>We enforce the sympy 0.7.0 behavior of returning symbol &#8220;abc&#8221; from input
+&#8220;abc&#8221;, rthan than 3 symbols &#8220;a&#8221;, &#8220;b&#8221;, &#8220;c&#8221;.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>names</strong> : str or sequence of str</p>
+<blockquote>
+<div><p>If a single str, can specify multiple <a href="#id3"><span class="problematic" id="id4">``</span></a>Term``s with string
+containing space or &#8216;,&#8217; as separator.</p>
+</div></blockquote>
+<p><strong>**kwargs</strong> : keyword arguments</p>
+<blockquote>
+<div><p>keyword arguments as for <tt class="docutils literal"><span class="pre">sympy.symbols</span></tt></p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>ts</strong> : <tt class="docutils literal"><span class="pre">Term</span></tt> or tuple</p>
+<blockquote class="last">
+<div><p><tt class="docutils literal"><span class="pre">Term</span></tt> instance or list of <tt class="docutils literal"><span class="pre">Term</span></tt> instance objects named from <cite>names</cite></p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">terms</span><span class="p">((</span><span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">))</span>
+<span class="go">(a, b, c)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">terms</span><span class="p">(</span><span class="s">&#39;a, b, c&#39;</span><span class="p">)</span>
+<span class="go">(a, b, c)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">terms</span><span class="p">(</span><span class="s">&#39;abc&#39;</span><span class="p">)</span>
+<span class="go">abc</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="formula.convenience.terms_from_rec">
+<tt class="descclassname">formula.convenience.</tt><tt class="descname">terms_from_rec</tt><big>(</big><em>rec</em>, <em>keep=</em><span class="optional">[</span><span class="optional">]</span>, <em>drop=</em><span class="optional">[</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#formula.convenience.terms_from_rec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct terms from recarray</p>
+<p>For fields with a string-dtype, it is assumed that these are
+qualtiatitve regressors, i.e. Factors.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>rec: recarray</strong> :</p>
+<blockquote>
+<div><p>Recarray whose field names will be used to create a formula.</p>
+</div></blockquote>
+<p><strong>keep: []</strong> :</p>
+<blockquote>
+<div><p>Field names to explicitly keep, dropping all others.</p>
+</div></blockquote>
+<p><strong>drop: []</strong> :</p>
+<blockquote class="last">
+<div><p>Field names to drop.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">home</a>|&nbsp;</li>
+        <li><a href="../../search.html">search</a>|&nbsp;</li>
+       <li><a href="../../contents.html">documentation </a> &raquo;</li>
+ 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, J. Taylor.
+      Last updated on Jul 30, 2011.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1pre.
+    </div>
+  </body>
+</html>
