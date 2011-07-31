@@ -3,16 +3,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
     <title>formula.convenience &mdash; Formula Documentation</title>
-    
     <link rel="stylesheet" href="../_static/formula.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
@@ -97,7 +94,7 @@
           <div class="body">
             
   <div class="section" id="formula-convenience">
-<h1><a class="reference internal" href="#module-formula.convenience" title="formula.convenience"><tt class="xref py py-mod docutils literal"><span class="pre">formula.convenience</span></tt></a><a class="headerlink" href="#formula-convenience" title="Permalink to this headline">¶</a></h1>
+<h1><a class="reference internal" href="#module-formula.convenience"><tt class="xref py py-mod docutils literal"><span class="pre">formula.convenience</span></tt></a><a class="headerlink" href="#formula-convenience" title="Permalink to this headline">¶</a></h1>
 <span class="target" id="module-formula.convenience"></span><dl class="function">
 <dt id="formula.convenience.define">
 <tt class="descclassname">formula.convenience.</tt><tt class="descname">define</tt><big>(</big><em>name</em>, <em>expr</em><big>)</big><a class="headerlink" href="#formula.convenience.define" title="Permalink to this definition">¶</a></dt>
@@ -110,14 +107,14 @@ right values.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>expr</strong> : sympy expression</p>
+<tr class="field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>expr</strong> : sympy expression</p>
 <blockquote>
-<div><p>with only &#8216;t&#8217; as a Symbol</p>
-</div></blockquote>
+<p>with only &#8216;t&#8217; as a Symbol</p>
+</blockquote>
 <p><strong>name</strong> : str</p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first last"><strong>nexpr: sympy expression</strong> :</p>
+<tr class="field"><th class="field-name">Returns :</th><td class="field-body"><p class="first last"><strong>nexpr: sympy expression</strong> :</p>
 </td>
 </tr>
 </tbody>
@@ -153,21 +150,21 @@ np.ndarray, in which case dtypes are ignored</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>rows: array-like</strong> :</p>
+<tr class="field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>rows: array-like</strong> :</p>
 <blockquote>
-<div><p>Rows that will be turned into an recarray.</p>
-</div></blockquote>
+<p>Rows that will be turned into an recarray.</p>
+</blockquote>
 <p><strong>names: sequence</strong> :</p>
 <blockquote>
-<div><p>Sequence of strings - names for the columns.</p>
-</div></blockquote>
+<p>Sequence of strings - names for the columns.</p>
+</blockquote>
 <p><strong>dtypes: [str or np.dtype]</strong> :</p>
 <blockquote>
-<div><p>Used to create a np.dtype, can be np.dtypes or string.</p>
-</div></blockquote>
+<p>Used to create a np.dtype, can be np.dtypes or string.</p>
+</blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first last"><strong>v</strong> : np.ndarray</p>
+<tr class="field"><th class="field-name">Returns :</th><td class="field-body"><p class="first last"><strong>v</strong> : np.ndarray</p>
 </td>
 </tr>
 </tbody>
@@ -204,28 +201,28 @@ either about the default integer size (i4 or i8), or the machine byte order
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>t</strong> : <tt class="docutils literal"><span class="pre">Term</span></tt></p>
+<tr class="field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>t</strong> : <tt class="docutils literal"><span class="pre">Term</span></tt></p>
 <p><strong>knots</strong> : None or sequence, optional</p>
 <blockquote>
-<div><p>Sequence of float.  Default None (same as empty list)</p>
-</div></blockquote>
+<p>Sequence of float.  Default None (same as empty list)</p>
+</blockquote>
 <p><strong>order</strong> : int, optional</p>
 <blockquote>
-<div><p>Order of the spline. Defaults to a cubic (==3)</p>
-</div></blockquote>
+<p>Order of the spline. Defaults to a cubic (==3)</p>
+</blockquote>
 <p><strong>intercept</strong> : bool, optional</p>
 <blockquote>
-<div><p>If True, include a constant function in the natural
+<p>If True, include a constant function in the natural
 spline. Default is False</p>
-</div></blockquote>
+</blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>formula</strong> : Formula</p>
+<tr class="field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>formula</strong> : Formula</p>
 <blockquote class="last">
-<div><p>A Formula with (len(knots) + order) Terms
+<p>A Formula with (len(knots) + order) Terms
 (if intercept=False, otherwise includes one more Term), 
 made up of the natural spline functions.</p>
-</div></blockquote>
+</blockquote>
 </td>
 </tr>
 </tbody>
@@ -258,21 +255,21 @@ equivalent of <tt class="docutils literal"><span class="pre">sympy.symbols</span
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>names</strong> : str or sequence of str</p>
+<tr class="field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>names</strong> : str or sequence of str</p>
 <blockquote>
-<div><p>If a single str, can specify multiple <a href="#id3"><span class="problematic" id="id4">``</span></a>Term``s with string
+<p>If a single str, can specify multiple <a href="#id3"><span class="problematic" id="id4">``</span></a>Term``s with string
 containing space or &#8216;,&#8217; as separator.</p>
-</div></blockquote>
+</blockquote>
 <p><strong>**kwargs</strong> : keyword arguments</p>
 <blockquote>
-<div><p>keyword arguments as for <tt class="docutils literal"><span class="pre">sympy.symbols</span></tt></p>
-</div></blockquote>
+<p>keyword arguments as for <tt class="docutils literal"><span class="pre">sympy.symbols</span></tt></p>
+</blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>ts</strong> : <tt class="docutils literal"><span class="pre">Term</span></tt> or tuple</p>
+<tr class="field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>ts</strong> : <tt class="docutils literal"><span class="pre">Term</span></tt> or tuple</p>
 <blockquote class="last">
-<div><p><tt class="docutils literal"><span class="pre">Term</span></tt> instance or list of <tt class="docutils literal"><span class="pre">Term</span></tt> instance objects named from <cite>names</cite></p>
-</div></blockquote>
+<p><tt class="docutils literal"><span class="pre">Term</span></tt> instance or list of <tt class="docutils literal"><span class="pre">Term</span></tt> instance objects named from <cite>names</cite></p>
+</blockquote>
 </td>
 </tr>
 </tbody>
@@ -298,18 +295,18 @@ qualtiatitve regressors, i.e. Factors.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>rec: recarray</strong> :</p>
+<tr class="field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>rec: recarray</strong> :</p>
 <blockquote>
-<div><p>Recarray whose field names will be used to create a formula.</p>
-</div></blockquote>
+<p>Recarray whose field names will be used to create a formula.</p>
+</blockquote>
 <p><strong>keep: []</strong> :</p>
 <blockquote>
-<div><p>Field names to explicitly keep, dropping all others.</p>
-</div></blockquote>
+<p>Field names to explicitly keep, dropping all others.</p>
+</blockquote>
 <p><strong>drop: []</strong> :</p>
 <blockquote class="last">
-<div><p>Field names to drop.</p>
-</div></blockquote>
+<p>Field names to drop.</p>
+</blockquote>
 </td>
 </tr>
 </tbody>
@@ -352,7 +349,7 @@ qualtiatitve regressors, i.e. Factors.</p>
     <div class="footer">
         &copy; Copyright 2011, J. Taylor.
       Last updated on Jul 30, 2011.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1pre.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.
     </div>
   </body>
 </html>

@@ -3,16 +3,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
     <title>Categorical Formulae &mdash; Formula Documentation</title>
-    
     <link rel="stylesheet" href="_static/formula.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
@@ -137,58 +134,59 @@ treat some things as factors.</p>
 <p>Let&#8217;s try this with the ANCOVA model.  First we do some set up:</p>
 <div class="highlight-ipython"><div class="highlight"><pre><span class="gp">In [1]: </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 
-<span class="c"># Set precision printing to match R output</span>
-<span class="gp">In [2]: </span><span class="n">np</span><span class="o">.</span><span class="n">set_printoptions</span><span class="p">(</span><span class="n">precision</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="gp">In [2]: </span><span class="c"># Set precision printing to match R output</span>
 
-<span class="gp">In [3]: </span><span class="kn">import</span> <span class="nn">matplotlib.mlab</span> <span class="kn">as</span> <span class="nn">ML</span>
+<span class="gp">In [3]: </span><span class="n">np</span><span class="o">.</span><span class="n">set_printoptions</span><span class="p">(</span><span class="n">precision</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 
-<span class="gp">In [4]: </span><span class="kn">from</span> <span class="nn">pkg_resources</span> <span class="kn">import</span> <span class="n">resource_stream</span>
+<span class="gp">In [4]: </span><span class="kn">import</span> <span class="nn">matplotlib.mlab</span> <span class="kn">as</span> <span class="nn">ML</span>
 
-<span class="gp">In [5]: </span><span class="n">salary</span> <span class="o">=</span> <span class="n">ML</span><span class="o">.</span><span class="n">csv2rec</span><span class="p">(</span><span class="n">resource_stream</span><span class="p">(</span><span class="s">&quot;formula&quot;</span><span class="p">,</span> <span class="s">&quot;data/salary.csv&quot;</span><span class="p">))</span>
+<span class="gp">In [5]: </span><span class="kn">from</span> <span class="nn">pkg_resources</span> <span class="kn">import</span> <span class="n">resource_stream</span>
 
-<span class="gp">In [6]: </span><span class="kn">from</span> <span class="nn">formula.parts</span> <span class="kn">import</span> <span class="n">fromrec</span>
+<span class="gp">In [6]: </span><span class="n">salary</span> <span class="o">=</span> <span class="n">ML</span><span class="o">.</span><span class="n">csv2rec</span><span class="p">(</span><span class="n">resource_stream</span><span class="p">(</span><span class="s">&quot;formula&quot;</span><span class="p">,</span> <span class="s">&quot;data/salary.csv&quot;</span><span class="p">))</span>
 
-<span class="gp">In [7]: </span><span class="kn">from</span> <span class="nn">formula.ancova</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">In [7]: </span><span class="kn">from</span> <span class="nn">formula.parts</span> <span class="kn">import</span> <span class="n">fromrec</span>
+
+<span class="gp">In [8]: </span><span class="kn">from</span> <span class="nn">formula.ancova</span> <span class="kn">import</span> <span class="o">*</span>
 </pre></div>
 </div>
 <p>Next we set up the model:</p>
-<div class="highlight-ipython"><div class="highlight"><pre><span class="gp">In [8]: </span><span class="n">terms</span> <span class="o">=</span> <span class="n">fromrec</span><span class="p">(</span><span class="n">salary</span><span class="p">)</span>
+<div class="highlight-ipython"><div class="highlight"><pre><span class="gp">In [9]: </span><span class="n">terms</span> <span class="o">=</span> <span class="n">fromrec</span><span class="p">(</span><span class="n">salary</span><span class="p">)</span>
 
-<span class="gp">In [9]: </span><span class="n">x</span> <span class="o">=</span> <span class="n">terms</span><span class="p">[</span><span class="s">&#39;x&#39;</span><span class="p">];</span> <span class="n">e</span> <span class="o">=</span> <span class="n">terms</span><span class="p">[</span><span class="s">&#39;e&#39;</span><span class="p">];</span> <span class="n">p</span> <span class="o">=</span> <span class="n">terms</span><span class="p">[</span><span class="s">&#39;p&#39;</span><span class="p">]</span>
+<span class="gp">In [10]: </span><span class="n">x</span> <span class="o">=</span> <span class="n">terms</span><span class="p">[</span><span class="s">&#39;x&#39;</span><span class="p">];</span> <span class="n">e</span> <span class="o">=</span> <span class="n">terms</span><span class="p">[</span><span class="s">&#39;e&#39;</span><span class="p">];</span> <span class="n">p</span> <span class="o">=</span> <span class="n">terms</span><span class="p">[</span><span class="s">&#39;p&#39;</span><span class="p">]</span>
 
-<span class="gp">In [10]: </span><span class="n">ancova</span> <span class="o">=</span> <span class="n">ANCOVA</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">e</span><span class="p">),(</span><span class="n">x</span><span class="p">,</span><span class="n">p</span><span class="p">))</span>
+<span class="gp">In [11]: </span><span class="n">ancova</span> <span class="o">=</span> <span class="n">ANCOVA</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">e</span><span class="p">),(</span><span class="n">x</span><span class="p">,</span><span class="n">p</span><span class="p">))</span>
 
-<span class="gp">In [11]: </span><span class="n">formula</span> <span class="o">=</span> <span class="n">ancova</span><span class="o">.</span><span class="n">formula</span>
+<span class="gp">In [12]: </span><span class="n">formula</span> <span class="o">=</span> <span class="n">ancova</span><span class="o">.</span><span class="n">formula</span>
 
-<span class="gp">In [12]: </span><span class="k">print</span> <span class="n">formula</span>
-<span class="go">Formula([1, p_M*x, e_B*x, e_M*x, e_P*x])</span>
+<span class="gp">In [13]: </span><span class="k">print</span> <span class="n">formula</span>
+<span class="go">Formula([1, e_B*x, e_M*x, e_P*x, p_M*x])</span>
 </pre></div>
 </div>
 <p>To fit the model, we use <em>scikits.statsmodels</em></p>
-<div class="highlight-ipython"><div class="highlight"><pre><span class="gp">In [13]: </span><span class="kn">from</span> <span class="nn">scikits.statsmodels.api</span> <span class="kn">import</span> <span class="n">OLS</span>
+<div class="highlight-ipython"><div class="highlight"><pre><span class="gp">In [14]: </span><span class="kn">from</span> <span class="nn">scikits.statsmodels.api</span> <span class="kn">import</span> <span class="n">OLS</span>
 
-<span class="gp">In [14]: </span><span class="n">model</span> <span class="o">=</span> <span class="n">OLS</span><span class="p">(</span><span class="n">salary</span><span class="p">[</span><span class="s">&#39;s&#39;</span><span class="p">],</span> <span class="n">formula</span><span class="o">.</span><span class="n">design</span><span class="p">(</span><span class="n">salary</span><span class="p">,</span> <span class="n">return_float</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+<span class="gp">In [15]: </span><span class="n">model</span> <span class="o">=</span> <span class="n">OLS</span><span class="p">(</span><span class="n">salary</span><span class="p">[</span><span class="s">&#39;s&#39;</span><span class="p">],</span> <span class="n">formula</span><span class="o">.</span><span class="n">design</span><span class="p">(</span><span class="n">salary</span><span class="p">,</span> <span class="n">return_float</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
 
-<span class="gp">In [15]: </span><span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="gp">In [16]: </span><span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
 
-<span class="gp">In [16]: </span><span class="k">print</span> <span class="n">results</span><span class="o">.</span><span class="n">params</span>
-<span class="go">[ 12938.3805    698.2767    190.3962    347.6023    301.9127]</span>
+<span class="gp">In [17]: </span><span class="k">print</span> <span class="n">results</span><span class="o">.</span><span class="n">params</span>
+<span class="go">[ 12938.3805    190.3962    347.6023    301.9127    698.2767]</span>
 </pre></div>
 </div>
 <p>Interchanging the order above</p>
-<div class="highlight-ipython"><div class="highlight"><pre><span class="gp">In [17]: </span><span class="n">ancova2</span> <span class="o">=</span> <span class="n">ANCOVA</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">p</span><span class="p">),(</span><span class="n">x</span><span class="p">,</span><span class="n">e</span><span class="p">))</span>
+<div class="highlight-ipython"><div class="highlight"><pre><span class="gp">In [18]: </span><span class="n">ancova2</span> <span class="o">=</span> <span class="n">ANCOVA</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">p</span><span class="p">),(</span><span class="n">x</span><span class="p">,</span><span class="n">e</span><span class="p">))</span>
 
-<span class="gp">In [18]: </span><span class="n">ancova2</span><span class="o">.</span><span class="n">formula</span><span class="o">.</span><span class="n">terms</span>
-<span class="gr">Out[18]: </span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="n">p_L</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">p_M</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">e_M</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">e_P</span><span class="o">*</span><span class="n">x</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;object&#39;</span><span class="p">)</span>
+<span class="gp">In [19]: </span><span class="n">ancova2</span><span class="o">.</span><span class="n">formula</span><span class="o">.</span><span class="n">terms</span>
+<span class="gr">Out[19]: </span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="n">e_M</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">e_P</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">p_L</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">p_M</span><span class="o">*</span><span class="n">x</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span>
 
-<span class="gp">In [19]: </span><span class="n">f2</span> <span class="o">=</span> <span class="n">ancova2</span><span class="o">.</span><span class="n">formula</span>
+<span class="gp">In [20]: </span><span class="n">f2</span> <span class="o">=</span> <span class="n">ancova2</span><span class="o">.</span><span class="n">formula</span>
 
-<span class="gp">In [20]: </span><span class="n">model</span> <span class="o">=</span> <span class="n">OLS</span><span class="p">(</span><span class="n">salary</span><span class="p">[</span><span class="s">&#39;s&#39;</span><span class="p">],</span> <span class="n">f2</span><span class="o">.</span><span class="n">design</span><span class="p">(</span><span class="n">salary</span><span class="p">,</span> <span class="n">return_float</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+<span class="gp">In [21]: </span><span class="n">model</span> <span class="o">=</span> <span class="n">OLS</span><span class="p">(</span><span class="n">salary</span><span class="p">[</span><span class="s">&#39;s&#39;</span><span class="p">],</span> <span class="n">f2</span><span class="o">.</span><span class="n">design</span><span class="p">(</span><span class="n">salary</span><span class="p">,</span> <span class="n">return_float</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
 
-<span class="gp">In [21]: </span><span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="gp">In [22]: </span><span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
 
-<span class="gp">In [22]: </span><span class="n">results</span><span class="o">.</span><span class="n">params</span>
-<span class="gr">Out[22]: </span><span class="n">array</span><span class="p">([</span> <span class="mf">12938.3805</span><span class="p">,</span>    <span class="mf">190.3962</span><span class="p">,</span>    <span class="mf">888.673</span> <span class="p">,</span>    <span class="mf">157.206</span> <span class="p">,</span>    <span class="mf">111.5165</span><span class="p">])</span>
+<span class="gp">In [23]: </span><span class="n">results</span><span class="o">.</span><span class="n">params</span>
+<span class="gr">Out[23]: </span><span class="n">array</span><span class="p">([</span> <span class="mf">12938.3805</span><span class="p">,</span>    <span class="mf">157.206</span> <span class="p">,</span>    <span class="mf">111.5165</span><span class="p">,</span>    <span class="mf">190.3962</span><span class="p">,</span>    <span class="mf">888.673</span> <span class="p">])</span>
 </pre></div>
 </div>
 <p>The difference in the order has to do with how <em>R</em> constructs
@@ -208,11 +206,11 @@ which <em>ANCOVA</em> also follows. <em>R</em> drops
 the first term in a sorted list of the levels of the factor,
 <em>ANCOVA</em> follows the same behavior by default.</p>
 <p>For instance:</p>
-<div class="highlight-ipython"><div class="highlight"><pre><span class="gp">In [23]: </span><span class="n">ancova</span><span class="o">.</span><span class="n">codings</span>
-<span class="gr">Out[23]: </span><span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="p">{},</span> <span class="n">x</span><span class="p">:</span> <span class="p">{(</span><span class="s">&#39;e&#39;</span><span class="p">,):</span> <span class="p">[(</span><span class="s">&#39;e&#39;</span><span class="p">,</span> <span class="s">&#39;indicator&#39;</span><span class="p">)],</span> <span class="p">(</span><span class="s">&#39;p&#39;</span><span class="p">,):</span> <span class="p">[(</span><span class="s">&#39;p&#39;</span><span class="p">,</span> <span class="s">&#39;contrast&#39;</span><span class="p">)]}}</span>
+<div class="highlight-ipython"><div class="highlight"><pre><span class="gp">In [24]: </span><span class="n">ancova</span><span class="o">.</span><span class="n">codings</span>
+<span class="gr">Out[24]: </span><span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="p">{},</span> <span class="n">x</span><span class="p">:</span> <span class="p">{(</span><span class="s">&#39;e&#39;</span><span class="p">,):</span> <span class="p">[(</span><span class="s">&#39;e&#39;</span><span class="p">,</span> <span class="s">&#39;indicator&#39;</span><span class="p">)],</span> <span class="p">(</span><span class="s">&#39;p&#39;</span><span class="p">,):</span> <span class="p">[(</span><span class="s">&#39;p&#39;</span><span class="p">,</span> <span class="s">&#39;contrast&#39;</span><span class="p">)]}}</span>
 
-<span class="gp">In [24]: </span><span class="n">ancova2</span><span class="o">.</span><span class="n">codings</span>
-<span class="gr">Out[24]: </span><span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="p">{},</span> <span class="n">x</span><span class="p">:</span> <span class="p">{(</span><span class="s">&#39;e&#39;</span><span class="p">,):</span> <span class="p">[(</span><span class="s">&#39;e&#39;</span><span class="p">,</span> <span class="s">&#39;contrast&#39;</span><span class="p">)],</span> <span class="p">(</span><span class="s">&#39;p&#39;</span><span class="p">,):</span> <span class="p">[(</span><span class="s">&#39;p&#39;</span><span class="p">,</span> <span class="s">&#39;indicator&#39;</span><span class="p">)]}}</span>
+<span class="gp">In [25]: </span><span class="n">ancova2</span><span class="o">.</span><span class="n">codings</span>
+<span class="gr">Out[25]: </span><span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="p">{},</span> <span class="n">x</span><span class="p">:</span> <span class="p">{(</span><span class="s">&#39;e&#39;</span><span class="p">,):</span> <span class="p">[(</span><span class="s">&#39;e&#39;</span><span class="p">,</span> <span class="s">&#39;contrast&#39;</span><span class="p">)],</span> <span class="p">(</span><span class="s">&#39;p&#39;</span><span class="p">,):</span> <span class="p">[(</span><span class="s">&#39;p&#39;</span><span class="p">,</span> <span class="s">&#39;indicator&#39;</span><span class="p">)]}}</span>
 </pre></div>
 </div>
 <p>In the first formula, <em>P</em> appears as a contrast while <em>E</em> appears
@@ -230,19 +228,19 @@ and <em>P</em> as an indicator.</p>
 </pre></div>
 </div>
 <p>As well as in the <em>ANCOVA</em></p>
-<div class="highlight-ipython"><div class="highlight"><pre><span class="gp">In [25]: </span><span class="n">ancova3</span> <span class="o">=</span> <span class="n">ANCOVA</span><span class="p">((</span><span class="n">x</span><span class="p">,(</span><span class="n">p</span><span class="p">,</span><span class="n">e</span><span class="p">)))</span>
+<div class="highlight-ipython"><div class="highlight"><pre><span class="gp">In [26]: </span><span class="n">ancova3</span> <span class="o">=</span> <span class="n">ANCOVA</span><span class="p">((</span><span class="n">x</span><span class="p">,(</span><span class="n">p</span><span class="p">,</span><span class="n">e</span><span class="p">)))</span>
 
-<span class="gp">In [26]: </span><span class="n">ancova3</span><span class="o">.</span><span class="n">codings</span>
-<span class="gr">Out[26]: </span><span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="p">{},</span> <span class="n">x</span><span class="p">:</span> <span class="p">{(</span><span class="s">&#39;e&#39;</span><span class="p">,</span> <span class="s">&#39;p&#39;</span><span class="p">):</span> <span class="p">[(</span><span class="s">&#39;e&#39;</span><span class="p">,</span> <span class="s">&#39;indicator&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;p&#39;</span><span class="p">,</span> <span class="s">&#39;indicator&#39;</span><span class="p">)]}}</span>
+<span class="gp">In [27]: </span><span class="n">ancova3</span><span class="o">.</span><span class="n">codings</span>
+<span class="gr">Out[27]: </span><span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="p">{},</span> <span class="n">x</span><span class="p">:</span> <span class="p">{(</span><span class="s">&#39;e&#39;</span><span class="p">,</span> <span class="s">&#39;p&#39;</span><span class="p">):</span> <span class="p">[(</span><span class="s">&#39;e&#39;</span><span class="p">,</span> <span class="s">&#39;indicator&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;p&#39;</span><span class="p">,</span> <span class="s">&#39;indicator&#39;</span><span class="p">)]}}</span>
 
-<span class="gp">In [27]: </span><span class="n">f3</span> <span class="o">=</span> <span class="n">ancova3</span><span class="o">.</span><span class="n">formula</span>
+<span class="gp">In [28]: </span><span class="n">f3</span> <span class="o">=</span> <span class="n">ancova3</span><span class="o">.</span><span class="n">formula</span>
 
-<span class="gp">In [28]: </span><span class="n">model</span> <span class="o">=</span> <span class="n">OLS</span><span class="p">(</span><span class="n">salary</span><span class="p">[</span><span class="s">&#39;s&#39;</span><span class="p">],</span> <span class="n">f3</span><span class="o">.</span><span class="n">design</span><span class="p">(</span><span class="n">salary</span><span class="p">,</span> <span class="n">return_float</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+<span class="gp">In [29]: </span><span class="n">model</span> <span class="o">=</span> <span class="n">OLS</span><span class="p">(</span><span class="n">salary</span><span class="p">[</span><span class="s">&#39;s&#39;</span><span class="p">],</span> <span class="n">f3</span><span class="o">.</span><span class="n">design</span><span class="p">(</span><span class="n">salary</span><span class="p">,</span> <span class="n">return_float</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
 
-<span class="gp">In [29]: </span><span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="gp">In [30]: </span><span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
 
-<span class="gp">In [30]: </span><span class="n">results</span><span class="o">.</span><span class="n">params</span>
-<span class="gr">Out[30]: </span>
+<span class="gp">In [31]: </span><span class="n">results</span><span class="o">.</span><span class="n">params</span>
+<span class="gr">Out[31]: </span>
 <span class="go">array([ 13454.2368,    189.4646,    498.6643,    275.1639,   1046.6828,</span>
 <span class="go">         -124.0655,    971.4152])</span>
 </pre></div>
@@ -256,48 +254,48 @@ predict:</p>
   <span class="m">786.28093</span> 
 </pre></div>
 </div>
-<div class="highlight-ipython"><div class="highlight"><pre><span class="gp">In [31]: </span><span class="n">ancova4</span> <span class="o">=</span> <span class="n">ANCOVA</span><span class="p">((</span><span class="n">x</span><span class="p">,(</span><span class="n">p</span><span class="p">,</span><span class="n">e</span><span class="p">)),(</span><span class="n">x</span><span class="p">,</span><span class="n">p</span><span class="p">),(</span><span class="n">x</span><span class="p">,</span><span class="n">e</span><span class="p">))</span>
+<div class="highlight-ipython"><div class="highlight"><pre><span class="gp">In [32]: </span><span class="n">ancova4</span> <span class="o">=</span> <span class="n">ANCOVA</span><span class="p">((</span><span class="n">x</span><span class="p">,(</span><span class="n">p</span><span class="p">,</span><span class="n">e</span><span class="p">)),(</span><span class="n">x</span><span class="p">,</span><span class="n">p</span><span class="p">),(</span><span class="n">x</span><span class="p">,</span><span class="n">e</span><span class="p">))</span>
 
-<span class="gp">In [32]: </span><span class="n">ancova4</span><span class="o">.</span><span class="n">codings</span>
-<span class="gr">Out[32]: </span>
+<span class="gp">In [33]: </span><span class="n">ancova4</span><span class="o">.</span><span class="n">codings</span>
+<span class="gr">Out[33]: </span>
 <span class="go">{1: {},</span>
 <span class="go"> x: {(&#39;e&#39;,): [(&#39;e&#39;, &#39;contrast&#39;)],</span>
-<span class="go">  (&#39;e&#39;, &#39;p&#39;): [(&#39;e&#39;, &#39;contrast&#39;), (&#39;p&#39;, &#39;contrast&#39;)],</span>
-<span class="go">  (&#39;p&#39;,): [(&#39;p&#39;, &#39;indicator&#39;)]}}</span>
+<span class="go">     (&#39;e&#39;, &#39;p&#39;): [(&#39;e&#39;, &#39;contrast&#39;), (&#39;p&#39;, &#39;contrast&#39;)],</span>
+<span class="go">     (&#39;p&#39;,): [(&#39;p&#39;, &#39;indicator&#39;)]}}</span>
 
-<span class="gp">In [33]: </span><span class="n">ancova4</span><span class="o">.</span><span class="n">formula</span><span class="o">.</span><span class="n">terms</span>
-<span class="gr">Out[33]: </span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="n">e_M</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">e_P</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">p_L</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">p_M</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">e_M</span><span class="o">*</span><span class="n">p_M</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">e_P</span><span class="o">*</span><span class="n">p_M</span><span class="o">*</span><span class="n">x</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;object&#39;</span><span class="p">)</span>
+<span class="gp">In [34]: </span><span class="n">ancova4</span><span class="o">.</span><span class="n">formula</span><span class="o">.</span><span class="n">terms</span>
+<span class="gr">Out[34]: </span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="n">e_M</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">e_P</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">p_L</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">p_M</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">e_M</span><span class="o">*</span><span class="n">p_M</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">e_P</span><span class="o">*</span><span class="n">p_M</span><span class="o">*</span><span class="n">x</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span>
 
-<span class="gp">In [34]: </span><span class="n">model</span> <span class="o">=</span> <span class="n">OLS</span><span class="p">(</span><span class="n">salary</span><span class="p">[</span><span class="s">&#39;s&#39;</span><span class="p">],</span> <span class="n">ancova4</span><span class="o">.</span><span class="n">formula</span><span class="o">.</span><span class="n">design</span><span class="p">(</span><span class="n">salary</span><span class="p">,</span> <span class="n">return_float</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+<span class="gp">In [35]: </span><span class="n">model</span> <span class="o">=</span> <span class="n">OLS</span><span class="p">(</span><span class="n">salary</span><span class="p">[</span><span class="s">&#39;s&#39;</span><span class="p">],</span> <span class="n">ancova4</span><span class="o">.</span><span class="n">formula</span><span class="o">.</span><span class="n">design</span><span class="p">(</span><span class="n">salary</span><span class="p">,</span> <span class="n">return_float</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
 
-<span class="gp">In [35]: </span><span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="gp">In [36]: </span><span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
 
-<span class="gp">In [36]: </span><span class="n">results</span><span class="o">.</span><span class="n">params</span>
-<span class="gr">Out[36]: </span>
+<span class="gp">In [37]: </span><span class="n">results</span><span class="o">.</span><span class="n">params</span>
+<span class="gr">Out[37]: </span>
 <span class="go">array([ 13454.2368,     85.6993,   -313.5301,    189.4646,    498.6643,</span>
 <span class="go">          462.3192,    786.2809])</span>
 </pre></div>
 </div>
 <p>Changing the order above again changes the terms in the
 formula</p>
-<div class="highlight-ipython"><div class="highlight"><pre><span class="gp">In [37]: </span><span class="n">ancova5</span> <span class="o">=</span> <span class="n">ANCOVA</span><span class="p">((</span><span class="n">x</span><span class="p">,(</span><span class="n">p</span><span class="p">,</span><span class="n">e</span><span class="p">)),(</span><span class="n">x</span><span class="p">,</span><span class="n">e</span><span class="p">),(</span><span class="n">x</span><span class="p">,</span><span class="n">p</span><span class="p">))</span>
+<div class="highlight-ipython"><div class="highlight"><pre><span class="gp">In [38]: </span><span class="n">ancova5</span> <span class="o">=</span> <span class="n">ANCOVA</span><span class="p">((</span><span class="n">x</span><span class="p">,(</span><span class="n">p</span><span class="p">,</span><span class="n">e</span><span class="p">)),(</span><span class="n">x</span><span class="p">,</span><span class="n">e</span><span class="p">),(</span><span class="n">x</span><span class="p">,</span><span class="n">p</span><span class="p">))</span>
 
-<span class="gp">In [38]: </span><span class="n">ancova5</span><span class="o">.</span><span class="n">codings</span>
-<span class="gr">Out[38]: </span>
+<span class="gp">In [39]: </span><span class="n">ancova5</span><span class="o">.</span><span class="n">codings</span>
+<span class="gr">Out[39]: </span>
 <span class="go">{1: {},</span>
 <span class="go"> x: {(&#39;e&#39;,): [(&#39;e&#39;, &#39;indicator&#39;)],</span>
-<span class="go">  (&#39;e&#39;, &#39;p&#39;): [(&#39;e&#39;, &#39;contrast&#39;), (&#39;p&#39;, &#39;contrast&#39;)],</span>
-<span class="go">  (&#39;p&#39;,): [(&#39;p&#39;, &#39;contrast&#39;)]}}</span>
+<span class="go">     (&#39;e&#39;, &#39;p&#39;): [(&#39;e&#39;, &#39;contrast&#39;), (&#39;p&#39;, &#39;contrast&#39;)],</span>
+<span class="go">     (&#39;p&#39;,): [(&#39;p&#39;, &#39;contrast&#39;)]}}</span>
 
-<span class="gp">In [39]: </span><span class="n">ancova</span><span class="o">.</span><span class="n">formula</span><span class="o">.</span><span class="n">terms</span>
-<span class="gr">Out[39]: </span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="n">p_M</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">e_B</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">e_M</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">e_P</span><span class="o">*</span><span class="n">x</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;object&#39;</span><span class="p">)</span>
+<span class="gp">In [40]: </span><span class="n">ancova</span><span class="o">.</span><span class="n">formula</span><span class="o">.</span><span class="n">terms</span>
+<span class="gr">Out[40]: </span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="n">e_B</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">e_M</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">e_P</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">p_M</span><span class="o">*</span><span class="n">x</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span>
 
-<span class="gp">In [40]: </span><span class="n">model</span> <span class="o">=</span> <span class="n">OLS</span><span class="p">(</span><span class="n">salary</span><span class="p">[</span><span class="s">&#39;s&#39;</span><span class="p">],</span> <span class="n">ancova5</span><span class="o">.</span><span class="n">formula</span><span class="o">.</span><span class="n">design</span><span class="p">(</span><span class="n">salary</span><span class="p">,</span> <span class="n">return_float</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+<span class="gp">In [41]: </span><span class="n">model</span> <span class="o">=</span> <span class="n">OLS</span><span class="p">(</span><span class="n">salary</span><span class="p">[</span><span class="s">&#39;s&#39;</span><span class="p">],</span> <span class="n">ancova5</span><span class="o">.</span><span class="n">formula</span><span class="o">.</span><span class="n">design</span><span class="p">(</span><span class="n">salary</span><span class="p">,</span> <span class="n">return_float</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
 
-<span class="gp">In [41]: </span><span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="gp">In [42]: </span><span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
 
-<span class="gp">In [42]: </span><span class="n">results</span><span class="o">.</span><span class="n">params</span>
-<span class="gr">Out[42]: </span>
+<span class="gp">In [43]: </span><span class="n">results</span><span class="o">.</span><span class="n">params</span>
+<span class="gr">Out[43]: </span>
 <span class="go">array([ 13454.2368,    189.4646,    275.1639,   -124.0655,    309.1997,</span>
 <span class="go">          462.3192,    786.2809])</span>
 </pre></div>
@@ -326,26 +324,26 @@ of its first order factors.</p>
 </div>
 <p>With the categorical formula, this can be achieved
 by</p>
-<div class="highlight-ipython"><div class="highlight"><pre><span class="gp">In [43]: </span><span class="n">ancova6</span> <span class="o">=</span> <span class="n">ANCOVA</span><span class="p">(</span><span class="n">x</span><span class="p">,(</span><span class="n">x</span><span class="p">,</span><span class="n">e</span><span class="p">),(</span><span class="n">x</span><span class="p">,</span><span class="n">p</span><span class="p">),(</span><span class="n">x</span><span class="p">,(</span><span class="n">p</span><span class="p">,</span><span class="n">e</span><span class="p">)))</span>
+<div class="highlight-ipython"><div class="highlight"><pre><span class="gp">In [44]: </span><span class="n">ancova6</span> <span class="o">=</span> <span class="n">ANCOVA</span><span class="p">(</span><span class="n">x</span><span class="p">,(</span><span class="n">x</span><span class="p">,</span><span class="n">e</span><span class="p">),(</span><span class="n">x</span><span class="p">,</span><span class="n">p</span><span class="p">),(</span><span class="n">x</span><span class="p">,(</span><span class="n">p</span><span class="p">,</span><span class="n">e</span><span class="p">)))</span>
 
-<span class="gp">In [44]: </span><span class="n">ancova6</span><span class="o">.</span><span class="n">codings</span>
-<span class="gr">Out[44]: </span>
+<span class="gp">In [45]: </span><span class="n">ancova6</span><span class="o">.</span><span class="n">codings</span>
+<span class="gr">Out[45]: </span>
 <span class="go">{1: {},</span>
 <span class="go"> x: {(): [],</span>
-<span class="go">  (&#39;e&#39;,): [(&#39;e&#39;, &#39;contrast&#39;)],</span>
-<span class="go">  (&#39;e&#39;, &#39;p&#39;): [(&#39;e&#39;, &#39;contrast&#39;), (&#39;p&#39;, &#39;contrast&#39;)],</span>
-<span class="go">  (&#39;p&#39;,): [(&#39;p&#39;, &#39;contrast&#39;)]}}</span>
+<span class="go">     (&#39;e&#39;,): [(&#39;e&#39;, &#39;contrast&#39;)],</span>
+<span class="go">     (&#39;e&#39;, &#39;p&#39;): [(&#39;e&#39;, &#39;contrast&#39;), (&#39;p&#39;, &#39;contrast&#39;)],</span>
+<span class="go">     (&#39;p&#39;,): [(&#39;p&#39;, &#39;contrast&#39;)]}}</span>
 
-<span class="gp">In [45]: </span><span class="n">ancova6</span><span class="o">.</span><span class="n">formula</span><span class="o">.</span><span class="n">terms</span>
-<span class="gr">Out[45]: </span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e_M</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">e_P</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">p_M</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">e_M</span><span class="o">*</span><span class="n">p_M</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">e_P</span><span class="o">*</span><span class="n">p_M</span><span class="o">*</span><span class="n">x</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;object&#39;</span><span class="p">)</span>
+<span class="gp">In [46]: </span><span class="n">ancova6</span><span class="o">.</span><span class="n">formula</span><span class="o">.</span><span class="n">terms</span>
+<span class="gr">Out[46]: </span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">p_M</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">e_M</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">e_P</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">e_M</span><span class="o">*</span><span class="n">p_M</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">e_P</span><span class="o">*</span><span class="n">p_M</span><span class="o">*</span><span class="n">x</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span>
 
-<span class="gp">In [46]: </span><span class="n">model</span> <span class="o">=</span> <span class="n">OLS</span><span class="p">(</span><span class="n">salary</span><span class="p">[</span><span class="s">&#39;s&#39;</span><span class="p">],</span> <span class="n">ancova6</span><span class="o">.</span><span class="n">formula</span><span class="o">.</span><span class="n">design</span><span class="p">(</span><span class="n">salary</span><span class="p">,</span> <span class="n">return_float</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+<span class="gp">In [47]: </span><span class="n">model</span> <span class="o">=</span> <span class="n">OLS</span><span class="p">(</span><span class="n">salary</span><span class="p">[</span><span class="s">&#39;s&#39;</span><span class="p">],</span> <span class="n">ancova6</span><span class="o">.</span><span class="n">formula</span><span class="o">.</span><span class="n">design</span><span class="p">(</span><span class="n">salary</span><span class="p">,</span> <span class="n">return_float</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
 
-<span class="gp">In [47]: </span><span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="gp">In [48]: </span><span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
 
-<span class="gp">In [48]: </span><span class="n">results</span><span class="o">.</span><span class="n">params</span>
-<span class="gr">Out[48]: </span>
-<span class="go">array([ 13454.2368,    189.4646,     85.6993,   -313.5301,    309.1997,</span>
+<span class="gp">In [49]: </span><span class="n">results</span><span class="o">.</span><span class="n">params</span>
+<span class="gr">Out[49]: </span>
+<span class="go">array([ 13454.2368,    189.4646,    309.1997,     85.6993,   -313.5301,</span>
 <span class="go">          462.3192,    786.2809])</span>
 </pre></div>
 </div>
@@ -357,23 +355,23 @@ by</p>
   <span class="m">1095.4807</span> 
 </pre></div>
 </div>
-<div class="highlight-ipython"><div class="highlight"><pre><span class="gp">In [49]: </span><span class="n">ancova6a</span> <span class="o">=</span> <span class="n">ANCOVA</span><span class="p">((</span><span class="n">x</span><span class="p">,(</span><span class="n">e</span><span class="p">,</span><span class="n">p</span><span class="p">)),(</span><span class="n">x</span><span class="p">,</span><span class="n">e</span><span class="p">))</span>
+<div class="highlight-ipython"><div class="highlight"><pre><span class="gp">In [50]: </span><span class="n">ancova6a</span> <span class="o">=</span> <span class="n">ANCOVA</span><span class="p">((</span><span class="n">x</span><span class="p">,(</span><span class="n">e</span><span class="p">,</span><span class="n">p</span><span class="p">)),(</span><span class="n">x</span><span class="p">,</span><span class="n">e</span><span class="p">))</span>
 
-<span class="gp">In [50]: </span><span class="n">ancova6a</span><span class="o">.</span><span class="n">codings</span>
-<span class="gr">Out[50]: </span>
+<span class="gp">In [51]: </span><span class="n">ancova6a</span><span class="o">.</span><span class="n">codings</span>
+<span class="gr">Out[51]: </span>
 <span class="go">{1: {},</span>
 <span class="go"> x: {(&#39;e&#39;,): [(&#39;e&#39;, &#39;indicator&#39;)],</span>
-<span class="go">  (&#39;e&#39;, &#39;p&#39;): [(&#39;e&#39;, &#39;indicator&#39;), (&#39;p&#39;, &#39;contrast&#39;)]}}</span>
+<span class="go">     (&#39;e&#39;, &#39;p&#39;): [(&#39;e&#39;, &#39;indicator&#39;), (&#39;p&#39;, &#39;contrast&#39;)]}}</span>
 
-<span class="gp">In [51]: </span><span class="n">ancova6a</span><span class="o">.</span><span class="n">formula</span><span class="o">.</span><span class="n">terms</span>
-<span class="gr">Out[51]: </span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="n">e_B</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">e_M</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">e_P</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">e_B</span><span class="o">*</span><span class="n">p_M</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">e_M</span><span class="o">*</span><span class="n">p_M</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">e_P</span><span class="o">*</span><span class="n">p_M</span><span class="o">*</span><span class="n">x</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;object&#39;</span><span class="p">)</span>
+<span class="gp">In [52]: </span><span class="n">ancova6a</span><span class="o">.</span><span class="n">formula</span><span class="o">.</span><span class="n">terms</span>
+<span class="gr">Out[52]: </span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="n">e_B</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">e_M</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">e_P</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">e_B</span><span class="o">*</span><span class="n">p_M</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">e_M</span><span class="o">*</span><span class="n">p_M</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">e_P</span><span class="o">*</span><span class="n">p_M</span><span class="o">*</span><span class="n">x</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span>
 
-<span class="gp">In [52]: </span><span class="n">model</span> <span class="o">=</span> <span class="n">OLS</span><span class="p">(</span><span class="n">salary</span><span class="p">[</span><span class="s">&#39;s&#39;</span><span class="p">],</span> <span class="n">ancova6a</span><span class="o">.</span><span class="n">formula</span><span class="o">.</span><span class="n">design</span><span class="p">(</span><span class="n">salary</span><span class="p">,</span> <span class="n">return_float</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+<span class="gp">In [53]: </span><span class="n">model</span> <span class="o">=</span> <span class="n">OLS</span><span class="p">(</span><span class="n">salary</span><span class="p">[</span><span class="s">&#39;s&#39;</span><span class="p">],</span> <span class="n">ancova6a</span><span class="o">.</span><span class="n">formula</span><span class="o">.</span><span class="n">design</span><span class="p">(</span><span class="n">salary</span><span class="p">,</span> <span class="n">return_float</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
 
-<span class="gp">In [53]: </span><span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="gp">In [54]: </span><span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
 
-<span class="gp">In [54]: </span><span class="n">results</span><span class="o">.</span><span class="n">params</span>
-<span class="gr">Out[54]: </span>
+<span class="gp">In [55]: </span><span class="n">results</span><span class="o">.</span><span class="n">params</span>
+<span class="gr">Out[55]: </span>
 <span class="go">array([ 13454.2368,    189.4646,    275.1639,   -124.0655,    309.1997,</span>
 <span class="go">          771.519 ,   1095.4807])</span>
 </pre></div>
@@ -384,17 +382,17 @@ by</p>
 <p>The ubiquitous intercept can be suppressed using
 the keyword argument &#8220;add_intercept&#8221; to the
 constructor of ANCOVA</p>
-<div class="highlight-ipython"><div class="highlight"><pre><span class="gp">In [55]: </span><span class="n">ancova7</span> <span class="o">=</span> <span class="n">ANCOVA</span><span class="p">(</span><span class="n">x</span><span class="p">,(</span><span class="n">x</span><span class="p">,(</span><span class="n">p</span><span class="p">,</span><span class="n">e</span><span class="p">)),(</span><span class="n">x</span><span class="p">,</span><span class="n">e</span><span class="p">),(</span><span class="n">x</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="n">add_intercept</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<div class="highlight-ipython"><div class="highlight"><pre><span class="gp">In [56]: </span><span class="n">ancova7</span> <span class="o">=</span> <span class="n">ANCOVA</span><span class="p">(</span><span class="n">x</span><span class="p">,(</span><span class="n">x</span><span class="p">,(</span><span class="n">p</span><span class="p">,</span><span class="n">e</span><span class="p">)),(</span><span class="n">x</span><span class="p">,</span><span class="n">e</span><span class="p">),(</span><span class="n">x</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="n">add_intercept</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 
-<span class="gp">In [56]: </span><span class="n">ancova7</span><span class="o">.</span><span class="n">formula</span><span class="o">.</span><span class="n">terms</span>
-<span class="gr">Out[56]: </span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">e_M</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">e_P</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">p_M</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">e_M</span><span class="o">*</span><span class="n">p_M</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">e_P</span><span class="o">*</span><span class="n">p_M</span><span class="o">*</span><span class="n">x</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;object&#39;</span><span class="p">)</span>
+<span class="gp">In [57]: </span><span class="n">ancova7</span><span class="o">.</span><span class="n">formula</span><span class="o">.</span><span class="n">terms</span>
+<span class="gr">Out[57]: </span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">e_M</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">e_P</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">p_M</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">e_M</span><span class="o">*</span><span class="n">p_M</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">e_P</span><span class="o">*</span><span class="n">p_M</span><span class="o">*</span><span class="n">x</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span>
 
-<span class="gp">In [57]: </span><span class="n">model</span> <span class="o">=</span> <span class="n">OLS</span><span class="p">(</span><span class="n">salary</span><span class="p">[</span><span class="s">&#39;s&#39;</span><span class="p">],</span> <span class="n">ancova7</span><span class="o">.</span><span class="n">formula</span><span class="o">.</span><span class="n">design</span><span class="p">(</span><span class="n">salary</span><span class="p">,</span> <span class="n">return_float</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+<span class="gp">In [58]: </span><span class="n">model</span> <span class="o">=</span> <span class="n">OLS</span><span class="p">(</span><span class="n">salary</span><span class="p">[</span><span class="s">&#39;s&#39;</span><span class="p">],</span> <span class="n">ancova7</span><span class="o">.</span><span class="n">formula</span><span class="o">.</span><span class="n">design</span><span class="p">(</span><span class="n">salary</span><span class="p">,</span> <span class="n">return_float</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
 
-<span class="gp">In [58]: </span><span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="gp">In [59]: </span><span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
 
-<span class="gp">In [59]: </span><span class="n">results</span><span class="o">.</span><span class="n">params</span>
-<span class="gr">Out[59]: </span>
+<span class="gp">In [60]: </span><span class="n">results</span><span class="o">.</span><span class="n">params</span>
+<span class="gr">Out[60]: </span>
 <span class="go">array([ 1227.9563,   203.7999,  2369.3629,  1452.4762,  -656.674 ,</span>
 <span class="go">       -2744.2625])</span>
 </pre></div>
@@ -420,35 +418,35 @@ is to be added it sees that there will be a linear dependence if
 <em>X</em> in them are the product of the columns of a
 purely categorical formula. In this case, the columns
 are the same as</p>
-<div class="highlight-ipython"><div class="highlight"><pre><span class="gp">In [60]: </span><span class="n">ancova7a</span> <span class="o">=</span> <span class="n">ANCOVA</span><span class="p">((</span><span class="mi">1</span><span class="p">,(</span><span class="n">p</span><span class="p">,</span><span class="n">e</span><span class="p">)),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">e</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">p</span><span class="p">))</span>
+<div class="highlight-ipython"><div class="highlight"><pre><span class="gp">In [61]: </span><span class="n">ancova7a</span> <span class="o">=</span> <span class="n">ANCOVA</span><span class="p">((</span><span class="mi">1</span><span class="p">,(</span><span class="n">p</span><span class="p">,</span><span class="n">e</span><span class="p">)),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">e</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">p</span><span class="p">))</span>
 
-<span class="gp">In [61]: </span><span class="n">ancova7a</span><span class="o">.</span><span class="n">formula</span><span class="o">.</span><span class="n">terms</span>
-<span class="gr">Out[61]: </span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="n">e_M</span><span class="p">,</span> <span class="n">e_P</span><span class="p">,</span> <span class="n">p_M</span><span class="p">,</span> <span class="n">e_M</span><span class="o">*</span><span class="n">p_M</span><span class="p">,</span> <span class="n">e_P</span><span class="o">*</span><span class="n">p_M</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;object&#39;</span><span class="p">)</span>
+<span class="gp">In [62]: </span><span class="n">ancova7a</span><span class="o">.</span><span class="n">formula</span><span class="o">.</span><span class="n">terms</span>
+<span class="gr">Out[62]: </span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="n">e_M</span><span class="p">,</span> <span class="n">e_P</span><span class="p">,</span> <span class="n">p_M</span><span class="p">,</span> <span class="n">e_M</span><span class="o">*</span><span class="n">p_M</span><span class="p">,</span> <span class="n">e_P</span><span class="o">*</span><span class="n">p_M</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span>
 
-<span class="gp">In [62]: </span><span class="n">ancova7a</span><span class="o">.</span><span class="n">formula</span><span class="o">.</span><span class="n">terms</span> <span class="o">*</span> <span class="n">x</span>
-<span class="gr">Out[62]: </span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">e_M</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">e_P</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">p_M</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">e_M</span><span class="o">*</span><span class="n">p_M</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">e_P</span><span class="o">*</span><span class="n">p_M</span><span class="o">*</span><span class="n">x</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;object&#39;</span><span class="p">)</span>
+<span class="gp">In [63]: </span><span class="n">ancova7a</span><span class="o">.</span><span class="n">formula</span><span class="o">.</span><span class="n">terms</span> <span class="o">*</span> <span class="n">x</span>
+<span class="gr">Out[63]: </span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">e_M</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">e_P</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">p_M</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">e_M</span><span class="o">*</span><span class="n">p_M</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">e_P</span><span class="o">*</span><span class="n">p_M</span><span class="o">*</span><span class="n">x</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span>
 
-<span class="gp">In [63]: </span><span class="n">ancova7</span><span class="o">.</span><span class="n">formula</span><span class="o">.</span><span class="n">terms</span>
-<span class="gr">Out[63]: </span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">e_M</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">e_P</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">p_M</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">e_M</span><span class="o">*</span><span class="n">p_M</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">e_P</span><span class="o">*</span><span class="n">p_M</span><span class="o">*</span><span class="n">x</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;object&#39;</span><span class="p">)</span>
+<span class="gp">In [64]: </span><span class="n">ancova7</span><span class="o">.</span><span class="n">formula</span><span class="o">.</span><span class="n">terms</span>
+<span class="gr">Out[64]: </span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">e_M</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">e_P</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">p_M</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">e_M</span><span class="o">*</span><span class="n">p_M</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">e_P</span><span class="o">*</span><span class="n">p_M</span><span class="o">*</span><span class="n">x</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>This is how the <em>ANCOVA</em> is constructed. For each numeric term,
 there is a corresponding pure categorical formula. For example</p>
-<div class="highlight-ipython"><div class="highlight"><pre><span class="gp">In [64]: </span><span class="n">z</span> <span class="o">=</span> <span class="n">Term</span><span class="p">(</span><span class="s">&#39;z&#39;</span><span class="p">)</span>
+<div class="highlight-ipython"><div class="highlight"><pre><span class="gp">In [65]: </span><span class="n">z</span> <span class="o">=</span> <span class="n">Term</span><span class="p">(</span><span class="s">&#39;z&#39;</span><span class="p">)</span>
 
-<span class="gp">In [65]: </span><span class="n">ancova7b</span> <span class="o">=</span> <span class="n">ANCOVA</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="n">e</span><span class="p">),</span> <span class="p">(</span><span class="n">z</span><span class="p">,</span><span class="n">e</span><span class="p">),</span> <span class="p">(</span><span class="n">z</span><span class="p">,(</span><span class="n">e</span><span class="p">,</span><span class="n">p</span><span class="p">)),</span> <span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="n">z</span><span class="p">,</span><span class="n">e</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">e</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="n">x</span><span class="o">*</span><span class="n">z</span><span class="p">)</span>
+<span class="gp">In [66]: </span><span class="n">ancova7b</span> <span class="o">=</span> <span class="n">ANCOVA</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="n">e</span><span class="p">),</span> <span class="p">(</span><span class="n">z</span><span class="p">,</span><span class="n">e</span><span class="p">),</span> <span class="p">(</span><span class="n">z</span><span class="p">,(</span><span class="n">e</span><span class="p">,</span><span class="n">p</span><span class="p">)),</span> <span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="n">z</span><span class="p">,</span><span class="n">e</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">e</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="n">x</span><span class="o">*</span><span class="n">z</span><span class="p">)</span>
 
-<span class="gp">In [66]: </span><span class="n">ancova7b</span><span class="o">.</span><span class="n">sequence</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-<span class="gr">Out[66]: </span><span class="p">[(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="n">Factor</span><span class="p">(</span><span class="s">&#39;e&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;B&#39;</span><span class="p">,</span> <span class="s">&#39;M&#39;</span><span class="p">,</span> <span class="s">&#39;P&#39;</span><span class="p">]),)),</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="n">Factor</span><span class="p">(</span><span class="s">&#39;p&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;L&#39;</span><span class="p">,</span> <span class="s">&#39;M&#39;</span><span class="p">]),))]</span>
+<span class="gp">In [67]: </span><span class="n">ancova7b</span><span class="o">.</span><span class="n">sequence</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="gr">Out[67]: </span><span class="p">[(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="n">Factor</span><span class="p">(</span><span class="s">&#39;e&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;B&#39;</span><span class="p">,</span> <span class="s">&#39;M&#39;</span><span class="p">,</span> <span class="s">&#39;P&#39;</span><span class="p">]),)),</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="n">Factor</span><span class="p">(</span><span class="s">&#39;p&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;L&#39;</span><span class="p">,</span> <span class="s">&#39;M&#39;</span><span class="p">]),))]</span>
 
-<span class="gp">In [67]: </span><span class="n">ancova7b</span><span class="o">.</span><span class="n">sequence</span><span class="p">(</span><span class="n">z</span><span class="o">*</span><span class="n">x</span><span class="p">)</span>
-<span class="gr">Out[67]: </span><span class="p">[(</span><span class="n">x</span><span class="o">*</span><span class="n">z</span><span class="p">,</span> <span class="p">()),</span> <span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="n">z</span><span class="p">,</span> <span class="p">(</span><span class="n">Factor</span><span class="p">(</span><span class="s">&#39;e&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;B&#39;</span><span class="p">,</span> <span class="s">&#39;M&#39;</span><span class="p">,</span> <span class="s">&#39;P&#39;</span><span class="p">]),))]</span>
+<span class="gp">In [68]: </span><span class="n">ancova7b</span><span class="o">.</span><span class="n">sequence</span><span class="p">(</span><span class="n">z</span><span class="o">*</span><span class="n">x</span><span class="p">)</span>
+<span class="gr">Out[68]: </span><span class="p">[(</span><span class="n">x</span><span class="o">*</span><span class="n">z</span><span class="p">,</span> <span class="p">()),</span> <span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="n">z</span><span class="p">,</span> <span class="p">(</span><span class="n">Factor</span><span class="p">(</span><span class="s">&#39;e&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;B&#39;</span><span class="p">,</span> <span class="s">&#39;M&#39;</span><span class="p">,</span> <span class="s">&#39;P&#39;</span><span class="p">]),))]</span>
 
-<span class="gp">In [68]: </span><span class="n">ancova7b</span><span class="o">.</span><span class="n">sequence</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="gr">Out[68]: </span><span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="p">()),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="n">Factor</span><span class="p">(</span><span class="s">&#39;e&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;B&#39;</span><span class="p">,</span> <span class="s">&#39;M&#39;</span><span class="p">,</span> <span class="s">&#39;P&#39;</span><span class="p">]),))]</span>
+<span class="gp">In [69]: </span><span class="n">ancova7b</span><span class="o">.</span><span class="n">sequence</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gr">Out[69]: </span><span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="p">()),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="n">Factor</span><span class="p">(</span><span class="s">&#39;e&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;B&#39;</span><span class="p">,</span> <span class="s">&#39;M&#39;</span><span class="p">,</span> <span class="s">&#39;P&#39;</span><span class="p">]),))]</span>
 
-<span class="gp">In [69]: </span><span class="n">ancova7b</span><span class="o">.</span><span class="n">sequence</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
-<span class="gr">Out[69]: </span>
+<span class="gp">In [70]: </span><span class="n">ancova7b</span><span class="o">.</span><span class="n">sequence</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+<span class="gr">Out[70]: </span>
 <span class="go">[(z, (Factor(&#39;e&#39;, [&#39;B&#39;, &#39;M&#39;, &#39;P&#39;]),)),</span>
 <span class="go"> (z, (Factor(&#39;e&#39;, [&#39;B&#39;, &#39;M&#39;, &#39;P&#39;]), Factor(&#39;p&#39;, [&#39;L&#39;, &#39;M&#39;])))]</span>
 </pre></div>
@@ -456,16 +454,16 @@ there is a corresponding pure categorical formula. For example</p>
 <p>Any of those sequences above can be used to create new ANCOVA instances
 whose formulae is that numeric expression multiplied by the corresponding
 purely categorical formula.</p>
-<div class="highlight-ipython"><div class="highlight"><pre><span class="gp">In [70]: </span><span class="n">ANCOVA</span><span class="p">(</span><span class="o">*</span><span class="n">ancova7b</span><span class="o">.</span><span class="n">sequence</span><span class="p">(</span><span class="n">z</span><span class="p">))</span><span class="o">.</span><span class="n">formula</span><span class="o">.</span><span class="n">terms</span>
-<span class="gr">Out[70]: </span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="n">e_B</span><span class="o">*</span><span class="n">z</span><span class="p">,</span> <span class="n">e_M</span><span class="o">*</span><span class="n">z</span><span class="p">,</span> <span class="n">e_P</span><span class="o">*</span><span class="n">z</span><span class="p">,</span> <span class="n">e_B</span><span class="o">*</span><span class="n">p_M</span><span class="o">*</span><span class="n">z</span><span class="p">,</span> <span class="n">e_M</span><span class="o">*</span><span class="n">p_M</span><span class="o">*</span><span class="n">z</span><span class="p">,</span> <span class="n">e_P</span><span class="o">*</span><span class="n">p_M</span><span class="o">*</span><span class="n">z</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;object&#39;</span><span class="p">)</span>
+<div class="highlight-ipython"><div class="highlight"><pre><span class="gp">In [71]: </span><span class="n">ANCOVA</span><span class="p">(</span><span class="o">*</span><span class="n">ancova7b</span><span class="o">.</span><span class="n">sequence</span><span class="p">(</span><span class="n">z</span><span class="p">))</span><span class="o">.</span><span class="n">formula</span><span class="o">.</span><span class="n">terms</span>
+<span class="gr">Out[71]: </span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="n">e_B</span><span class="o">*</span><span class="n">z</span><span class="p">,</span> <span class="n">e_M</span><span class="o">*</span><span class="n">z</span><span class="p">,</span> <span class="n">e_P</span><span class="o">*</span><span class="n">z</span><span class="p">,</span> <span class="n">e_B</span><span class="o">*</span><span class="n">p_M</span><span class="o">*</span><span class="n">z</span><span class="p">,</span> <span class="n">e_M</span><span class="o">*</span><span class="n">p_M</span><span class="o">*</span><span class="n">z</span><span class="p">,</span> <span class="n">e_P</span><span class="o">*</span><span class="n">p_M</span><span class="o">*</span><span class="n">z</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span>
 
-<span class="gp">In [71]: </span><span class="n">purely_categorical</span> <span class="o">=</span> <span class="n">ANCOVA</span><span class="p">(</span><span class="o">*</span><span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="n">factors</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">factors</span> <span class="ow">in</span> <span class="n">ancova7b</span><span class="o">.</span><span class="n">sequence</span><span class="p">(</span><span class="n">z</span><span class="p">)])</span>
+<span class="gp">In [72]: </span><span class="n">purely_categorical</span> <span class="o">=</span> <span class="n">ANCOVA</span><span class="p">(</span><span class="o">*</span><span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="n">factors</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">factors</span> <span class="ow">in</span> <span class="n">ancova7b</span><span class="o">.</span><span class="n">sequence</span><span class="p">(</span><span class="n">z</span><span class="p">)])</span>
 
-<span class="gp">In [72]: </span><span class="n">purely_categorical</span><span class="o">.</span><span class="n">formula</span><span class="o">.</span><span class="n">terms</span>
-<span class="gr">Out[72]: </span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="n">e_M</span><span class="p">,</span> <span class="n">e_P</span><span class="p">,</span> <span class="n">e_B</span><span class="o">*</span><span class="n">p_M</span><span class="p">,</span> <span class="n">e_M</span><span class="o">*</span><span class="n">p_M</span><span class="p">,</span> <span class="n">e_P</span><span class="o">*</span><span class="n">p_M</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;object&#39;</span><span class="p">)</span>
+<span class="gp">In [73]: </span><span class="n">purely_categorical</span><span class="o">.</span><span class="n">formula</span><span class="o">.</span><span class="n">terms</span>
+<span class="gr">Out[73]: </span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="n">e_M</span><span class="p">,</span> <span class="n">e_P</span><span class="p">,</span> <span class="n">e_B</span><span class="o">*</span><span class="n">p_M</span><span class="p">,</span> <span class="n">e_M</span><span class="o">*</span><span class="n">p_M</span><span class="p">,</span> <span class="n">e_P</span><span class="o">*</span><span class="n">p_M</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span>
 
-<span class="gp">In [73]: </span><span class="n">purely_categorical</span><span class="o">.</span><span class="n">formula</span><span class="o">.</span><span class="n">terms</span> <span class="o">*</span> <span class="n">z</span>
-<span class="gr">Out[73]: </span><span class="n">array</span><span class="p">([</span><span class="n">z</span><span class="p">,</span> <span class="n">e_M</span><span class="o">*</span><span class="n">z</span><span class="p">,</span> <span class="n">e_P</span><span class="o">*</span><span class="n">z</span><span class="p">,</span> <span class="n">e_B</span><span class="o">*</span><span class="n">p_M</span><span class="o">*</span><span class="n">z</span><span class="p">,</span> <span class="n">e_M</span><span class="o">*</span><span class="n">p_M</span><span class="o">*</span><span class="n">z</span><span class="p">,</span> <span class="n">e_P</span><span class="o">*</span><span class="n">p_M</span><span class="o">*</span><span class="n">z</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;object&#39;</span><span class="p">)</span>
+<span class="gp">In [74]: </span><span class="n">purely_categorical</span><span class="o">.</span><span class="n">formula</span><span class="o">.</span><span class="n">terms</span> <span class="o">*</span> <span class="n">z</span>
+<span class="gr">Out[74]: </span><span class="n">array</span><span class="p">([</span><span class="n">z</span><span class="p">,</span> <span class="n">e_M</span><span class="o">*</span><span class="n">z</span><span class="p">,</span> <span class="n">e_P</span><span class="o">*</span><span class="n">z</span><span class="p">,</span> <span class="n">e_B</span><span class="o">*</span><span class="n">p_M</span><span class="o">*</span><span class="n">z</span><span class="p">,</span> <span class="n">e_M</span><span class="o">*</span><span class="n">p_M</span><span class="o">*</span><span class="n">z</span><span class="p">,</span> <span class="n">e_P</span><span class="o">*</span><span class="n">p_M</span><span class="o">*</span><span class="n">z</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -473,8 +471,8 @@ purely categorical formula.</p>
 <h2>Contrasts<a class="headerlink" href="#contrasts" title="Permalink to this headline">¶</a></h2>
 <p>Each <em>(expr, factor)</em> pair in the <em>ANCOVA</em> specification
 maps to a specific contrast.</p>
-<div class="highlight-ipython"><div class="highlight"><pre><span class="gp">In [74]: </span><span class="n">ancova7</span><span class="o">.</span><span class="n">contrasts</span>
-<span class="gr">Out[74]: </span>
+<div class="highlight-ipython"><div class="highlight"><pre><span class="gp">In [75]: </span><span class="n">ancova7</span><span class="o">.</span><span class="n">contrasts</span>
+<span class="gr">Out[75]: </span>
 <span class="go">{&#39;I(x)&#39;: Formula([x]),</span>
 <span class="go"> &#39;I(x):e&#39;: Formula([e_M*x, e_P*x]),</span>
 <span class="go"> &#39;I(x):e:p&#39;: Formula([e_M*p_M*x, e_P*p_M*x]),</span>
@@ -482,8 +480,8 @@ maps to a specific contrast.</p>
 </pre></div>
 </div>
 <p>As opposed to</p>
-<div class="highlight-ipython"><div class="highlight"><pre><span class="gp">In [75]: </span><span class="n">ancova3</span><span class="o">.</span><span class="n">contrasts</span>
-<span class="gr">Out[75]: </span>
+<div class="highlight-ipython"><div class="highlight"><pre><span class="gp">In [76]: </span><span class="n">ancova3</span><span class="o">.</span><span class="n">contrasts</span>
+<span class="gr">Out[76]: </span>
 <span class="go">{&#39;1&#39;: Formula([1]),</span>
 <span class="go"> &#39;I(x):e:p&#39;: Formula([e_B*p_L*x, e_B*p_M*x, e_M*p_L*x, e_M*p_M*x, e_P*p_L*x, e_P*p_M*x])}</span>
 </pre></div>
@@ -491,10 +489,10 @@ maps to a specific contrast.</p>
 <p>These contrasts are the default contrasts that
 drop the first level of the factor. This can be changed
 with the <em>default_contrast</em> keyword argument</p>
-<div class="highlight-ipython"><div class="highlight"><pre><span class="gp">In [76]: </span><span class="n">ancova8</span> <span class="o">=</span> <span class="n">ANCOVA</span><span class="p">(</span><span class="n">x</span><span class="p">,(</span><span class="n">x</span><span class="p">,(</span><span class="n">p</span><span class="p">,</span><span class="n">e</span><span class="p">)),(</span><span class="n">x</span><span class="p">,</span><span class="n">e</span><span class="p">),(</span><span class="n">x</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="n">default_contrast</span><span class="o">=</span><span class="s">&#39;main_effect&#39;</span><span class="p">)</span>
+<div class="highlight-ipython"><div class="highlight"><pre><span class="gp">In [77]: </span><span class="n">ancova8</span> <span class="o">=</span> <span class="n">ANCOVA</span><span class="p">(</span><span class="n">x</span><span class="p">,(</span><span class="n">x</span><span class="p">,(</span><span class="n">p</span><span class="p">,</span><span class="n">e</span><span class="p">)),(</span><span class="n">x</span><span class="p">,</span><span class="n">e</span><span class="p">),(</span><span class="n">x</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="n">default_contrast</span><span class="o">=</span><span class="s">&#39;main_effect&#39;</span><span class="p">)</span>
 
-<span class="gp">In [77]: </span><span class="n">ancova8</span><span class="o">.</span><span class="n">contrasts</span>
-<span class="gr">Out[77]: </span>
+<span class="gp">In [78]: </span><span class="n">ancova8</span><span class="o">.</span><span class="n">contrasts</span>
+<span class="gr">Out[78]: </span>
 <span class="go">{&#39;1&#39;: Formula([1]),</span>
 <span class="go"> &#39;I(x)&#39;: Formula([x]),</span>
 <span class="go"> &#39;I(x):e&#39;: Formula([x*(-e_B + e_M), x*(-e_B + e_P)]),</span>
@@ -508,13 +506,13 @@ with the <em>default_contrast</em> keyword argument</p>
 <p>Each contrast can be associated with some columns of the
 final design matrix. These are also elements
 of the <em>formula</em> attribute</p>
-<div class="highlight-ipython"><div class="highlight"><pre><span class="gp">In [78]: </span><span class="n">ancova3</span><span class="o">.</span><span class="n">slices</span>
-<span class="gr">Out[78]: </span><span class="p">{</span><span class="s">&#39;1&#39;</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="bp">None</span><span class="p">),</span> <span class="s">&#39;I(x):e:p&#39;</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="bp">None</span><span class="p">)}</span>
+<div class="highlight-ipython"><div class="highlight"><pre><span class="gp">In [79]: </span><span class="n">ancova3</span><span class="o">.</span><span class="n">slices</span>
+<span class="gr">Out[79]: </span><span class="p">{</span><span class="s">&#39;1&#39;</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="bp">None</span><span class="p">),</span> <span class="s">&#39;I(x):e:p&#39;</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="bp">None</span><span class="p">)}</span>
 </pre></div>
 </div>
 <p>The slices can be interpreted as contrast matrices</p>
-<div class="highlight-ipython"><div class="highlight"><pre><span class="gp">In [79]: </span><span class="n">ancova3</span><span class="o">.</span><span class="n">contrast_matrices</span>
-<span class="gr">Out[79]: </span>
+<div class="highlight-ipython"><div class="highlight"><pre><span class="gp">In [80]: </span><span class="n">ancova3</span><span class="o">.</span><span class="n">contrast_matrices</span>
+<span class="gr">Out[80]: </span>
 <span class="go">{&#39;1&#39;: array([[ 1.,  0.,  0.,  0.,  0.,  0.,  0.]]),</span>
 <span class="go"> &#39;I(x):e:p&#39;: array([[ 0.,  1.,  0.,  0.,  0.,  0.,  0.],</span>
 <span class="go">       [ 0.,  0.,  1.,  0.,  0.,  0.,  0.],</span>
@@ -537,15 +535,15 @@ if we never observed a laborer with a PhD, for example.</p>
 </div>
 <div class="section" id="sums-of-squares">
 <h2>Sums of squares<a class="headerlink" href="#sums-of-squares" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-ipython"><div class="highlight"><pre><span class="gp">In [80]: </span><span class="n">ancova</span> <span class="o">=</span> <span class="n">ANCOVA</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">e</span><span class="p">),(</span><span class="n">x</span><span class="p">,</span><span class="n">p</span><span class="p">),(</span><span class="n">x</span><span class="p">,(</span><span class="n">p</span><span class="p">,</span><span class="n">e</span><span class="p">)))</span>
+<div class="highlight-ipython"><div class="highlight"><pre><span class="gp">In [81]: </span><span class="n">ancova</span> <span class="o">=</span> <span class="n">ANCOVA</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">e</span><span class="p">),(</span><span class="n">x</span><span class="p">,</span><span class="n">p</span><span class="p">),(</span><span class="n">x</span><span class="p">,(</span><span class="n">p</span><span class="p">,</span><span class="n">e</span><span class="p">)))</span>
 
-<span class="gp">In [81]: </span><span class="k">print</span> <span class="n">ML</span><span class="o">.</span><span class="n">rec2txt</span><span class="p">(</span><span class="n">typeI</span><span class="p">(</span><span class="s">&#39;s&#39;</span><span class="p">,</span> <span class="n">ancova</span><span class="p">,</span> <span class="n">salary</span><span class="p">))</span>
-<span class="go">contrast               SS       df              MS         F   p_value</span>
-<span class="go">1           835042373.761    1.000   835042373.761   178.587     0.000</span>
-<span class="go">I(x):e      498268906.746    3.000   166089635.582    35.521     0.000</span>
-<span class="go">I(x):p      295195692.259    1.000   295195692.259    63.132     0.000</span>
-<span class="go">I(x):e:p     25275391.059    2.000    12637695.530     2.703     0.080</span>
-<span class="go">Residuals   182357587.174   39.000     4675835.569       nan       nan</span>
+<span class="gp">In [82]: </span><span class="k">print</span> <span class="n">ML</span><span class="o">.</span><span class="n">rec2txt</span><span class="p">(</span><span class="n">typeI</span><span class="p">(</span><span class="s">&#39;s&#39;</span><span class="p">,</span> <span class="n">ancova</span><span class="p">,</span> <span class="n">salary</span><span class="p">))</span>
+<span class="go">contrast                 SS       df                MS          F   p_value</span>
+<span class="go">1           13719944261.761    1.000   13719944261.761   2934.223     0.000</span>
+<span class="go">I(x):e        498268906.746    3.000     166089635.582     35.521     0.000</span>
+<span class="go">I(x):p        295195692.259    1.000     295195692.259     63.132     0.000</span>
+<span class="go">I(x):e:p       25275391.059    2.000      12637695.530      2.703     0.080</span>
+<span class="go">Residuals     182357587.174   39.000       4675835.569        nan       nan</span>
 </pre></div>
 </div>
 <p>Compare this to the R output</p>
@@ -563,39 +561,17 @@ Signif. codes:  <span class="m">0</span> ‘<span class="o">***</span>’ <span 
 </pre></div>
 </div>
 <p>For type II:</p>
-<div class="highlight-ipython"><div class="highlight"><pre><span class="gp">In [82]: </span><span class="k">print</span> <span class="n">ML</span><span class="o">.</span><span class="n">rec2txt</span><span class="p">(</span><span class="n">typeII</span><span class="p">(</span><span class="s">&#39;s&#39;</span><span class="p">,</span> <span class="n">ancova</span><span class="p">,</span> <span class="n">salary</span><span class="p">))</span>
-<span class="go">---------------------------------------------------------------------------</span>
-<span class="go">TypeError                                 Traceback (most recent call last)</span>
-<span class="go">/Users/mb312/dev_trees/formula/doc/&lt;ipython-input-82-17fc05239154&gt; in &lt;module&gt;()</span>
-<span class="go">----&gt; 1 print ML.rec2txt(typeII(&#39;s&#39;, ancova, salary))</span>
-
-<span class="go">/Users/mb312/usr/local/lib/python2.6/site-packages/formula/ancova.pyc in typeII(response, ancova, recarray)</span>
-<span class="go">    708 </span>
-<span class="go">    709     result = np.array(names, np.dtype([(&#39;contrast&#39;,&#39;S%d&#39; % max([len(n) for n in names]))]))</span>
-<span class="go">--&gt; 710     result = append_fields(result, [&#39;SS&#39;, &#39;df&#39;, &#39;MS&#39;, &#39;F&#39;, &#39;p_value&#39;], [sss, dfs, np.array(sss) / np.array(dfs), fs, pvals])</span>
-<span class="go">    711     return result</span>
-<span class="go">    712 </span>
-
-<span class="go">/Users/mb312/usr/local/lib/python2.6/site-packages/numpy/lib/recfunctions.pyc in append_fields(base, names, data, dtypes, fill_value, usemask, asrecarray)</span>
-<span class="go">    614     if dtypes is None:</span>
-<span class="go">    615         data = [np.array(a, copy=False, subok=True) for a in data]</span>
-<span class="go">--&gt; 616         data = [a.view([(name, a.dtype)]) for (name, a) in zip(names, data)]</span>
-<span class="go">    617     else :</span>
-<span class="go">    618         if not isinstance(dtypes, (tuple, list)):</span>
-
-<span class="go">TypeError: Cannot change data-type for object array.</span>
+<div class="highlight-ipython"><div class="highlight"><pre><span class="gp">In [83]: </span><span class="k">print</span> <span class="n">ML</span><span class="o">.</span><span class="n">rec2txt</span><span class="p">(</span><span class="n">typeII</span><span class="p">(</span><span class="s">&#39;s&#39;</span><span class="p">,</span> <span class="n">ancova</span><span class="p">,</span> <span class="n">salary</span><span class="p">))</span>
+<span class="go">contrast                SS       df               MS         F   p_value</span>
+<span class="go">1           2160721082.840    1.000   2160721082.840   462.104     0.000</span>
+<span class="go">I(x):e        96080370.831    3.000     32026790.277     6.849     0.001</span>
+<span class="go">I(x):p       295195692.259    1.000    295195692.259    63.132     0.000</span>
+<span class="go">I(x):e:p      25275391.059    2.000     12637695.530     2.703     0.080</span>
+<span class="go">Residuals    182357587.174   39.000      4675835.569       nan       nan</span>
 </pre></div>
 </div>
 <div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> library<span class="p">(</span>car<span class="p">)</span>
-<span class="p">[</span><span class="m">1</span>mLoading required package: MASS
-<span class="p">[</span><span class="m">0</span>m<span class="p">[</span><span class="m">1</span>mLoading required package: nnet
-<span class="p">[</span><span class="m">0</span>m<span class="p">[</span><span class="m">1</span>mLoading required package: survival
-<span class="p">[</span><span class="m">0</span>m<span class="p">[</span><span class="m">1</span>mLoading required package: splines
-<span class="p">[</span><span class="m">0</span>m<span class="p">[</span><span class="m">1</span>mWarning messages:
-<span class="p">[</span><span class="m">0</span>m<span class="p">[</span><span class="m">1</span>m1: package <span class="s">&#39;car&#39;</span> was built under R version <span class="m">2.12.2</span> 
-<span class="p">[</span><span class="m">0</span>m<span class="p">[</span><span class="m">1</span>m2: package <span class="s">&#39;MASS&#39;</span> was built under R version <span class="m">2.12.2</span> 
-<span class="p">[</span><span class="m">0</span>m<span class="p">[</span><span class="m">1</span>m3: package <span class="s">&#39;survival&#39;</span> was built under R version <span class="m">2.12.2</span> 
-<span class="p">[</span><span class="m">0</span>m<span class="o">&gt;</span> Anova<span class="p">(</span>lm<span class="p">(</span>S ~ X:E <span class="o">+</span> X:P <span class="o">+</span> X:P:E<span class="p">,</span> data<span class="o">=</span>data<span class="p">),</span> type<span class="o">=</span><span class="s">&#39;II&#39;</span><span class="p">)</span>
+<span class="o">&gt;</span> Anova<span class="p">(</span>lm<span class="p">(</span>S ~ X:E <span class="o">+</span> X:P <span class="o">+</span> X:P:E<span class="p">,</span> data<span class="o">=</span>data<span class="p">),</span> type<span class="o">=</span><span class="s">&#39;II&#39;</span><span class="p">)</span>
 Anova Table <span class="p">(</span>Type II tests<span class="p">)</span>
 
 Response: S
@@ -609,27 +585,13 @@ Signif. codes:  <span class="m">0</span> ‘<span class="o">***</span>’ <span 
 </pre></div>
 </div>
 <p>And type III:</p>
-<div class="highlight-ipython"><div class="highlight"><pre><span class="gp">In [83]: </span><span class="k">print</span> <span class="n">ML</span><span class="o">.</span><span class="n">rec2txt</span><span class="p">(</span><span class="n">typeIII</span><span class="p">(</span><span class="s">&#39;s&#39;</span><span class="p">,</span> <span class="n">ancova</span><span class="p">,</span> <span class="n">salary</span><span class="p">))</span>
-<span class="go">---------------------------------------------------------------------------</span>
-<span class="go">TypeError                                 Traceback (most recent call last)</span>
-<span class="go">/Users/mb312/dev_trees/formula/doc/&lt;ipython-input-83-6887b644f56c&gt; in &lt;module&gt;()</span>
-<span class="go">----&gt; 1 print ML.rec2txt(typeIII(&#39;s&#39;, ancova, salary))</span>
-
-<span class="go">/Users/mb312/usr/local/lib/python2.6/site-packages/formula/ancova.pyc in typeIII(response, ancova, recarray)</span>
-<span class="go">    762 </span>
-<span class="go">    763     result = np.array(names, np.dtype([(&#39;contrast&#39;,&#39;S%d&#39; % max([len(n) for n in names]))]))</span>
-<span class="go">--&gt; 764     result = append_fields(result, [&#39;SS&#39;, &#39;df&#39;, &#39;MS&#39;, &#39;F&#39;, &#39;p_value&#39;], [sss, dfs, np.array(sss) / np.array(dfs), fs, pvals])</span>
-<span class="go">    765     return result</span>
-<span class="go">    766 </span>
-
-<span class="go">/Users/mb312/usr/local/lib/python2.6/site-packages/numpy/lib/recfunctions.pyc in append_fields(base, names, data, dtypes, fill_value, usemask, asrecarray)</span>
-<span class="go">    614     if dtypes is None:</span>
-<span class="go">    615         data = [np.array(a, copy=False, subok=True) for a in data]</span>
-<span class="go">--&gt; 616         data = [a.view([(name, a.dtype)]) for (name, a) in zip(names, data)]</span>
-<span class="go">    617     else :</span>
-<span class="go">    618         if not isinstance(dtypes, (tuple, list)):</span>
-
-<span class="go">TypeError: Cannot change data-type for object array.</span>
+<div class="highlight-ipython"><div class="highlight"><pre><span class="gp">In [84]: </span><span class="k">print</span> <span class="n">ML</span><span class="o">.</span><span class="n">rec2txt</span><span class="p">(</span><span class="n">typeIII</span><span class="p">(</span><span class="s">&#39;s&#39;</span><span class="p">,</span> <span class="n">ancova</span><span class="p">,</span> <span class="n">salary</span><span class="p">))</span>
+<span class="go">contrast                SS       df               MS         F   p_value</span>
+<span class="go">1           2160721082.840    1.000   2160721082.840   462.104     0.000</span>
+<span class="go">I(x):e        70707719.836    3.000     23569239.945     5.041     0.005</span>
+<span class="go">I(x):p        11631680.248    1.000     11631680.248     2.488     0.123</span>
+<span class="go">I(x):e:p      25275391.059    2.000     12637695.530     2.703     0.080</span>
+<span class="go">Residuals    182357587.174   39.000      4675835.569       nan       nan</span>
 </pre></div>
 </div>
 <div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> library<span class="p">(</span>car<span class="p">)</span>
@@ -650,29 +612,15 @@ Signif. codes:  <span class="m">0</span> ‘<span class="o">***</span>’ <span 
 <p>Reversing the order changes the ANOVA tables, in particular
 the degrees of freedom associated to each contrast. This is
 because the codings change when the order of the factors change.</p>
-<div class="highlight-ipython"><div class="highlight"><pre><span class="gp">In [84]: </span><span class="n">ancova2</span> <span class="o">=</span> <span class="n">ANCOVA</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">p</span><span class="p">),(</span><span class="n">x</span><span class="p">,</span><span class="n">e</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span><span class="p">,(</span><span class="n">p</span><span class="p">,</span><span class="n">e</span><span class="p">)))</span>
+<div class="highlight-ipython"><div class="highlight"><pre><span class="gp">In [85]: </span><span class="n">ancova2</span> <span class="o">=</span> <span class="n">ANCOVA</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">p</span><span class="p">),(</span><span class="n">x</span><span class="p">,</span><span class="n">e</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span><span class="p">,(</span><span class="n">p</span><span class="p">,</span><span class="n">e</span><span class="p">)))</span>
 
-<span class="gp">In [85]: </span><span class="k">print</span> <span class="n">ML</span><span class="o">.</span><span class="n">rec2txt</span><span class="p">(</span><span class="n">typeII</span><span class="p">(</span><span class="s">&#39;s&#39;</span><span class="p">,</span> <span class="n">ancova2</span><span class="p">,</span> <span class="n">salary</span><span class="p">))</span>
-<span class="go">---------------------------------------------------------------------------</span>
-<span class="go">TypeError                                 Traceback (most recent call last)</span>
-<span class="go">/Users/mb312/dev_trees/formula/doc/&lt;ipython-input-85-56ae901cfa05&gt; in &lt;module&gt;()</span>
-<span class="go">----&gt; 1 print ML.rec2txt(typeII(&#39;s&#39;, ancova2, salary))</span>
-
-<span class="go">/Users/mb312/usr/local/lib/python2.6/site-packages/formula/ancova.pyc in typeII(response, ancova, recarray)</span>
-<span class="go">    708 </span>
-<span class="go">    709     result = np.array(names, np.dtype([(&#39;contrast&#39;,&#39;S%d&#39; % max([len(n) for n in names]))]))</span>
-<span class="go">--&gt; 710     result = append_fields(result, [&#39;SS&#39;, &#39;df&#39;, &#39;MS&#39;, &#39;F&#39;, &#39;p_value&#39;], [sss, dfs, np.array(sss) / np.array(dfs), fs, pvals])</span>
-<span class="go">    711     return result</span>
-<span class="go">    712 </span>
-
-<span class="go">/Users/mb312/usr/local/lib/python2.6/site-packages/numpy/lib/recfunctions.pyc in append_fields(base, names, data, dtypes, fill_value, usemask, asrecarray)</span>
-<span class="go">    614     if dtypes is None:</span>
-<span class="go">    615         data = [np.array(a, copy=False, subok=True) for a in data]</span>
-<span class="go">--&gt; 616         data = [a.view([(name, a.dtype)]) for (name, a) in zip(names, data)]</span>
-<span class="go">    617     else :</span>
-<span class="go">    618         if not isinstance(dtypes, (tuple, list)):</span>
-
-<span class="go">TypeError: Cannot change data-type for object array.</span>
+<span class="gp">In [86]: </span><span class="k">print</span> <span class="n">ML</span><span class="o">.</span><span class="n">rec2txt</span><span class="p">(</span><span class="n">typeII</span><span class="p">(</span><span class="s">&#39;s&#39;</span><span class="p">,</span> <span class="n">ancova2</span><span class="p">,</span> <span class="n">salary</span><span class="p">))</span>
+<span class="go">contrast                SS       df               MS         F   p_value</span>
+<span class="go">1           2160721082.840    1.000   2160721082.840   462.104     0.000</span>
+<span class="go">I(x):e        17420924.250    2.000      8710462.125     1.863     0.169</span>
+<span class="go">I(x):p       344134184.851    2.000    172067092.425    36.799     0.000</span>
+<span class="go">I(x):e:p      25275391.059    2.000     12637695.530     2.703     0.080</span>
+<span class="go">Residuals    182357587.174   39.000      4675835.569       nan       nan</span>
 </pre></div>
 </div>
 <div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> library<span class="p">(</span>car<span class="p">)</span>
@@ -689,27 +637,13 @@ Residuals <span class="m">182357587</span> <span class="m">39</span>
 Signif. codes:  <span class="m">0</span> ‘<span class="o">***</span>’ <span class="m">0.001</span> ‘<span class="o">**</span>’ <span class="m">0.01</span> ‘<span class="o">*</span>’ <span class="m">0.05</span> ‘<span class="m">.</span>’ <span class="m">0.1</span> ‘ ’ <span class="m">1</span> 
 </pre></div>
 </div>
-<div class="highlight-ipython"><div class="highlight"><pre><span class="gp">In [86]: </span><span class="k">print</span> <span class="n">ML</span><span class="o">.</span><span class="n">rec2txt</span><span class="p">(</span><span class="n">typeIII</span><span class="p">(</span><span class="s">&#39;s&#39;</span><span class="p">,</span> <span class="n">ancova2</span><span class="p">,</span> <span class="n">salary</span><span class="p">))</span>
-<span class="go">---------------------------------------------------------------------------</span>
-<span class="go">TypeError                                 Traceback (most recent call last)</span>
-<span class="go">/Users/mb312/dev_trees/formula/doc/&lt;ipython-input-86-f27faf7b5495&gt; in &lt;module&gt;()</span>
-<span class="go">----&gt; 1 print ML.rec2txt(typeIII(&#39;s&#39;, ancova2, salary))</span>
-
-<span class="go">/Users/mb312/usr/local/lib/python2.6/site-packages/formula/ancova.pyc in typeIII(response, ancova, recarray)</span>
-<span class="go">    762 </span>
-<span class="go">    763     result = np.array(names, np.dtype([(&#39;contrast&#39;,&#39;S%d&#39; % max([len(n) for n in names]))]))</span>
-<span class="go">--&gt; 764     result = append_fields(result, [&#39;SS&#39;, &#39;df&#39;, &#39;MS&#39;, &#39;F&#39;, &#39;p_value&#39;], [sss, dfs, np.array(sss) / np.array(dfs), fs, pvals])</span>
-<span class="go">    765     return result</span>
-<span class="go">    766 </span>
-
-<span class="go">/Users/mb312/usr/local/lib/python2.6/site-packages/numpy/lib/recfunctions.pyc in append_fields(base, names, data, dtypes, fill_value, usemask, asrecarray)</span>
-<span class="go">    614     if dtypes is None:</span>
-<span class="go">    615         data = [np.array(a, copy=False, subok=True) for a in data]</span>
-<span class="go">--&gt; 616         data = [a.view([(name, a.dtype)]) for (name, a) in zip(names, data)]</span>
-<span class="go">    617     else :</span>
-<span class="go">    618         if not isinstance(dtypes, (tuple, list)):</span>
-
-<span class="go">TypeError: Cannot change data-type for object array.</span>
+<div class="highlight-ipython"><div class="highlight"><pre><span class="gp">In [87]: </span><span class="k">print</span> <span class="n">ML</span><span class="o">.</span><span class="n">rec2txt</span><span class="p">(</span><span class="n">typeIII</span><span class="p">(</span><span class="s">&#39;s&#39;</span><span class="p">,</span> <span class="n">ancova2</span><span class="p">,</span> <span class="n">salary</span><span class="p">))</span>
+<span class="go">contrast                SS       df               MS         F   p_value</span>
+<span class="go">1           2160721082.840    1.000   2160721082.840   462.104     0.000</span>
+<span class="go">I(x):e         9511377.475    2.000      4755688.737     1.017     0.371</span>
+<span class="go">I(x):p        41682012.745    2.000     20841006.372     4.457     0.018</span>
+<span class="go">I(x):e:p      25275391.059    2.000     12637695.530     2.703     0.080</span>
+<span class="go">Residuals    182357587.174   39.000      4675835.569       nan       nan</span>
 </pre></div>
 </div>
 <div class="highlight-r"><div class="highlight"><pre><span class="o">&gt;</span> library<span class="p">(</span>car<span class="p">)</span>
@@ -763,7 +697,7 @@ Signif. codes:  <span class="m">0</span> ‘<span class="o">***</span>’ <span 
     <div class="footer">
         &copy; Copyright 2011, J. Taylor.
       Last updated on Jul 30, 2011.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1pre.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.
     </div>
   </body>
 </html>
