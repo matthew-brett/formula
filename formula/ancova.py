@@ -6,16 +6,9 @@ import sympy
 
 from scipy.stats import f as f_dbn
 
-from .utils import Bomber, rec_append_fields
+from .models_compat import OLS
 
-try: # statsmodels 0.3.0
-    from scikits.statsmodels.api import OLS
-except ImportError:
-    try: # statsmodels 0.2.0
-        from scikits.statsmodels import OLS
-    except ImportError: # no statsmodels
-        OLS = Bomber('Need OLS from statsmodels')
-
+from .utils import rec_append_fields
 from .formulae import Formula, I
 from .parts import Factor, is_factor, Term # Term for docstrings
 from .utils import factor_codings, simplicial_complex

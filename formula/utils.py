@@ -240,18 +240,6 @@ def factor_codings(*factor_monomials):
     return dict(final_result)
 
 
-class BombError(Exception):
-    pass
-
-
-class Bomber(object):
-    """ Raise exception for any attribute access """
-    def __init__(self, msg):
-        self.msg = msg
-    def __getattribute__(self, name):
-        raise BombError(self.msg)
-
-
 # From matplotlib.cbook
 def iterable(obj):
     'return true if *obj* is iterable'

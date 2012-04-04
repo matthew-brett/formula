@@ -11,10 +11,14 @@ from ..parts import Term, Factor, fromrec
 from ..ancova import ANCOVA, typeI, typeII, typeIII
 
 from numpy.testing import (assert_array_almost_equal,
-                           assert_array_equal)
+                           assert_array_equal, dec)
 
 from nose.tools import (assert_true, assert_false, assert_equal,
                         assert_not_equal, assert_raises)
+
+# To allow us to skip tests requring OLS
+from ..models_compat import have_OLS
+
 
 X = Term('X')
 F = Factor('F', range(3))
@@ -59,6 +63,7 @@ def test_multiply_by_factor():
     assert_equal(ANCOVA(1, terms['p'], (1,(terms['e'], terms['p']))), f2)
 
 
+@dec.skipif(not have_OLS)
 def test_types123():
     terms = fromrec(SALARY)
     x = terms['x']; e = terms['e']; p = terms['p']
