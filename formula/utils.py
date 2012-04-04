@@ -5,11 +5,6 @@ from itertools import combinations
 import numpy as np
 import numpy.ma as ma
 
-import sympy
-
-from distutils.version import LooseVersion
-SYMPY_0p6 = LooseVersion(sympy.__version__) < LooseVersion('0.7.0')
-
 try:
     # matrix_rank in numpy >= 1.5.0
     from numpy.linalg import matrix_rank as rank
@@ -187,6 +182,7 @@ def simplicial_complex(*simplices):
                     maximal.append(simplex)
         return faces, maximal[::-1], allf[::-1]
 
+
 def factor_codings(*factor_monomials):
     """ Find which factors to code with indicator or contrast variables
 
@@ -242,27 +238,6 @@ def factor_codings(*factor_monomials):
         already_seen = already_seen.union(simplicial_complex(factor_monomial)[2])
         final_result.append((tuple(factor_monomial), result))
     return dict(final_result)
-
-
-def make_dummy(name):
-    """ Make dummy variable of given name
-
-    Parameters
-    ----------
-    name : str
-        name of dummy variable
-
-    Returns
-    -------
-    dum : `Dummy` instance
-
-    Notes
-    -----
-    The interface to Dummy changed between 0.6.7 and 0.7.0
-    """
-    if SYMPY_0p6:
-        return sympy.Symbol(name, dummy=True)
-    return sympy.Dummy(name)
 
 
 class BombError(Exception):

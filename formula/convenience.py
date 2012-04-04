@@ -3,11 +3,10 @@
 import numpy as np
 
 import sympy
-from sympy.utilities.lambdify import implemented_function, lambdify
+from .sympy_compat import implemented_function, lambdify, SYMPY_0p6
 
 from .parts import Factor, Term
 from .formulae import Formula
-from .utils import SYMPY_0p6
 
 
 def make_recarray(rows, names, dtypes=None):

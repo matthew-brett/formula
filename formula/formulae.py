@@ -106,7 +106,8 @@ import numpy as np
 
 import sympy
 
-from .utils import contrast_from_cols_or_rows, make_dummy
+from .sympy_compat import lambdify, make_dummy
+from .utils import contrast_from_cols_or_rows
 
 
 class Beta(sympy.symbol.Dummy):
@@ -387,7 +388,7 @@ class Formula(object):
 
         # Note that  ``d`` here is list giving the differentiation of the
         # expression for the mean.  self._f(...) therefore also returns a list
-        self._f = sympy.lambdify(newparams + newterms, d, ("numpy"))
+        self._f = lambdify(newparams + newterms, d, ("numpy"))
 
         # The input to self.design will be a recarray of that must
         # have field names that the Formula will expect to see.

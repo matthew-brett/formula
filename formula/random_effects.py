@@ -3,7 +3,7 @@
 import numpy as np
 
 from .formulae import Formula
-from .utils import make_dummy
+from .sympy_compat import make_dummy
 
 
 class RandomEffects(Formula):

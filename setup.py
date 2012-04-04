@@ -64,6 +64,9 @@ def main(**extra_args):
           requires=REQUIRES,
           provides=PROVIDES,
           packages     = ['formula',
+                          'formula.fixes',
+                          'formula.fixes.sympy',
+                          'formula.fixes.sympy.utilities',
                           'formula.tests'],
           # The package_data spec has no effect for me (on python 2.6) -- even
           # changing to data_files doesn't get this stuff included in the source
