@@ -62,9 +62,10 @@ class ANCOVA(object):
 
     def __init__(self, *expr_factor_tuples, **keywords):
         # set intercept / main_effect behaviour
-
-        add_main_effects = keywords.pop('add_main_effects', True)
-        add_intercept = keywords.pop('add_intercept', True)
+        add_intercept = keywords.pop('add_intercept',
+                                     self.add_intercept)
+        add_main_effects = keywords.pop('add_main_effects',
+                                        self.add_main_effects)
         self.default_contrast = keywords.pop('default_contrast',
                                              'drop_reference')
         self.graded_dict = {}
