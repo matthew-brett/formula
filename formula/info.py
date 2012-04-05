@@ -79,8 +79,8 @@ in the formula distribution.
 """
 
 # versions for dependencies
-NUMPY_MIN_VERSION='1.2'
-SYMPY_MIN_VERSION='0.7.0'
+NUMPY_MIN_VERSION='1.3' # recfromcsv used in tests
+SYMPY_MIN_VERSION='0.6.7'
 
 # Main setup parameters
 NAME                = 'formula'
