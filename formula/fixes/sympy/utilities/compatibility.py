@@ -2,6 +2,8 @@
 Copy out of the top of sympy.core.compatibility as of
 b8aa2de87d537eddde044c13f2eaaab99a5dcfe7
 
+Edits marked by #NIPY-EDIT
+
 This can be deleted when we depend on sympy 0.7.0 or later
 """
 """
@@ -70,7 +72,7 @@ def is_sequence(i, include=None):
 
     Examples:
 
-    >>> from nipy.fixes.sympy.utilities.compatibility import is_sequence
+    >>> #NIPY-EDIT: from sympy.utilities.compatibility import is_sequence
     >>> from types import GeneratorType
     >>> is_sequence([])
     True
