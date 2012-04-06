@@ -13,7 +13,8 @@ from ..ancova import ANCOVA, typeI, typeII, typeIII
 from numpy.testing import (assert_array_almost_equal,
                            assert_array_equal)
 
-from nose.tools import assert_true, assert_equal, assert_raises
+from nose.tools import (assert_true, assert_false, assert_equal,
+                        assert_not_equal, assert_raises)
 
 X = Term('X')
 F = Factor('F', range(3))
@@ -33,6 +34,14 @@ def test_delete_terms():
                  [(1,()), (X, (F,H))])
 
 
+def test_eq_neq():
+    f1 = ANCOVA(1, F, H, (X, F))
+    f2 = ANCOVA(1, F, H, (X, F))
+    assert_equal(f1, f2)
+    f3 = ANCOVA(1, F, (X, F))
+    assert_not_equal(f1, f3)
+
+
 def test_smoke():
     # smoke test, more or less
     terms = fromrec(SALARY)
@@ -42,12 +51,12 @@ def test_smoke():
     ANCOVA.add_intercept = True
     f3 = ANCOVA((1,(terms['e'],terms['p'])))
 
+
 def test_multiply_by_factor():
     terms = fromrec(SALARY)
     f = ANCOVA(1, terms['e'])
     f2 = f.multiply_by_factor(terms['p'])
     assert_equal(ANCOVA(1, terms['p'], (1,(terms['e'], terms['p']))), f2)
-    
 
 
 def test_types123():

@@ -482,6 +482,13 @@ class ANCOVA(object):
             graded_dict[expr * expr] = self.graded_dict[expr]
         return ANCOVA(graded_dict)
 
+    def __eq__(self, other):
+        return self.sequence() == other.sequence()
+
+    def __neq__(self, other):
+        return not self == other
+
+
 def get_contributions(codings, sorted_factors, contrast='main_effect'):
     """
     Determine which columns a subset of factors
