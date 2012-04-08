@@ -13,7 +13,8 @@ from nose.tools import assert_true, assert_equal, assert_raises
 
 
 def test_fullrank():
-    X = np.random.standard_normal((40,5))
+    rng = np.random.RandomState(20120408)
+    X = rng.standard_normal((40,5))
     X[:,0] = X[:,1] + X[:,2]
     Y1 = fullrank(X)
     assert_equal(Y1.shape, (40,4))
