@@ -22,4 +22,4 @@ install:
 script:
     # Change into an innocuous directory and find tests from installation
     - cd doc
-    - nosetests `python -c "import os; import formula; print(os.path.dirname(formula.__file__))"`
+    - nosetests --with-doctest `python -c "import os; import formula; print(os.path.dirname(formula.__file__))"`
