@@ -4,7 +4,6 @@ import numpy as np
 
 import sympy
 
-from scipy.stats import f as f_dbn
 
 from .models_compat import OLS
 
@@ -581,6 +580,8 @@ def typeI(response, ancova, recarray):
               should contain all field names in the terms of ancova
               as well as response
     """
+    # Delay scipy import for speed and to allow testing w/o scipy
+    from scipy.stats import f as f_dbn
 
     Y = recarray[response]
     X = ancova.formula.design(recarray, return_float=True)
@@ -661,6 +662,8 @@ def typeII(response, ancova, recarray):
               should contain all field names in the terms of ancova
               as well as response
     """
+    # Delay scipy import for speed and to allow testing w/o scipy
+    from scipy.stats import f as f_dbn
 
     Y = recarray[response]
     X = ancova.formula.design(recarray, return_float=True)
