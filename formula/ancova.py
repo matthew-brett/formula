@@ -502,6 +502,7 @@ def get_contributions(codings, sorted_factors, contrast='main_effect'):
         formulae = [(Formula([1]),'1')]
     return formulae
 
+
 def get_factor_codings(graded_subsets_of_factors):
     """
     Given a sequence of subsets of factors, determine
@@ -519,6 +520,7 @@ def get_factor_codings(graded_subsets_of_factors):
         codings = {}
     return codings
 
+
 def maximal(ancova):
     """
     Return an ANCOVA formula with only the maximal elements
@@ -530,6 +532,7 @@ def maximal(ancova):
         for m in maximal:
             result.append((expr, m))
     return ANCOVA(*result)
+
 
 def concat(*ancovas):
     """
@@ -553,6 +556,7 @@ def concat(*ancovas):
         result += ancova.sequence()
     return ANCOVA(*result)
 
+
 def is_ancova(obj):
     """ Is obj an ANCOVA?
     """
@@ -560,25 +564,27 @@ def is_ancova(obj):
 
 
 def typeI(response, ancova, recarray):
-    """
-    Produce an ANCOVA table
-    from a given ANCOVA formula
-    with type I sums of squares
-    where the order is based on the order of terms
-    in the contrast_names of ancova.
+    """ Return recarray with type I sums of squares ANOVA table for `ancova`
 
-    Inputs
-    ------
+    Produce an ANCOVA table from a given ANCOVA formula with type II sums of
+    squares where the order is based on the order of terms in the contrast_names
+    of ancova.
 
+    Parameters
+    ----------
     response: str
-              field name of response in recarray
-
-    ancova: ANCOVA
-            specifies the model to be fit
-
+        field name of response in `recarray`
+    ancova: ANCOVA instance
+        specifies the model to be fit
     recarray: np.ndarray
-              should contain all field names in the terms of ancova
-              as well as response
+        should contain all field names in the terms of ancova as well as
+        `response`
+
+    Returns
+    -------
+    tabrec : structured array
+        Numpy structured array with fields: 'Residuals', 'SS, 'df', 'MS', 'F',
+        'p_value'
     """
     # Delay scipy import for speed and to allow testing w/o scipy
     from scipy.stats import f as f_dbn
@@ -643,24 +649,29 @@ def typeI(response, ancova, recarray):
                                [sss, dfs, np.array(sss) / np.array(dfs), fs, pvals])
     return result
 
+
 def typeII(response, ancova, recarray):
-    """
-    Produce an ANCOVA table
-    from a given ANCOVA formula
-    with type II sums of squares.
+    """ Return recarray with type II sums of squares ANOVA table for `ancova`
 
-    Inputs
-    ------
+    Produce an ANCOVA table from a given ANCOVA formula with type III sums of
+    squares where the order is based on the order of terms in the contrast_names
+    of ancova.
 
+    Parameters
+    ----------
     response: str
-              field name of response in recarray
-
-    ancova: ANCOVA
-            specifies the model to be fit
-
+        field name of response in `recarray`
+    ancova: ANCOVA instance
+        specifies the model to be fit
     recarray: np.ndarray
-              should contain all field names in the terms of ancova
-              as well as response
+        should contain all field names in the terms of ancova as well as
+        `response`
+
+    Returns
+    -------
+    tabrec : structured array
+        Numpy structured array with fields: 'Residuals', 'SS, 'df', 'MS', 'F',
+        'p_value'
     """
     # Delay scipy import for speed and to allow testing w/o scipy
     from scipy.stats import f as f_dbn
@@ -716,25 +727,28 @@ def typeII(response, ancova, recarray):
 
 
 def typeIII(response, ancova, recarray):
-    """
-    Produce an ANCOVA table
-    with type III sum of squares
-    from a given ANCOVA formula.
+    """ Return recarray with type II sums of squares ANOVA table for `ancova`
 
-    Inputs
-    ------
+    Produce an ANCOVA table from a given ANCOVA formula with type III sums of
+    squares where the order is based on the order of terms in the contrast_names
+    of ancova.
 
+    Parameters
+    ----------
     response: str
-              field name of response in recarray
-
-    ancova: ANCOVA
-            specifies the model to be fit
-
+        field name of response in `recarray`
+    ancova: ANCOVA instance
+        specifies the model to be fit
     recarray: np.ndarray
-              should contain all field names in the terms of ancova
-              as well as response
-    """
+        should contain all field names in the terms of ancova as well as
+        `response`
 
+    Returns
+    -------
+    tabrec : structured array
+        Numpy structured array with fields: 'Residuals', 'SS, 'df', 'MS', 'F',
+        'p_value'
+    """
     X = ancova.formula.design(recarray, return_float=True)
     Y = recarray[response]
     model = OLS(Y, X)
@@ -771,4 +785,3 @@ def typeIII(response, ancova, recarray):
                                ['SS', 'df', 'MS', 'F', 'p_value'],
                                [sss, dfs, np.array(sss) / np.array(dfs), fs, pvals])
     return result
-
