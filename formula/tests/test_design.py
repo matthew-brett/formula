@@ -16,11 +16,18 @@ else:
 
 from ..parts import Term, Factor
 from ..utils import rec_append_fields
+from ..convenience import terms
 from ..ancova import ANCOVA
 
 import nose.tools as nt
 from nose.plugins.skip import SkipTest
 from numpy.testing import assert_array_almost_equal, assert_array_equal
+
+# Some useful stuff for making test designs
+X, Y, Z = terms('X, Y, Z')
+F = Factor('F', ['a','b','c'])
+G = Factor('G', ['aa','bb','cc'])
+H = Factor('H', ['a','b','c','d','e','f','g','h','i','j'])
 
 
 def setup_module():
@@ -80,7 +87,7 @@ def random_from_factor(factor, size):
 
 
 def random_from_terms_factors(terms, factors, size):
-    data = np.empty(size, 
+    data = np.empty(size,
                     np.dtype([(str(terms[0]), np.float)]))
     data[str(terms[0])] = np.random.standard_normal(size)
     for t in terms[1:]:
@@ -91,15 +98,21 @@ def random_from_terms_factors(terms, factors, size):
 
 
 def random_from_categorical_formula(cf, size):
+    exprs, factors = exprs_factors(cf)
+    return random_from_terms_factors(exprs, factors, size)
+
+
+def exprs_factors(anc):
+    # Get expressions and factors from ANCOVA instance
     exprs = []
     factors = []
-    for key, value in cf.graded_dict.items():
+    for key, value in anc.graded_dict.items():
         if str(key) != '1':
             exprs += str(key).split("*")
         for order in value:
             for fs in value[order]:
                 factors += list(fs)
-    return random_from_terms_factors(list(set(exprs)), list(set(factors)), size)
+    return list(set(exprs)), list(set(factors))
 
 
 def test__arr2csv():
@@ -130,23 +143,14 @@ def test__arr2csv():
 
 
 def simple():
-    x = Term('x'); y = Term('y') ; z = Term('z')
-    f = Factor('f', ['a','b','c'])
-    g = Factor('g', ['aa','bb','cc'])
-    h = Factor('h', ['a','b','c','d','e','f','g','h','i','j'])
-    d = ANCOVA((x*y,(g,f)),(x,(f,)),(x,[g,f]),(1,[g]),
-                (z,[h]),(z,[h,g,f]), (x*y*z,[h]),(x*y*z,[f]))
-
+    d = ANCOVA((X*Y,(G,F)),(X,(F,)),(X,[G,F]),(1,[G]),
+                (Z,[H]),(Z,[H,G,F]), (X*Y*Z,[H]),(X*Y*Z,[F]))
     return d
 
 
 def simple2():
-    x = Term('x'); y = Term('y') ; z = Term('z')
-    f = Factor('f', ['a','b','c'])
-    g = Factor('g', ['aa','bb','cc'])
-    h = Factor('h', ['a','b','c','d','e','f','g','h','i','j'])
-    d = ANCOVA((x*y,(g,f)),(x,(f,)),(x,[g,f]),(1,[g]),
-                (z,[h]),(z,[h,g,f]), (x*y*z,[f]),(x*y*z,[h]))
+    d = ANCOVA((X*Y,(G,F)),(X,(F,)),(X,[G,F]),(1,[G]),
+                (Z,[H]),(Z,[H,G,F]), (X*Y*Z,[F]),(X*Y*Z,[H]))
     return d
 
 
@@ -154,7 +158,21 @@ def testR(d=None, size=500):
     if d is None:
         d = simple()
     X = random_from_categorical_formula(d, size)
-    X = rec_append_fields(X, 'response', np.random.standard_normal(size))
+    nR = get_r_coef_names(d, X)
+    nt.assert_true('(Intercept)' in nR)
+    nR.remove("(Intercept)")
+    nF = [str(t).replace("_","").replace("*",":") for t in d.formula.terms]
+    nR = sorted([sorted(n.split(":")) for n in nR])
+    nt.assert_true('1' in nF)
+    nF.remove('1')
+    nF = sorted([sorted(n.split(":")) for n in nF])
+    nt.assert_equal(nR, nF)
+    return d, X, nR, nF
+
+
+def get_r_coef_names(d, X):
+    X = rec_append_fields(X, 'response',
+                          np.random.standard_normal(len(X)))
     fh, fname = mkstemp()
     try:
         _arr2csv(X, fname)
@@ -166,16 +184,11 @@ def testR(d=None, size=500):
         rpy2.robjects.r(Rstr)
     finally:
         remove(fname)
-    nR = list(np.array(rpy2.robjects.r("names(COEF)")))
-    nt.assert_true('(Intercept)' in nR)
-    nR.remove("(Intercept)")
-    nF = [str(t).replace("_","").replace("*",":") for t in d.formula.terms]
-    nR = sorted([sorted(n.split(":")) for n in nR])
-    nt.assert_true('1' in nF)
-    nF.remove('1')
-    nF = sorted([sorted(n.split(":")) for n in nF])
-    nt.assert_equal(nR, nF)
-    return d, X, nR, nF
+    return list(np.array(rpy2.robjects.r("names(COEF)")))
+
+
+def test_simplest():
+    pass
 
 
 def test2():
