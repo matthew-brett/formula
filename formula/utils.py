@@ -1,5 +1,6 @@
 """ Utility routines
 """
+import sys
 from itertools import combinations
 
 import numpy as np
@@ -329,3 +330,14 @@ def rec_append_fields(rec, names, arrs, dtypes=None):
     for name, arr in zip(names, arrs):
         newrec[name] = arr
     return newrec
+
+# Python 3 compatibility routines
+if sys.version_info[0] >= 3:
+    def to_str(s):
+        """ Convert `s` to string, decoding as latin1 if `s` is bytes
+        """
+        if isinstance(s, bytes):
+            return s.decode('latin1')
+        return str(s)
+else:
+    to_str = str
