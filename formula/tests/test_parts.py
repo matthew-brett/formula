@@ -5,7 +5,8 @@ import numpy as np
 
 import sympy
 
-from ..parts import fromrec, is_term, is_factor, Term, getparams, getterms
+from ..parts import (fromrec, is_term, is_factor, Term, getparams, getterms,
+                     FactorTerm)
 
 from numpy.testing import (assert_array_almost_equal,
                            assert_array_equal)
@@ -72,3 +73,13 @@ def test_getparams_terms():
     assert_equal(set(getterms(matrix_expr)), set([t]))
 
 
+def test_factor_term():
+    # Test that byte strings, unicode strings and objects convert correctly
+    for nt in 'S3', 'U3', 'O':
+        ndt = np.dtype(nt)
+        for lt in 'S3', 'U3', 'O':
+            ldt = np.dtype(lt)
+            name = np.asscalar(np.array('foo', ndt))
+            level = np.asscalar(np.array('bar', ldt))
+            ft = FactorTerm(name, level)
+            assert_equal(str(ft), 'foo_bar')

@@ -5,11 +5,11 @@ import numpy as np
 import sympy
 
 from .formulae import Formula
+from .utils import to_str
 
-LETTERS_DIGITS = ('abcdefghijklmnopqrstuvwxyz'
-                  'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-                  '0123456789')
+from string import ascii_letters, digits
 
+LETTERS_DIGITS = ascii_letters + digits
 
 class Term(sympy.Symbol):
     """A sympy.Symbol type to represent a term an a regression model
@@ -56,7 +56,8 @@ class FactorTerm(Term):
     _factor_term_flag = True
 
     def __new__(cls, name, level):
-        new = Term.__new__(cls, "%s_%s" % (name, level))
+        # Names or levels can be byte strings
+        new = Term.__new__(cls, "%s_%s" % (to_str(name), to_str(level)))
         new.level = level
         new.factor_name = name
         return new
@@ -104,10 +105,10 @@ class Factor(object):
         # Check whether they can all be cast to strings or ints without
         # loss.
         levelsarr = np.asarray(levels)
-        if levelsarr.ndim == 0 and levelsarr.dtype.kind in ('S', 'O'):
+        if levelsarr.ndim == 0 and levelsarr.dtype.kind in 'SOU':
             levelsarr = np.asarray(list(levels))
 
-        if levelsarr.dtype.kind not in ('S', 'O'):
+        if levelsarr.dtype.kind not in 'SOU':
             # the levels are not strings/objects
             if not np.alltrue(np.equal(levelsarr, np.round(levelsarr))):
                 raise ValueError('levels must be strings or ints')
@@ -360,7 +361,7 @@ def fromrec(recarr):
     """
     result = {}
     for n, d in recarr.dtype.descr:
-        if d[1] in ('S', 'O'):
+        if d[1] in 'SOU':
             result[n] = Factor(n, np.unique(recarr[n]))
         else:
             result[n] = Term(n)
