@@ -480,8 +480,14 @@ class Formula(object):
             if not is_factor_term(t):
                 term_recarray[t.name] = preterm_recarray[t.name]
             else:
-                term_recarray['%s_%s' % (t.factor_name, t.level)] = \
-                    np.array(map(lambda x: x == t.level, preterm_recarray[t.factor_name]))
+                factor_col = preterm_recarray[t.factor_name]
+                # Python 3: If column type is bytes, convert to string, to allow
+                # level comparison
+                if factor_col.dtype.kind == 'S':
+                    factor_col = factor_col.astype('U')
+                fl_ind =  np.array([x == t.level
+                                    for x in factor_col]).reshape(-1)
+                term_recarray['%s_%s' % (t.factor_name, t.level)] = fl_ind
         # The lambda created in self._setup_design needs to take a tuple of
         # columns as argument, not an ndarray, so each column
         # is extracted and put into float_tuple.

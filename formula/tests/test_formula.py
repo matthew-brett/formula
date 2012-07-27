@@ -11,11 +11,11 @@ from ..sympy_compat import implemented_function
 
 from .. import formulae as F
 from ..parts import Term, Factor, stratify, getparams
-from ..convenience import make_recarray
+from ..convenience import make_recarray, terms
 
 from nose.tools import (assert_true, assert_equal, assert_false,
                         assert_raises, nottest)
-from numpy.testing import assert_almost_equal
+from numpy.testing import assert_almost_equal, assert_array_equal
 
 
 def test_formula_params():
@@ -116,6 +116,24 @@ def test_design():
     assert_almost_equal(ff.design(n)['f_a*x'], n['x']*[1,0,1])
     assert_almost_equal(ff.design(n)['f_b*x'], n['x']*[0,1,0])
     assert_almost_equal(ff.design(n)['1'], 1)
+
+
+def test_design_inputs():
+    # Check we can send in fields of type 'S', 'U', 'O' for factors
+    regf = F.Formula(terms('x, y'))
+    f = Factor('f', ['a', 'b'])
+    ff = regf + f
+    for field_type in ('S1', 'U1', 'O'):
+        data = np.array([(2, 3, 'a'),
+                         (4, 5, 'b'),
+                         (5, 6, 'a')],
+                        dtype = [('x', np.float),
+                                 ('y', np.float),
+                                 ('f', field_type)])
+        assert_array_equal(ff.design(data, return_float=True),
+                           [[1, 0, 2, 3],
+                            [0, 1, 4, 5],
+                            [1, 0, 5, 6]])
 
 
 def test_implemented():
