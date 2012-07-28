@@ -107,13 +107,12 @@ class Factor(object):
         levelsarr = np.asarray(levels)
         if levelsarr.ndim == 0 and levelsarr.dtype.kind in 'SOU':
             levelsarr = np.asarray(list(levels))
-
-        if levelsarr.dtype.kind not in 'SOU':
-            # the levels are not strings/objects
+        if levelsarr.dtype.kind not in 'SOU': # the levels are not strings
             if not np.alltrue(np.equal(levelsarr, np.round(levelsarr))):
                 raise ValueError('levels must be strings or ints')
             levelsarr = levelsarr.astype(np.int)
-
+        elif levelsarr.dtype.kind == 'S': # Byte strings, convert
+            levelsarr = levelsarr.astype('U')
         self.levels = list(levelsarr)
         self.name = name
         self._char = char

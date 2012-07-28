@@ -6,7 +6,7 @@ import numpy as np
 import sympy
 
 from ..parts import (fromrec, is_term, is_factor, Term, getparams, getterms,
-                     FactorTerm)
+                     FactorTerm, Factor)
 
 from numpy.testing import (assert_array_almost_equal,
                            assert_array_equal)
@@ -83,3 +83,18 @@ def test_factor_term():
             level = np.asscalar(np.array('bar', ldt))
             ft = FactorTerm(name, level)
             assert_equal(str(ft), 'foo_bar')
+
+
+def test_formula_inputs():
+    # Check we can send in fields of type 'S', 'U', 'O' for factor levels
+    level_names = ['red', 'green', 'blue']
+    for field_type in 'OUS':
+        levels = np.array(level_names, dtype=field_type)
+        f = Factor('myname', levels)
+        assert_equal(f.levels, level_names)
+    # Sending in byte objects
+    levels = levels.tolist()
+    f = Factor('myname', levels)
+    assert_equal(f.levels, level_names)
+
+
