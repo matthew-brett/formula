@@ -566,7 +566,7 @@ def is_ancova(obj):
 def typeI(response, ancova, recarray):
     """ Return recarray with type I sums of squares ANOVA table for `ancova`
 
-    Produce an ANCOVA table from a given ANCOVA formula with type II sums of
+    Produce an ANCOVA table from a given ANCOVA formula with type I sums of
     squares where the order is based on the order of terms in the contrast_names
     of ancova.
 
@@ -589,6 +589,7 @@ def typeI(response, ancova, recarray):
     # Delay scipy import for speed and to allow testing w/o scipy
     from scipy.stats import f as f_dbn
 
+    # Full model
     Y = recarray[response]
     X = ancova.formula.design(recarray, return_float=True)
     model = OLS(Y, X)
@@ -596,6 +597,7 @@ def typeI(response, ancova, recarray):
     SSE_F = np.sum(results.resid**2)
     df_F = results.df_resid
 
+    # Intercept-only model
     model = OLS(Y, ancova.formulae[0].design(recarray, return_float=True))
     results = model.fit()
     SSE_old = np.sum(results.resid**2)
@@ -613,6 +615,9 @@ def typeI(response, ancova, recarray):
     dfs.append(Y.shape[0] - df_old)
     pvals.append(f_dbn.sf(fs[-1], Y.shape[0]-df_old, df_F))
 
+    # Add each formula in order (sorted by (interaction order, input_order)).
+    # Test extra SS (relative to previous iteration) against unexplained
+    # variance for full model.
     for d in range(1,len(ancova.formulae)):
         terms = []
         for f in ancova.formulae[:(d+1)]:
@@ -676,6 +681,7 @@ def typeII(response, ancova, recarray):
     # Delay scipy import for speed and to allow testing w/o scipy
     from scipy.stats import f as f_dbn
 
+    # Full model
     Y = recarray[response]
     X = ancova.formula.design(recarray, return_float=True)
     model = OLS(Y, X)
@@ -727,7 +733,7 @@ def typeII(response, ancova, recarray):
 
 
 def typeIII(response, ancova, recarray):
-    """ Return recarray with type II sums of squares ANOVA table for `ancova`
+    """ Return recarray with type III sums of squares ANOVA table for `ancova`
 
     Produce an ANCOVA table from a given ANCOVA formula with type III sums of
     squares where the order is based on the order of terms in the contrast_names
@@ -753,6 +759,7 @@ def typeIII(response, ancova, recarray):
     Y = recarray[response]
     model = OLS(Y, X)
 
+    # Full model
     results = model.fit()
     SSE_F = np.sum(results.resid**2)
     df_F = results.df_resid
@@ -762,6 +769,8 @@ def typeIII(response, ancova, recarray):
     dfs = []
     sss = []
     pvals = []
+    # For each part of the model, do an F test on explained variance for that
+    # part, relative to the full model
     for contrast in ancova.contrast_names:
         r = results.f_test(ancova.contrast_matrices[contrast])
         names.append(contrast)
